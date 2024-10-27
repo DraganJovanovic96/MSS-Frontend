@@ -3,6 +3,7 @@
     <div class="header-buttons">
         <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToCustomers()">Customers</button>
         <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToVehicles()">Vehicles</button>
+        <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">Services</button>
     </div>
     <button class="log-out-button" *ngIf="isLoggedIn()" (click)="LogOut()">Log Out</button>
 </header>
