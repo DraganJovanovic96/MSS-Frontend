@@ -29,8 +29,12 @@ export class AuthService {
       map((res) => {
         const token = res.body?.access_token;
         const refresh_token = res.body?.refresh_token;
+        const refresh_token = res.body?.refresh_token;
         if(token) {
           this.UserStorageService.saveToken(token);
+        }
+        if(refresh_token) {
+          this.UserStorageService.saveRefreshToken(refresh_token);
           this.fetchUser(token).subscribe();
         }
         if(refresh_token) {
