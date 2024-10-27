@@ -41,4 +41,8 @@ export class HeaderComponent {
     this.logOutService.logout();
     this.router.navigate(['login']); 
   }
+
+  isAdmin(){
+    return false;
+  }
 }

@@ -28,8 +28,12 @@ export class AuthService {
     return this.http.post<AuthResponse>(BASIC_URL+'auth/authenticate',body, { headers, observe: 'response'}).pipe(
       map((res) => {
         const token = res.body?.access_token;
+        const refresh_token = res.body?.refresh_token;
         if(token) {
           this.UserStorageService.saveToken(token);
+        }
+        if(refresh_token) {
+          this.UserStorageService.saveRefreshToken(refresh_token);
           this.router.navigate(['/']); 
           return true;
         }
@@ -37,4 +41,6 @@ export class AuthService {
       })
     )
   }
+
+  
 }
