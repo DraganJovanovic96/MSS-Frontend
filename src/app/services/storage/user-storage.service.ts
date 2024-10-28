@@ -21,6 +21,9 @@ export class UserStorageService {
     window.localStorage.setItem(USER, JSON.stringify(user));
 }
 
+public getUser(): string | null {
+  return window.localStorage.getItem(USER);
+}
 
   public saveRefreshToken(refresh_token: string): void {
     window.localStorage.removeItem(REFRESH_TOKEN);
