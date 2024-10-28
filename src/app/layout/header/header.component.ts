@@ -33,6 +33,11 @@ export class HeaderComponent {
     this.router.navigate(['services']); 
   }
 
+  navigateToAdmin() {
+    this.router.navigate(['admin']); 
+  }
+
+
   isLoggedIn(): boolean {
     return this.userStorageService.getToken() !== null; 
   }
@@ -43,6 +48,12 @@ export class HeaderComponent {
   }
 
   isAdmin(){
+    const user = this.userStorageService.getUser(); 
+    if (user) {
+      const parsedUser = JSON.parse(user as string); 
+      return parsedUser.role === 'ADMIN'; 
+    }
+  
     return false;
-  }
+ }
 }
