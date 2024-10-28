@@ -1,6 +1,10 @@
 <header class="header wrapper">
-        <img src="/assets/images/mss-logo-black.png" alt="Logo image" class="logo" (click)="navigateToHome()">
-        <button class="header-button" *ngIf="isLoggedIn()"  (click)="navigateToCustomers()">Customers</button>
+    <img src="/assets/images/mss-logo-black.png" alt="Logo image" class="logo" (click)="navigateToHome()">
+    <div class="header-buttons">
+        <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToCustomers()">Customers</button>
         <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToVehicles()">Vehicles</button>
+        <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">Services</button>
+        <button class="header-button" *ngIf="isLoggedIn() && isAdmin()" (click)="navigateToServices()">Admin</button>
+    </div>
     <button class="log-out-button" *ngIf="isLoggedIn()" (click)="LogOut()">Log Out</button>
 </header>

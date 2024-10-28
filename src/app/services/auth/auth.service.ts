@@ -28,13 +28,36 @@ export class AuthService {
     return this.http.post<AuthResponse>(BASIC_URL+'auth/authenticate',body, { headers, observe: 'response'}).pipe(
       map((res) => {
         const token = res.body?.access_token;
+        const refresh_token = res.body?.refresh_token;
         if(token) {
           this.UserStorageService.saveToken(token);
+        }
+        if(refresh_token) {
+          this.UserStorageService.saveRefreshToken(refresh_token);
+          this.fetchUser(token).subscribe();
+        }
+        if(refresh_token) {
+          this.UserStorageService.saveRefreshToken(refresh_token);
           this.router.navigate(['/']); 
           return true;
         }
         return false;
       })
     )
+  }
+
+  fetchUser(token: string): Observable<void> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*')
+      .set('Authorization', `Bearer ${token}`);
+  
+    return this.http.get<AuthResponse>(BASIC_URL + 'users/user', { headers, observe: 'response' }).pipe(
+      map((res) => {
+        if (res.body) {
+          this.UserStorageService.saveUser(res.body);
+        }
+      })
+    );
   }
 }

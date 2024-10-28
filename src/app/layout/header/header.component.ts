@@ -26,7 +26,11 @@ export class HeaderComponent {
   }
 
   navigateToCustomers() {
-    this.router.navigate(['vehicles']); 
+    this.router.navigate(['customers']); 
+  }
+
+  navigateToServices() {
+    this.router.navigate(['services']); 
   }
 
   isLoggedIn(): boolean {
@@ -36,5 +40,9 @@ export class HeaderComponent {
  LogOut() {
     this.logOutService.logout();
     this.router.navigate(['login']); 
+  }
+
+  isAdmin(){
+    return false;
   }
 }

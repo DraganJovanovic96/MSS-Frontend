@@ -15,7 +15,6 @@ import { HttpResponse } from '@angular/common/http';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null; 
-  isLoggingIn=false;
 
   constructor(private fb: FormBuilder,private authService:AuthService) {
     this.loginForm = this.fb.group({
@@ -26,7 +25,6 @@ export class LoginComponent {
  
 
   onSubmit(): void {
-    this.isLoggingIn = true;
     if (this.loginForm.valid) {
       const username = this.loginForm.get('email')!.value;
       const password = this.loginForm.get('password')!.value;
@@ -37,7 +35,6 @@ export class LoginComponent {
           this.errorMessage = 'Login failed. Please check your credentials.';
         }
       ); 
-      this.isLoggingIn = false;
     }
   }
 }
