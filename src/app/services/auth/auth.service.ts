@@ -31,6 +31,7 @@ export class AuthService {
         const refresh_token = res.body?.refresh_token;
         if(token) {
           this.UserStorageService.saveToken(token);
+          this.fetchUser(token).subscribe();
         }
         if(refresh_token) {
           this.UserStorageService.saveRefreshToken(refresh_token);
@@ -42,5 +43,18 @@ export class AuthService {
     )
   }
 
+  fetchUser(token: string): Observable<void> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*')
+      .set('Authorization', `Bearer ${token}`);
   
+    return this.http.get<AuthResponse>(BASIC_URL + 'users/user', { headers, observe: 'response' }).pipe(
+      map((res) => {
+        if (res.body) {
+          this.UserStorageService.saveUser(res.body);
+        }
+      })
+    );
+  }
 }
