@@ -6,6 +6,7 @@ import { authGuard } from './services/auth/guard/auth.guard';
 import { CustomersComponent } from './customers/customers.component';
 import { ServicesComponentsComponent } from './services-components/services-components.component';
 import { AdminComponent } from './admin/admin.component';
+import { ProgressCircleComponent } from './progress-circle/progress-circle.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,13 @@ export const routes: Routes = [
         path: "services",
         component: ServicesComponentsComponent,
         canActivate: [authGuard]
+    },
+
+    
+    {
+        path: "progress",
+        component: ProgressCircleComponent,
+        // canActivate: [authGuard]
     },
 
     

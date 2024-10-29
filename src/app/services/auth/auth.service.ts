@@ -17,7 +17,7 @@ interface AuthResponse {
 export class AuthService {
 
   constructor(private http: HttpClient,
-     private UserStorageService: UserStorageService,
+     private userStorageService: UserStorageService,
      private router: Router) { }
 
      login(email: string, password: string): any {
@@ -30,11 +30,11 @@ export class AuthService {
           const token = res.body?.access_token;
           const refresh_token = res.body?.refresh_token;
           if (token) {
-            this.UserStorageService.saveToken(token);
+            this.userStorageService.saveToken(token);
             this.fetchUser(token).subscribe();
           }
           if (refresh_token) {
-            this.UserStorageService.saveRefreshToken(refresh_token);
+            this.userStorageService.saveRefreshToken(refresh_token);
             this.router.navigate(['/']); 
             return true;
           }
@@ -52,9 +52,15 @@ export class AuthService {
     return this.http.get<AuthResponse>(BASIC_URL + 'users/user', { headers, observe: 'response' }).pipe(
       map((res) => {
         if (res.body) {
-          this.UserStorageService.saveUser(res.body);
+          this.userStorageService.saveUser(res.body);
         }
       })
+    );
+  }
+
+  public createAuthorizationHeader(): HttpHeaders {
+    return new HttpHeaders().set(
+      'Authorization', 'Bearer ' + this.userStorageService.getToken()
     );
   }
 }
