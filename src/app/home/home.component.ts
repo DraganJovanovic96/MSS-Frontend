@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
+import { ProgressCircleComponent } from '../progress-circle/progress-circle.component';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrls: ['./home.component.scss'],
+  imports: [ProgressCircleComponent],  // Add this line
+  standalone: true,
 })
 export class HomeComponent {
-  constructor(
-  ) {}
+  totalCustomers = 35;  // Number of happy customers
+  totalVehicles = 45;
+  totalServices = 50;   // Number of vehicles served
 
+  constructor() {}
 }

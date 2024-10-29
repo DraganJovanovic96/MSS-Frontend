@@ -1,1 +1,28 @@
-<p>home works!</p>
+<div class="circle-grid">
+  <div class="circle-container">
+    <app-progress-circle
+      [maxValue]="totalCustomers"
+      [targetValue]="totalCustomers"
+      [strokeColor]="'#FF8C42'"
+    ></app-progress-circle>
+    <h1 class="circle-label">Happy Customers</h1>
+  </div>
+  
+  <div class="circle-container">
+    <app-progress-circle
+      [maxValue]="totalVehicles"
+      [targetValue]="totalVehicles"
+      [strokeColor]="'#A07855'"
+    ></app-progress-circle>
+    <h1 class="circle-label">Vehicles Served</h1>
+  </div>
+
+  <div class="circle-container">
+    <app-progress-circle
+      [maxValue]="totalServices"
+      [targetValue]="totalServices"
+      [strokeColor]="'#C85D24'"
+    ></app-progress-circle>
+    <h1 class="circle-label">Services Completed</h1>
+  </div>
+</div>
