@@ -7,6 +7,7 @@ import { CustomersComponent } from './customers/customers.component';
 import { ServicesComponentsComponent } from './services-components/services-components.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProgressCircleComponent } from './progress-circle/progress-circle.component';
+import { VehicleDetailComponent } from './vehicle-detail/vehicle-detail.component';
 
 export const routes: Routes = [
     {
@@ -14,6 +15,12 @@ export const routes: Routes = [
         component: HomeComponent,
         canActivate: [authGuard]
     },
+
+    { 
+        path: 'dashboard',
+        component: HomeComponent,
+        canActivate: [authGuard]
+    },    
   
     {
         path: "vehicles",
@@ -33,11 +40,15 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
 
-    
+    { 
+        path: 'vehicles/:id',
+        component: VehicleDetailComponent,
+    },
+
     {
         path: "progress",
         component: ProgressCircleComponent,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
 
     
