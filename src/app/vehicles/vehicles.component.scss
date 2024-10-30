@@ -1,0 +1,28 @@
+.vehicle-list {
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px; /* Space between the title and icon */
+      margin-bottom: 20px;
+    }
+  
+    h2 {
+      margin: 0; /* Remove default margin */
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+  
+      th {
+        background-color: #f4f4f4;
+      }
+    }
+  }
+  

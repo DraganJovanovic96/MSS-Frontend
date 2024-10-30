@@ -1,27 +1,42 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserStorageService } from '../services/storage/user-storage.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
-const BASIC_URL = "http://localhost:8080/api/v1/";
+const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-vehicles',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './vehicles.component.html',
-  styleUrl: './vehicles.component.scss'
+  styleUrls: ['./vehicles.component.scss']
 })
-export class VehiclesComponent {
-  constructor(private http: HttpClient, private userStorageService: UserStorageService, private authService: AuthService) { }
+export class VehiclesComponent implements OnInit {
+  vehicles: any[] = [];
+  vehicle: any;
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.getAllVehicles();
+  }
 
   getAllVehicles(): void {
-    this.http.get(BASIC_URL + 'vehicles', {
+    this.http.get<any[]>(BASIC_URL + 'vehicles', {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
-      next: (data) => console.log('Vehicles data:', data),
+      next: (data) => this.vehicles = data,
       error: (error) => console.error('Error fetching vehicles:', error)
     });
+  }
+  
+  getVehicleById(id: number): void {
+    this.router.navigate([`/vehicles`, id]);
   }
 }
