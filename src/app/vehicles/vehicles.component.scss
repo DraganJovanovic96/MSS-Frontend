@@ -1,28 +1,55 @@
 .vehicle-list {
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px; /* Space between the title and icon */
-      margin-bottom: 20px;
-    }
-  
+  margin: 20px; // Margin around the entire component
+  border-radius: 8px; // Rounded corners for the container
+  background: #fdfdfd; // Light background color
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // Soft shadow for depth
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; // Space between the title and icon
+    margin-bottom: 20px;
+
     h2 {
-      margin: 0; /* Remove default margin */
+      margin: 0; // Remove default margin
+      font-family: 'Arial', sans-serif; // Modern font family
+      font-size: 24px; // Larger title
+      color: #333; // Darker text color
+      text-align: center; // Center align the header text
     }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-  
-      th, td {
-        padding: 10px;
-        border: 1px solid #ddd;
-      }
-  
-      th {
-        background-color: #f4f4f4;
-      }
+
+    i {
+      color: #FFA500; // Icon color
     }
   }
-  
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 12px; // Increased padding for better spacing
+      border: 1px solid #ddd;
+      text-align: left; // Align text to the left for all cells
+      transition: background-color 0.3s; // Smooth transition for hover effect
+    }
+
+    th {
+      background-color: #f4f4f4; // Light background for header
+      color: #555; // Darker header text color
+      font-weight: bold; // Bold font for headers
+    }
+
+    tbody tr {
+      &:hover {
+        background-color: #f0f8ff; // Light blue background on hover
+      }
+    }
+
+    tbody tr {
+      cursor: pointer; // Show pointer cursor for rows
+    }
+  }
+}

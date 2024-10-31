@@ -1,23 +1,26 @@
 import { Injectable } from '@angular/core';
-
-const TOKEN = 'mss-token';
-const REFRESH_TOKEN = 'mss-refresh-token';
-const USER = 'mss-user';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutConfirmationDialogComponent } from './LogoutConfirmationDialogComponent ';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogoutService {
-
-  constructor() { }
+  constructor(private dialog: MatDialog, private router: Router) { }
 
   logout() {
-    const confirmLogout = window.confirm('Are you sure you want to log out?');
-    if (confirmLogout) {
-    window.localStorage.removeItem(TOKEN);
-    window.localStorage.removeItem(REFRESH_TOKEN);
-    window.localStorage.removeItem(USER);
-  }
-  return
+    const dialogRef = this.dialog.open(LogoutConfirmationDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // If the user confirms logout, remove tokens and redirect to login
+        window.localStorage.removeItem('mss-token');
+        window.localStorage.removeItem('mss-refresh-token');
+        window.localStorage.removeItem('mss-user');
+        this.router.navigate(['/login']);
+      }
+      // If result is false (user canceled), do nothing; they stay on the same page.
+    });
   }
 }

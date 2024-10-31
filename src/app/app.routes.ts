@@ -16,12 +16,12 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
 
-    { 
+    {
         path: 'dashboard',
         component: HomeComponent,
         canActivate: [authGuard]
-    },    
-  
+    },
+
     {
         path: "vehicles",
         component: VehiclesComponent,
@@ -40,7 +40,7 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
 
-    { 
+    {
         path: 'vehicles/:id',
         component: VehicleDetailComponent,
     },
@@ -51,7 +51,7 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
 
-    
+
     {
         path: "admin",
         component: AdminComponent,
@@ -63,5 +63,5 @@ export const routes: Routes = [
         component: LoginComponent
     },
 
-    { path: '**',redirectTo: '/' }
+    { path: '**', redirectTo: '/' }
 ];

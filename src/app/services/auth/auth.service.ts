@@ -1,4 +1,4 @@
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { UserStorageService } from '../storage/user-storage.service';
@@ -17,38 +17,38 @@ interface AuthResponse {
 export class AuthService {
 
   constructor(private http: HttpClient,
-     private userStorageService: UserStorageService,
-     private router: Router) { }
+    private userStorageService: UserStorageService,
+    private router: Router) { }
 
-     login(email: string, password: string): any {
-      const headers = new HttpHeaders().set('Content-Type','application/json')
-                                       .set('Accept', '*/*')
-      const body={email, password};
-    
-      return this.http.post<AuthResponse>(BASIC_URL+'auth/authenticate',body, { headers, observe: 'response'}).pipe(
-        map((res) => {
-          const token = res.body?.access_token;
-          const refresh_token = res.body?.refresh_token;
-          if (token) {
-            this.userStorageService.saveToken(token);
-            this.fetchUser(token).subscribe();
-          }
-          if (refresh_token) {
-            this.userStorageService.saveRefreshToken(refresh_token);
-            this.router.navigate(['/']); 
-            return true;
-          }
-          return false;
-        })
-      )
-    }
+  login(email: string, password: string): any {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+      .set('Accept', '*/*')
+    const body = { email, password };
+
+    return this.http.post<AuthResponse>(BASIC_URL + 'auth/authenticate', body, { headers, observe: 'response' }).pipe(
+      map((res) => {
+        const token = res.body?.access_token;
+        const refresh_token = res.body?.refresh_token;
+        if (token) {
+          this.userStorageService.saveToken(token);
+          this.fetchUser(token).subscribe();
+        }
+        if (refresh_token) {
+          this.userStorageService.saveRefreshToken(refresh_token);
+          this.router.navigate(['/']);
+          return true;
+        }
+        return false;
+      })
+    )
+  }
 
   fetchUser(token: string): Observable<void> {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Accept', '*/*')
       .set('Authorization', `Bearer ${token}`);
-  
+
     return this.http.get<AuthResponse>(BASIC_URL + 'users/user', { headers, observe: 'response' }).pipe(
       map((res) => {
         if (res.body) {

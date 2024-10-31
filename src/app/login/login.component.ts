@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string | null = null;
   passwordVisible = false;
-  capsLockOn = false; 
+  capsLockOn = false;
   blurredEmail = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(username, password).subscribe(
         (res: HttpResponse<boolean>) => { },
-        (error: any) => { 
+        (error: any) => {
           this.errorMessage = 'Login failed. Please check your credentials.';
         }
       );

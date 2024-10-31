@@ -9,51 +9,50 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-
-  constructor(private router: Router, 
+  constructor(
+    private router: Router,
     private logOutService: LogoutService,
-    private userStorageService: UserStorageService) {}
+    private userStorageService: UserStorageService
+  ) { }
 
   navigateToHome() {
-    this.router.navigate(['']); 
+    this.router.navigate(['']);
   }
 
   navigateToVehicles() {
-    this.router.navigate(['vehicles']); 
+    this.router.navigate(['vehicles']);
   }
 
   navigateToCustomers() {
-    this.router.navigate(['customers']); 
+    this.router.navigate(['customers']);
   }
 
   navigateToServices() {
-    this.router.navigate(['services']); 
+    this.router.navigate(['services']);
   }
 
   navigateToAdmin() {
-    this.router.navigate(['admin']); 
+    this.router.navigate(['admin']);
   }
-
 
   isLoggedIn(): boolean {
-    return this.userStorageService.getToken() !== null; 
+    return this.userStorageService.getToken() !== null;
   }
 
- LogOut() {
+  LogOut() {
     this.logOutService.logout();
-    this.router.navigate(['login']); 
   }
 
-  isAdmin(){
-    const user = this.userStorageService.getUser(); 
+  isAdmin() {
+    const user = this.userStorageService.getUser();
     if (user) {
-      const parsedUser = JSON.parse(user as string); 
-      return parsedUser.role === 'ADMIN'; 
+      const parsedUser = JSON.parse(user as string);
+      return parsedUser.role === 'ADMIN';
     }
-  
+
     return false;
- }
+  }
 }
