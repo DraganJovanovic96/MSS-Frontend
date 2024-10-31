@@ -4,19 +4,26 @@
 
 html,
 
-body, p, h1, h2, h3, h4 {
+body,
+p,
+h1,
+h2,
+h3,
+h4 {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body, app-root {
+html,
+body,
+app-root {
     height: 100%;
 }
 
 app-root {
- display: flex;
- flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .row {
@@ -45,7 +52,7 @@ app-root {
     margin-top: 25px;
 }
 
-.wrap{ 
+.wrap {
     flex-wrap: wrap;
 }
 
@@ -82,5 +89,13 @@ app-root {
 .hidden {
     display: none;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

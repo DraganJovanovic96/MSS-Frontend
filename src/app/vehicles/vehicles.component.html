@@ -1,35 +1,38 @@
 <div class="vehicle-list">
-    <div class="header">
+  <div class="header">
     <h2>Serviced Vehicles</h2>
     <i class="fa fa-car fa-2x"></i>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Manufacturer</th>
-          <th>Model</th>
-          <th>Vehicle Plate</th>
-          <th>VIN</th>
-          <th>Year of Manufacture</th>
-          <th>Customer Name</th>
-          <th>Phone Number</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let vehicle of vehicles">
-            <td (click)="getVehicleById(vehicle.id)" style="cursor: pointer; color: blue;">
-                {{ vehicle.id }}
-            </td>
-          <td>{{ vehicle.manufacturer }}</td>
-          <td>{{ vehicle.model }}</td>
-          <td>{{ vehicle.vehiclePlate }}</td>
-          <td>{{ vehicle.vin }}</td>
-          <td>{{ vehicle.yearOfManufacture }}</td>
-          <td>{{ vehicle.customerDto.firstname }} {{ vehicle.customerDto.lastname }}</td>
-          <td>{{ vehicle.customerDto.phoneNumber }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Manufacturer</th>
+        <th>Model</th>
+        <th>Vehicle Plate</th>
+        <th>VIN</th>
+        <th>Year of Manufacture</th>
+        <th>Customer Name</th>
+        <th>Phone Number</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles" (click)="getVehicleById(vehicle.id,vehicle.isDeleted)"
+        style="cursor: pointer;">
+        <td>{{ vehicle.id }}</td>
+        <td>{{ vehicle.manufacturer }}</td>
+        <td>{{ vehicle.model }}</td>
+        <td>{{ vehicle.vehiclePlate }}</td>
+        <td>{{ vehicle.vin }}</td>
+        <td>{{ vehicle.yearOfManufacture }}</td>
+        <td>{{ vehicle.customerDto.firstname }} {{ vehicle.customerDto.lastname }}</td>
+        <td>{{ vehicle.customerDto.phoneNumber }}</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="vehicles.length === 0">
+      <tr>
+        <td colspan="8" style="text-align: center;">No vehicles found.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

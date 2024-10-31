@@ -1,7 +1,7 @@
 .wrapper {
-    display: flex;            
-    align-items: center;           
-    justify-content: space-between; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     height: 60px;
     border-bottom: 1px solid var(--border-color);
@@ -17,8 +17,8 @@
 }
 
 .header-buttons {
-    display: flex;       
-    gap: 15px;        
+    display: flex;
+    gap: 15px;
 }
 
 .log-out-button {
@@ -31,7 +31,7 @@
     color: whitesmoke;
 }
 
-.header-button { 
+.header-button {
     margin-left: auto;
     cursor: pointer;
     background: none;
@@ -40,6 +40,6 @@
     color: whitesmoke;
 }
 
-.header{
-    background-color: rgba(44,43,41,255);
+.header {
+    background-color: rgba(44, 43, 41, 255);
 }

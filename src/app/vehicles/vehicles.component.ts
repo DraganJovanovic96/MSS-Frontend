@@ -21,7 +21,7 @@ export class VehiclesComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAllVehicles();
@@ -35,8 +35,8 @@ export class VehiclesComponent implements OnInit {
       error: (error) => console.error('Error fetching vehicles:', error)
     });
   }
-  
-  getVehicleById(id: number): void {
+
+  getVehicleById(id: number, isDeleted: boolean): void {
     this.router.navigate([`/vehicles`, id]);
   }
 }
