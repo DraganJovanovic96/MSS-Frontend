@@ -3,25 +3,25 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-logout-confirmation-dialog',
+  selector: 'app-delete-confirmation-dialog',
   standalone: true,
   imports: [MatDialogModule, MatButtonModule],
   template: `
-    <h2 mat-dialog-title class="dialog-title">Confirm Logout</h2>
-    <mat-dialog-content>Are you sure you want to log out?</mat-dialog-content>
+    <h2 mat-dialog-title class="dialog-title">Confirm Deletion</h2>
+    <mat-dialog-content>Are you sure you want to delete this vehicle?</mat-dialog-content>
     <mat-dialog-actions>
       <button class="cancel-button" mat-flat-button [mat-dialog-close]="false">Cancel</button>
       <div class="spacer"></div>
-      <button mat-flat-button class="logout-button" [mat-dialog-close]="true">Log Out</button>
+      <button mat-flat-button class="logout-button" [mat-dialog-close]="true">Deletion</button>
     </mat-dialog-actions>
   `,
   styles: [`
     .dialog-title {
-      text-align: center; /
+      text-align: center; 
       margin: 0; 
     }
     .spacer {
-      flex-grow: 1;
+      flex-grow: 1; 
     }
     .logout-button {
       background-color: #FFA500 !important; 
@@ -32,11 +32,11 @@ import { MatButtonModule } from '@angular/material/button';
       background-color: #FF8C00 !important; 
     }
     .logout-button:focus {
-      outline: none;
+      outline: none; 
     }
     .cancel-button{
       border-radius: 20px;
     }
   `]
 })
-export class LogoutConfirmationDialogComponent { }
+export class DeleteConfirmationDialogComponent  { }

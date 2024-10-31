@@ -14,13 +14,11 @@ export class LogoutService {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // If the user confirms logout, remove tokens and redirect to login
         window.localStorage.removeItem('mss-token');
         window.localStorage.removeItem('mss-refresh-token');
         window.localStorage.removeItem('mss-user');
         this.router.navigate(['/login']);
       }
-      // If result is false (user canceled), do nothing; they stay on the same page.
     });
   }
 }
