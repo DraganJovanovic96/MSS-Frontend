@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
   `,
   styles: [`
     .dialog-title {
-      text-align: center; /
+      text-align: center; 
       margin: 0; 
     }
     .spacer {

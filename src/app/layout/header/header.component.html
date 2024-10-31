@@ -4,9 +4,21 @@
         <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToCustomers()">
             Customers
         </button>
-        <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToVehicles()">
-            Vehicles
-        </button>
+
+        <div class="dropdown" *ngIf="isLoggedIn()">
+            <button class="header-button">
+                Vehicles
+            </button>
+            <div class="dropdown-content">
+                <button class="dropdown-item" (click)="navigateToVehicles()">
+                    View Vehicles
+                </button>
+                <button class="dropdown-item" (click)="navigateToCreateVehicle()">
+                    Create Vehicle
+                </button>
+            </div>
+        </div>
+
         <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">
             Services
         </button>
