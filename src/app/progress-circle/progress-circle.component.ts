@@ -7,13 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
   standalone: true
 })
 export class ProgressCircleComponent implements OnInit {
-  @Input() maxValue = 100;          // Maximum value for the circle
-  @Input() targetValue = 0;         // Target value to animate to
-  @Input() strokeColor = '#A07855'; // Default color for the progress stroke
+  @Input() maxValue = 100;         
+  @Input() targetValue = 0;        
+  @Input() strokeColor = '#A07855'; 
 
-  currentValue = 0;                 // Current value to animate
-  displayValue = 0;                 // Displayed value
-  circumference: number;            // Circumference for circle calculations
+  currentValue = 0;                 
+  displayValue = 0;                 
+  circumference: number;            
 
   constructor() {
     const radius = 45;
@@ -25,8 +25,8 @@ export class ProgressCircleComponent implements OnInit {
   }
 
   animateProgress(targetValue: number) {
-    const animationDuration = 2000; // Animation duration in ms
-    const frameRate = 30;           // Frames per second
+    const animationDuration = 2000; 
+    const frameRate = 30;           
     const increment = targetValue / (animationDuration / frameRate);
 
     const interval = setInterval(() => {

@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import {DeleteConfirmationDialogComponent} from './DeleteConfirmationDialogComponent ';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -15,7 +17,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   standalone: true,
   templateUrl: './vehicle-detail.component.html',
   styleUrls: ['./vehicle-detail.component.scss'],
-  imports: [FormsModule, CommonModule, RouterModule]
+  imports: [FormsModule, CommonModule, RouterModule, DeleteConfirmationDialogComponent]
 })
 export class VehicleDetailComponent implements OnInit {
   isDeleted: boolean = true;
@@ -38,7 +40,8 @@ export class VehicleDetailComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -61,34 +64,39 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   deleteVehicle(id: number): void {
-    this.http.delete<any>(`${BASIC_URL}vehicles/${id}`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
-      next: () => {
-        this.snackBar.open('Vehicle deleted successfully!', 'Close', {
-          duration: 3000,
-          verticalPosition: 'bottom'
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.http.delete<any>(`${BASIC_URL}vehicles/${id}`, {
+          headers: this.authService.createAuthorizationHeader()
+        }).subscribe({
+          next: () => {
+            this.snackBar.open('Vehicle deleted successfully!', 'Close', {
+              duration: 3000,
+              verticalPosition: 'bottom'
+            });
+            this.router.navigate(['/vehicles']);
+          },
+          error: (error) => {
+            if (error.status === 404) {
+              this.snackBar.open('Vehicle not found. Redirecting to vehicles list.', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+              });
+              this.router.navigate(['/vehicles']);
+            } else {
+              console.error(`Error deleting vehicle with ID ${id}:`, error);
+              this.snackBar.open('Error deleting vehicle. Please try again.', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+              });
+            }
+          }
         });
-        this.router.navigate(['/vehicles']);
-      },
-      error: (error) => {
-        if (error.status === 404) {
-          this.snackBar.open('Vehicle not found. Redirecting to vehicles list.', 'Close', {
-            duration: 3000,
-            verticalPosition: 'bottom'
-          });
-          this.router.navigate(['/vehicles']);
-        } else {
-          console.error(`Error deleting vehicle with ID ${id}:`, error);
-          this.snackBar.open('Error deleting vehicle. Please try again.', 'Close', {
-            duration: 3000,
-            verticalPosition: 'bottom'
-          });
-        }
       }
     });
   }
-
+  
 
   updateVehicle(): void {
     const updatedVehicle = { ...this.vehicle, deleted: this.vehicle.isDeleted };

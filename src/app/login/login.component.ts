@@ -34,14 +34,14 @@ export class LoginComponent implements OnInit {
     this.passwordVisible = !this.passwordVisible;
   }
 
-  // Check Caps Lock on initialization
+
   checkCapsLockStatusOnInit(): void {
     document.addEventListener('keydown', (event) => {
       this.capsLockOn = event.getModifierState && event.getModifierState('CapsLock');
     });
   }
 
-  // Check Caps Lock during typing events
+  
   checkCapsLock(event: KeyboardEvent): void {
     this.capsLockOn = event.getModifierState && event.getModifierState('CapsLock');
   }

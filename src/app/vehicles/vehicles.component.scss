@@ -1,26 +1,26 @@
 .vehicle-list {
-  margin: 20px; // Margin around the entire component
-  border-radius: 8px; // Rounded corners for the container
-  background: #fdfdfd; // Light background color
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // Soft shadow for depth
+  margin: 20px; 
+  border-radius: 8px;
+  background: #fdfdfd; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
   .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; // Space between the title and icon
+    gap: 10px; 
     margin-bottom: 20px;
 
     h2 {
-      margin: 0; // Remove default margin
-      font-family: 'Arial', sans-serif; // Modern font family
-      font-size: 24px; // Larger title
-      color: #333; // Darker text color
-      text-align: center; // Center align the header text
+      margin: 0; 
+      font-family: 'Arial', sans-serif; 
+      font-size: 24px; 
+      color: #333; 
+      text-align: center;
     }
 
     i {
-      color: #FFA500; // Icon color
+      color: #FFA500; 
     }
   }
 
@@ -30,26 +30,26 @@
 
     th,
     td {
-      padding: 12px; // Increased padding for better spacing
+      padding: 12px; 
       border: 1px solid #ddd;
-      text-align: left; // Align text to the left for all cells
-      transition: background-color 0.3s; // Smooth transition for hover effect
+      text-align: left; 
+      transition: background-color 0.3s; 
     }
 
     th {
-      background-color: #f4f4f4; // Light background for header
-      color: #555; // Darker header text color
-      font-weight: bold; // Bold font for headers
+      background-color: #f4f4f4; 
+      color: #555; 
+      font-weight: bold; 
     }
 
     tbody tr {
       &:hover {
-        background-color: #f0f8ff; // Light blue background on hover
+        background-color: #f0f8ff; 
       }
     }
 
     tbody tr {
-      cursor: pointer; // Show pointer cursor for rows
+      cursor: pointer; 
     }
   }
 }

@@ -4,45 +4,31 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    /* Set the height to 100% of the viewport */
     overflow: hidden;
-    /* Prevent scrolling */
 }
 
 .circle-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* Three equal columns */
     gap: 20px;
-    /* Space between circles */
     padding: 20px;
-    /* Space around the grid */
     flex-grow: 1;
-    /* Allow the grid to grow and take available space */
     overflow-y: auto;
-    /* Allow vertical scrolling if needed */
 }
 
 .circle-container {
     display: flex;
     flex-direction: column;
-    /* Stack circle and label vertically */
     align-items: center;
-    /* Center align circle and label */
 }
 
 .circle-label {
     margin-top: 10px;
-    /* Space between circle and label */
     font-size: 1rem;
-    /* Adjust font size */
     text-align: center;
-    /* Center the text */
 }
 
 .footer {
     text-align: center;
-    /* Center footer text */
     padding: 10px;
-    /* Space around footer */
 }

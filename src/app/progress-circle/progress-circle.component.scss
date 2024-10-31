@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  /* Space between circle and label */
   margin-bottom: 20px;
 }
 
@@ -17,7 +16,6 @@
 
 .progress-circle {
   transform: rotate(-90deg);
-  /* Start progress from the top */
 }
 
 .progress-text {
@@ -25,11 +23,9 @@
   font-size: 24px;
   font-weight: bold;
   color: #A07855;
-  /* Match the circle color */
 }
 
 .circle-label {
   font-size: 24px;
   color: #2C2B29;
-  /* Adjust based on your theme */
 }
