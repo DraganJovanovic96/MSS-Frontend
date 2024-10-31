@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  vehiclesDropdownOpen = false;
+
   constructor(
     private router: Router,
     private logOutService: LogoutService,
@@ -22,12 +24,18 @@ export class HeaderComponent {
     this.router.navigate(['']);
   }
 
-  navigateToVehicles() {
-    this.router.navigate(['vehicles']);
-  }
-
   navigateToCustomers() {
     this.router.navigate(['customers']);
+  }
+  
+  navigateToVehicles() {
+    this.router.navigate(['vehicles']);
+    this.vehiclesDropdownOpen = false; // Close dropdown after navigation
+  }
+
+  navigateToCreateVehicle() {
+    this.router.navigate(['create-vehicle']);
+    this.vehiclesDropdownOpen = false; // Close dropdown after navigation
   }
 
   navigateToServices() {
@@ -40,6 +48,10 @@ export class HeaderComponent {
 
   isLoggedIn(): boolean {
     return this.userStorageService.getToken() !== null;
+  }
+
+  toggleVehiclesDropdown() {
+    this.vehiclesDropdownOpen = !this.vehiclesDropdownOpen;
   }
 
   LogOut() {

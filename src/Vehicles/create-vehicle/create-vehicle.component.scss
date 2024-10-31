@@ -1,0 +1,141 @@
+.edit-vehicle-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #C85D24;
+    padding: 20px;
+    color: white;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin: 15px 0;
+  }
+  
+  .sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .sidebar ul li a:hover {
+    color: #FFD700;
+  }
+  
+  .sidebar ul li a.active {
+    font-weight: bold;
+    color: #FFD700;
+    /* Active link color */
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #f3f6f9;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .header h2 {
+    margin: 0;
+  }
+  
+  .form-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .column-in-row {
+    flex-wrap: wrap;
+  }
+  
+  .form-container {
+    margin-top: 20px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .save-button {
+    padding: 10px 20px;
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  
+  .save-button:hover {
+    background-color: #FF8C00;
+  }
+  
+  .column-in-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-group {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .form-group:last-child {
+    margin-right: 0;
+  }
+  
+  .large-year-input {
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .large-year-input::-webkit-inner-spin-button,
+  .large-year-input::-webkit-outer-spin-button {
+    height: 40px;
+    width: 25px;
+  }
+  
+  .span {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+  }
+  
+  .i {
+    color: #FFA500; 
+  }
+  

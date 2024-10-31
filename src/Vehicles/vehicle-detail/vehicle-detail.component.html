@@ -1,11 +1,10 @@
 <div class="edit-vehicle-container">
-    <div class="sidebar">
-        <ul>
-            <li><a [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a></li>
-            <li><a [routerLink]="['/vehicles']" routerLinkActive="active">Current Vehicle</a></li>
-            <li><a [routerLink]="['/customers']" routerLinkActive="active">Vehicles Customer</a></li>
-        </ul>
-    </div>
+    <div class="layout">
+        <app-sidebar></app-sidebar>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
     <div class="main-content">
         <div class="header">
             <h2>View Vehicle</h2>
