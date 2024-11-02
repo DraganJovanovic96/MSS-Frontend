@@ -1,9 +1,11 @@
 <div class="sidebar">
-    <ul>
-      <li><a [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a></li>
-      <li><a [routerLink]="['/vehicles/1']" routerLinkActive="active">Current Vehicle</a></li>
-      <li><a [routerLink]="['/customers']" routerLinkActive="active">Vehicles Customer</a></li>
-      <li><a [routerLink]="['/create-vehicle']" routerLinkActive="active">Create Vehicle</a></li>
-    </ul>
-  </div>
-  
+  <ul>
+    <li><a class="side-bar-text-change" [routerLink]="['/dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
+    <li class="spaced"><a [routerLink]="['/vehicles']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Vehicles</a></li>
+    <li *ngIf="vehicleId"><a [routerLink]="['/vehicles', vehicleId]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Last Selected Vehicle</a></li>
+    <li *ngIf="customerId"><a [routerLink]="['/customers', customerId]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Vehicle's Customer</a></li>
+    <li><a [routerLink]="['/create-vehicle']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Vehicle</a></li>
+   <li class="spaced"><a [routerLink]="['/customers']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Customers</a></li>
+   <li><a [routerLink]="['/create-customer']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Create Customer</a></li>
+  </ul>
+</div>

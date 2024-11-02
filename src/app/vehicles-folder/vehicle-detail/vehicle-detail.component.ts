@@ -10,6 +10,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { SharedDataService } from '../../services/SharedDataService';
+
+interface VehicleUpdateDto {
+  id: number;                  
+  manufacturer: string;        
+  model: string;               
+  vehiclePlate: string;        
+  vin: string;                 
+  yearOfManufacture: number;   
+  customerId: number;          
+}
+
+interface VehicleDto {
+  id: number;                  
+  manufacturer: string;        
+  model: string;               
+  vehiclePlate: string;        
+  vin: string;                 
+  yearOfManufacture: number;   
+  customerId: number;          
+}
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -18,10 +39,12 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   standalone: true,
   templateUrl: './vehicle-detail.component.html',
   styleUrls: ['./vehicle-detail.component.scss'],
-  imports: [FormsModule, CommonModule, RouterModule, DeleteConfirmationDialogComponent, SidebarComponent]
+  imports: [FormsModule, CommonModule, RouterModule, DeleteConfirmationDialogComponent,
+    SidebarComponent]
 })
 export class VehicleDetailComponent implements OnInit {
   isDeleted: boolean = true;
+
   vehicle: any = {
     id: null,
     manufacturer: '',
@@ -29,14 +52,12 @@ export class VehicleDetailComponent implements OnInit {
     vehiclePlate: '',
     vin: '',
     yearOfManufacture: null,
-    customerDto: {
-      phoneNumber: '',
-      firstname: '',
-      lastname: ''
-    }
+    customerId: null
   };
 
-  customerId!: number; // Property to hold customer ID
+  customerId!: number;
+  customers: any[] = [];
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -44,8 +65,23 @@ export class VehicleDetailComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private sharedDataService: SharedDataService
+  ) { 
+    this.loadCustomers();
+  }
+
+  loadCustomers(): void {
+    this.http.get<any[]>(`${BASIC_URL}customers`, {
+      headers: this.authService.createAuthorizationHeader()
+    }).subscribe({
+      next: (data) => {
+        this.customers = data;
+      },
+      error: (error) => console.error('Error fetching customers:', error)
+    });
+  }
+
 
   ngOnInit(): void {
     const vehicleId = this.route.snapshot.paramMap.get('id');
@@ -56,17 +92,18 @@ export class VehicleDetailComponent implements OnInit {
 
   getVehicleById(id: number): void {
     this.http.get<any>(`${BASIC_URL}vehicles/id/${id}`, {
-      headers: this.authService.createAuthorizationHeader()
+        headers: this.authService.createAuthorizationHeader()
     }).subscribe({
-      next: (data) => {
-        this.vehicle = { ...this.vehicle, ...data };
-        this.vehicle.isDeleted = data.deleted;
-        this.customerId = data.customerDto.id; // Extract customer ID here
-      },
-      error: (error) => console.error(`Error fetching vehicle with ID ${id}:`, error)
+        next: (data) => {
+            this.vehicle = { ...this.vehicle, ...data };
+            this.vehicle.isDeleted = data.deleted;
+            this.vehicle.customerId = data.customerDto?.id;
+            this.sharedDataService.setCustomerId(this.vehicle.customerId);
+            this.sharedDataService.setVehicleId(this.vehicle.id);
+        },
+        error: (error) => console.error(`Error fetching vehicle with ID ${id}:`, error)
     });
-  }
-
+}
   deleteVehicle(id: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
@@ -101,19 +138,36 @@ export class VehicleDetailComponent implements OnInit {
     });
   }
 
+
   updateVehicle(): void {
-    const updatedVehicle = { ...this.vehicle, deleted: this.vehicle.isDeleted };
-    this.http.put<any>(`${BASIC_URL}vehicles/id/${this.vehicle.id}`, updatedVehicle, {
-      headers: this.authService.createAuthorizationHeader()
+    const updatedVehicle: VehicleUpdateDto = {
+        id: this.vehicle.id, 
+        manufacturer: this.vehicle.manufacturer,
+        model: this.vehicle.model,
+        vehiclePlate: this.vehicle.vehiclePlate,
+        vin: this.vehicle.vin,
+        yearOfManufacture: this.vehicle.yearOfManufacture,
+        customerId: this.vehicle.customerId 
+    };
+
+    this.http.put<VehicleDto>(`${BASIC_URL}vehicles/id/${this.vehicle.id}`, updatedVehicle, {
+        headers: this.authService.createAuthorizationHeader()
     }).subscribe({
-      next: () => {
-        this.snackBar.open('Vehicle status updated successfully!', 'Close', {
-          duration: 3000,
-          verticalPosition: 'bottom'
-        });
-        this.router.navigate(['/vehicles']);
-      },
-      error: (error) => console.error('Error updating vehicle:', error)
+        next: () => {
+            this.snackBar.open('Vehicle updated successfully!', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+            });
+            this.router.navigate(['/vehicles']);
+        },
+        error: (error) => {
+            console.error('Error updating vehicle:', error);
+            this.snackBar.open('Error updating vehicle. Please try again.', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+            });
+        }
     });
-  }
+}
+
 }
