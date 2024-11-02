@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   vehiclesDropdownOpen = false;
+  customerDropdownOpen = false;
 
   constructor(
     private router: Router,
@@ -35,8 +36,14 @@ export class HeaderComponent {
 
   navigateToCreateVehicle() {
     this.router.navigate(['create-vehicle']);
-    this.vehiclesDropdownOpen = false; // Close dropdown after navigation
+    this.vehiclesDropdownOpen = false; 
   }
+
+  navigateToCreateCustomer() {
+    this.router.navigate(['create-customer']);
+    this.customerDropdownOpen = false; 
+  }
+
 
   navigateToServices() {
     this.router.navigate(['services']);
@@ -52,6 +59,10 @@ export class HeaderComponent {
 
   toggleVehiclesDropdown() {
     this.vehiclesDropdownOpen = !this.vehiclesDropdownOpen;
+  }
+
+  toggleCustomersDropdown() {
+    this.customerDropdownOpen = !this.customerDropdownOpen;
   }
 
   LogOut() {

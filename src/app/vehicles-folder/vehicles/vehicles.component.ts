@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../app/services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,20 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 })
 export class VehiclesComponent implements OnInit {
   vehicles: any[] = [];
-  vehicle: any;
+
+  vehicle: any = {
+    id: null,
+    manufacturer: '',
+    model: '',
+    vehiclePlate: '',
+    vin: '',
+    yearOfManufacture: null,
+    customerDto: {
+      phoneNumber: '',
+      firstname: '',
+      lastname: ''
+    }
+  }
 
   constructor(
     private http: HttpClient,
@@ -36,7 +49,7 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
-  getVehicleById(id: number, isDeleted: boolean): void {
+  getVehicleById(id: number): void {
     this.router.navigate([`/vehicles`, id]);
   }
 }
