@@ -1,9 +1,19 @@
 <header class="header wrapper">
     <img src="/assets/images/mss-logo-white-png.png" alt="Logo image" class="logo" (click)="navigateToHome()" />
     <div class="header-buttons">
-        <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToCustomers()">
-            Customers
-        </button>
+        <div class="dropdown" *ngIf="isLoggedIn()">
+            <button class="header-button">
+                Customers
+            </button>
+            <div class="dropdown-content">
+                <button class="dropdown-item" (click)="navigateToCustomers()">
+                    View Customers
+                </button>
+                <button class="dropdown-item" (click)="navigateToCreateCustomer()">
+                    Create customer
+                </button>
+            </div>
+        </div>
 
         <div class="dropdown" *ngIf="isLoggedIn()">
             <button class="header-button">

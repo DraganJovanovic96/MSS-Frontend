@@ -6,7 +6,6 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th>
         <th>Manufacturer</th>
         <th>Model</th>
         <th>Vehicle Plate</th>
@@ -17,9 +16,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let vehicle of vehicles" (click)="getVehicleById(vehicle.id,vehicle.isDeleted)"
+      <tr *ngFor="let vehicle of vehicles" (click)="getVehicleById(vehicle.id)"
         style="cursor: pointer;">
-        <td>{{ vehicle.id }}</td>
         <td>{{ vehicle.manufacturer }}</td>
         <td>{{ vehicle.model }}</td>
         <td>{{ vehicle.vehiclePlate }}</td>

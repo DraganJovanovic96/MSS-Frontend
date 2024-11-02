@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [MatDialogModule, MatButtonModule],
   template: `
     <h2 mat-dialog-title class="dialog-title">Confirm Deletion</h2>
-    <mat-dialog-content>Are you sure you want to delete this vehicle?</mat-dialog-content>
+    <mat-dialog-content>Are you sure you want to delete this resource?</mat-dialog-content>
     <mat-dialog-actions>
       <button class="cancel-button" mat-flat-button [mat-dialog-close]="false">Cancel</button>
       <div class="spacer"></div>

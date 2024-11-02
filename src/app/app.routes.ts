@@ -1,14 +1,16 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { VehiclesComponent } from '../Vehicles/vehicles/vehicles.component';
+import { VehiclesComponent } from './vehicles-folder/vehicles/vehicles.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './services/auth/guard/auth.guard';
-import { CustomersComponent } from './customers/customers.component';
+import { CustomersComponent } from './customer-folder/customers/customers.component';
 import { ServicesComponentsComponent } from './services-components/services-components.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProgressCircleComponent } from './progress-circle/progress-circle.component';
-import { VehicleDetailComponent } from '../Vehicles/vehicle-detail/vehicle-detail.component';
-import { CreateVehicleComponent } from '../Vehicles/create-vehicle/create-vehicle.component';
+import { VehicleDetailComponent } from './vehicles-folder/vehicle-detail/vehicle-detail.component';
+import { CreateVehicleComponent } from './vehicles-folder/create-vehicle/create-vehicle.component';
+import { CustomerDetailComponent } from './customer-folder/customer-detail/customer-detail.component';
+import { CreateCustomerComponent } from './customer-folder/create-customer/create-customer.component';
 
 export const routes: Routes = [
     {
@@ -30,8 +32,31 @@ export const routes: Routes = [
     },
 
     {
+        path: 'vehicles/:id',
+        component: VehicleDetailComponent,
+    },
+
+    {
+        path: "create-vehicle",
+        component: CreateVehicleComponent,
+        canActivate: [authGuard]
+    },
+
+    {
         path: "customers",
         component: CustomersComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: 'customers/:id',
+        component: CustomerDetailComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: "create-customer",
+        component: CreateCustomerComponent,
         canActivate: [authGuard]
     },
 
@@ -39,11 +64,6 @@ export const routes: Routes = [
         path: "services",
         component: ServicesComponentsComponent,
         canActivate: [authGuard]
-    },
-
-    {
-        path: 'vehicles/:id',
-        component: VehicleDetailComponent,
     },
 
     {
@@ -56,12 +76,6 @@ export const routes: Routes = [
     {
         path: "admin",
         component: AdminComponent,
-        canActivate: [authGuard]
-    },
-
-    {
-        path: "create-vehicle",
-        component: CreateVehicleComponent,
         canActivate: [authGuard]
     },
 
