@@ -1,33 +1,42 @@
 .sidebar {
-    width: 250px;
-    background-color: #C85D24;
-    padding: 20px;
-    color: white;
-    height: 100%;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar ul li {
-    margin: 15px 0;
-  }
-  
-  .sidebar ul li a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  
-  .sidebar ul li a:hover {
-    color: #FFD700;
-  }
-  
-  .sidebar ul li a.active {
-    font-weight: bold;
-    color: #FFD700;
-    /* Active link color */
-  }
-  
+  width: 250px;
+  background-color: #C85D24;
+  padding: 20px;
+  color: white;
+  height: 100%;
+  font-size: 17px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+  color: #FFD700;
+}
+
+.sidebar ul li a.active {
+  font-weight: bold;
+  color: #FFD700;
+}
+
+/* This will apply only to the Dashboard link */
+.side-bar-text-change {
+  font-size: 24px; /* Adjust as needed */
+  font-weight: bold; /* Optional for extra emphasis */
+}
+
+.spaced {
+  margin-top: 40px !important;
+}

@@ -136,33 +136,29 @@
   width: fit-content;
 }
 
-.input.large-checkbox {
+input.large-checkbox {
   width: 30px;
   height: 30px;
   margin-right: 10px;
   cursor: pointer;
 }
 
-.span {
+span {
   display: inline-flex;
   align-items: center;
   height: 30px;
 }
 
-.header .fa {
-  color: #FFA500;
+i {
+  color: #FFA500; // Icon color
 }
 
 .delete-button {
   padding: 10px 20px;
-  background-color: #ff0000eb;
+  background-color: #ff0000;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   border-radius: 20px;
-}
-
-.delete-button:hover {
-  background-color: #c00000;
 }

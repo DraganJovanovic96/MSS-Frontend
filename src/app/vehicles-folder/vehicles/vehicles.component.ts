@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-vehicles',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.scss']
 })
