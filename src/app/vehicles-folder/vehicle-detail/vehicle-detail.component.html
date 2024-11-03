@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label>VIN</label>
-                        <input type="text" [(ngModel)]="vehicle.vin" name="vin" />
+                        <input  maxlength="21" (input)="formatVin($event)"type="text" [(ngModel)]="vehicle.vin" name="vin" />
                     </div>
                 </div>
                 <div class="column-in-row">

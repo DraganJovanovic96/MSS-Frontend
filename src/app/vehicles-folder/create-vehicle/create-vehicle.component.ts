@@ -27,7 +27,7 @@ export class CreateVehicleComponent {
     model: '',
     vehiclePlate: '',
     vin: '',
-    yearOfManufacture: null,
+    yearOfManufacture: 2010,
     customerId: null,
   };
 
