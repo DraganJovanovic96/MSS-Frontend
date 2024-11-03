@@ -39,7 +39,7 @@ export class CreateVehicleComponent {
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) { 
+  ) {
     this.loadCustomers();
   }
 
@@ -55,7 +55,17 @@ export class CreateVehicleComponent {
   }
 
   createVehicle(): void {
-    const createdVehicle = { ...this.vehicle, deleted: this.isDeleted, customerId: this.vehicle.customerId };
+    const vinWithoutSpecialChars = this.vehicle.vin.replace(/[^a-zA-Z0-9]/g, '');
+    const plateWithoutSpecialChars = this.vehicle.vehiclePlate.replace(/[^a-zA-Z0-9-]/g, '');
+
+    const createdVehicle = {
+      ...this.vehicle,
+      deleted: this.isDeleted,
+      vin: vinWithoutSpecialChars,
+      vehiclePlate: plateWithoutSpecialChars,
+      customerId: this.vehicle.customerId
+    };
+
     this.http.post<any>(`${BASIC_URL}vehicles`, createdVehicle, {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
@@ -68,5 +78,20 @@ export class CreateVehicleComponent {
       },
       error: (error) => console.error('Error creating vehicle:', error)
     });
+  }
+
+  formatVin(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let vin = input.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();;
+    vin = vin.match(/.{1,4}/g)?.join('-') || vin;
+    input.value = vin;
+    this.vehicle.vin = vin; 
+  }
+  
+  formatPlate(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let plate = input.value.toUpperCase();
+    input.value = plate;
+    this.vehicle.vehiclePlate = plate; 
   }
 }
