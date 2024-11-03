@@ -1,42 +1,25 @@
-<header class="header wrapper">
-    <img src="/assets/images/mss-logo-white-png.png" alt="Logo image" class="logo" (click)="navigateToHome()" />
-    <div class="header-buttons">
-        <div class="dropdown" *ngIf="isLoggedIn()">
-            <button class="header-button">
-                Customers
-            </button>
-            <div class="dropdown-content">
-                <button class="dropdown-item" (click)="navigateToCustomers()">
-                    View Customers
-                </button>
-                <button class="dropdown-item" (click)="navigateToCreateCustomer()">
-                    Create customer
-                </button>
+<header class="header">
+    <div class="wrapper">
+        <img src="/assets/images/mss-logo-white-png.png" alt="Logo image" class="logo" (click)="navigateToHome()" />
+        <div class="header-buttons">
+            <div class="dropdown" *ngIf="isLoggedIn()">
+                <button class="header-button">Customers</button>
+                <div class="dropdown-content">
+                    <button class="dropdown-item" (click)="navigateToCustomers()">View Customers</button>
+                    <button class="dropdown-item" (click)="navigateToCreateCustomer()">Create customer</button>
+                </div>
             </div>
-        </div>
-
-        <div class="dropdown" *ngIf="isLoggedIn()">
-            <button class="header-button">
-                Vehicles
-            </button>
-            <div class="dropdown-content">
-                <button class="dropdown-item" (click)="navigateToVehicles()">
-                    View Vehicles
-                </button>
-                <button class="dropdown-item" (click)="navigateToCreateVehicle()">
-                    Create Vehicle
-                </button>
+            <div class="dropdown" *ngIf="isLoggedIn()">
+                <button class="header-button">Vehicles</button>
+                <div class="dropdown-content">
+                    <button class="dropdown-item" (click)="navigateToVehicles()">View Vehicles</button>
+                    <button class="dropdown-item" (click)="navigateToCreateVehicle()">Create Vehicle</button>
+                </div>
             </div>
+            <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">Services</button>
+            <button class="header-button" *ngIf="isLoggedIn() && isAdmin()" (click)="navigateToAdmin()">Admin</button>
         </div>
-
-        <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">
-            Services
-        </button>
-        <button class="header-button" *ngIf="isLoggedIn() && isAdmin()" (click)="navigateToAdmin()">
-            Admin
-        </button>
+        <button class="log-out-button" *ngIf="isLoggedIn()" (click)="LogOut()">Log Out</button>
     </div>
-    <button class="log-out-button" *ngIf="isLoggedIn()" (click)="LogOut()">
-        Log Out
-    </button>
 </header>
+
