@@ -1,3 +1,12 @@
+.main-container {
+  display: flex; // Use flexbox for layout
+  gap: 20px; // Space between sidebar and customer list
+}
+  app-sidebar {
+    width: 250px; // Set a fixed width for the sidebar
+    flex-shrink: 0; // Prevent shrinking
+  }
+
 .customer-list {
   margin: 20px auto; // Center the customer list
   padding: 25px; // Adjust padding for better spacing

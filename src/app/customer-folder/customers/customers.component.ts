@@ -4,13 +4,14 @@ import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule],
+  imports: [CommonModule, MatPaginatorModule,SidebarComponent],
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
 })
