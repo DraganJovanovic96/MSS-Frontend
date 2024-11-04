@@ -1,8 +1,30 @@
-<div class="vehicle-page-container">
+<div class="main-container">
+  <app-sidebar></app-sidebar>
   <div class="vehicle-list">
     <div class="header">
       <h2>Serviced Vehicles</h2>
       <i class="fa fa-car fa-2x"></i>
+    </div>
+    <div class="search-fields">
+      <input type="text" [formControl]="manufacturerControl" [ngClass]="{'highlight': customerControl.value}"
+        placeholder="Manufacturer">
+      <input type="text" [formControl]="modelControl" [ngClass]="{'highlight': customerControl.value}"
+        placeholder="Model">
+      <input type="text" [formControl]="vehiclePlateControl" [ngClass]="{'highlight': customerControl.value}"
+        placeholder="Vehicle Plate">
+      <input type="text" [formControl]="vinControl" [ngClass]="{'highlight': customerControl.value}" placeholder="VIN">
+      <input type="number" [formControl]="yearControl" [ngClass]="{'highlight': customerControl.value}"
+        placeholder="Year">
+      <div class="form-group">
+        <select [formControl]="customerControl"
+          [ngClass]="{'italic-input': !customerControl.value && !isDropdownFocused}" (focus)="isDropdownFocused = true"
+          (blur)="isDropdownFocused = false">
+          <option class="placeholder" value="" selected>Customer</option>
+          <option *ngFor="let customer of customers" [value]="customer.id">
+            {{ customer.firstname }} {{ customer.lastname }}
+          </option>
+        </select>
+      </div>
     </div>
     <table>
       <thead>
@@ -20,7 +42,7 @@
         <tr *ngFor="let vehicle of vehicles" (click)="getVehicleById(vehicle.id)" style="cursor: pointer;">
           <td>{{ vehicle.manufacturer }}</td>
           <td>{{ vehicle.model }}</td>
-          <td>{{ vehicle.vehiclePlate }}</td>
+          <td class="vehicle-plate">{{ vehicle.vehiclePlate }}</td>
           <td>{{ vehicle.vin }}</td>
           <td>{{ vehicle.yearOfManufacture }}</td>
           <td>{{ vehicle.customerDto.firstname }} {{ vehicle.customerDto.lastname }}</td>
