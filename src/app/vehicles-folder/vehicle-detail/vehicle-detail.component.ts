@@ -141,8 +141,8 @@ export class VehicleDetailComponent implements OnInit {
 
 
   updateVehicle(): void {
-    const formattedVin = this.vehicle.vin.replace(/[^a-zA-Z0-9]/g, ''); 
-    const formattedPlate = this.vehicle.vehiclePlate.replace(/[^a-zA-Z0-9-]/g, ''); 
+    const formattedVin = this.vehicle.vin.replace(/[^a-zA-Z0-9]/g, '');
+    const formattedPlate = this.vehicle.vehiclePlate.replace(/[^a-zA-Z0-9-]/g, '');
 
     const updatedVehicle: VehicleUpdateDto = {
       id: this.vehicle.id,
@@ -184,6 +184,6 @@ export class VehicleDetailComponent implements OnInit {
     let vin = input.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();;
     vin = vin.match(/.{1,4}/g)?.join('-') || vin;
     input.value = vin;
-    this.vehicle.vin = vin; 
+    this.vehicle.vin = vin;
   }
 }

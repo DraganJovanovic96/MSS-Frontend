@@ -31,7 +31,7 @@ export class CreateVehicleComponent {
     customerId: null,
   };
 
-  customers: any[] = []; // Array to hold the list of customers
+  customers: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -85,13 +85,13 @@ export class CreateVehicleComponent {
     let vin = input.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();;
     vin = vin.match(/.{1,4}/g)?.join('-') || vin;
     input.value = vin;
-    this.vehicle.vin = vin; 
+    this.vehicle.vin = vin;
   }
-  
+
   formatPlate(event: Event): void {
     const input = event.target as HTMLInputElement;
     let plate = input.value.toUpperCase();
     input.value = plate;
-    this.vehicle.vehiclePlate = plate; 
+    this.vehicle.vehiclePlate = plate;
   }
 }

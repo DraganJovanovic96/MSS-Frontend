@@ -15,7 +15,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-customer-detail',
   standalone: true,
-  imports: [FormsModule, CommonModule,DeleteConfirmationDialogComponent, RouterModule,SidebarComponent],
+  imports: [FormsModule, CommonModule, DeleteConfirmationDialogComponent, RouterModule, SidebarComponent],
   templateUrl: './customer-detail.component.html',
   styleUrl: './customer-detail.component.scss'
 })
@@ -25,8 +25,8 @@ export class CustomerDetailComponent implements OnInit {
   customer: any = {
     id: null,
     createdAt: '',
-    updatedAt:'',
-    deleted:'',
+    updatedAt: '',
+    deleted: '',
     firstname: '',
     lastname: '',
     address: '',
@@ -49,7 +49,7 @@ export class CustomerDetailComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  
+
   ngOnInit(): void {
     const customerId = this.route.snapshot.paramMap.get('id');
     if (customerId) {
@@ -57,7 +57,7 @@ export class CustomerDetailComponent implements OnInit {
     }
   }
 
-  updateCustomer(): void{ 
+  updateCustomer(): void {
     const updatedCustomer = { ...this.customer, deleted: this.customer.isDeleted };
     this.http.put<any>(`${BASIC_URL}customers/id/${this.customer.id}`, updatedCustomer, {
       headers: this.authService.createAuthorizationHeader()

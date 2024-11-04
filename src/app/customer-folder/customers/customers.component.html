@@ -1,19 +1,17 @@
 <div class="main-container">
-  <app-sidebar></app-sidebar> <!-- Sidebar should be outside the customer-list div -->
+  <app-sidebar></app-sidebar>
 
   <div class="customer-list">
     <div class="header">
-      <h2>Serviced Vehicles</h2>
+      <h2>Serviced Customers</h2>
       <i class="fa fa-user fa-2x"></i>
     </div>
-    
-    <div class="search-fields">
-      <input type="text" placeholder="Search First Name">
-      <input type="text" placeholder="Search Last Name">
-      <input type="text" placeholder="Search Address">
-      <input type="text" placeholder="Search Phone Number">
-    </div>
 
+    <div class="search-fields">
+      <input type="text" [formControl]="fullNameControl" placeholder="Search Name">
+      <input type="text" [formControl]="addressControl" placeholder="Search Address">
+      <input type="text" [formControl]="phoneNumberControl" placeholder="Search Phone Number">
+    </div>
     <table>
       <thead>
         <tr>

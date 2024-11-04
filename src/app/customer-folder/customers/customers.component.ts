@@ -4,6 +4,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
@@ -11,7 +13,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule,SidebarComponent],
+  imports: [CommonModule, MatPaginatorModule, ReactiveFormsModule, SidebarComponent],
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
 })
@@ -20,6 +22,10 @@ export class CustomersComponent implements OnInit {
   currentPage = 0;
   pageSize = 5;
   totalItems = 0;
+
+  fullNameControl = new FormControl('');
+  addressControl = new FormControl('');
+  phoneNumberControl = new FormControl('');
 
   constructor(
     private http: HttpClient,
@@ -34,6 +40,24 @@ export class CustomersComponent implements OnInit {
       this.pageSize = +params['pageSize'] || 5;
       this.getCustomers();
     });
+
+
+    this.fullNameControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => this.onSearchChange());
+
+    this.addressControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => this.onSearchChange());
+
+    this.phoneNumberControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => this.onSearchChange());
+  }
+
+  onSearchChange(): void {
+    this.currentPage = 0;
+    this.getCustomers();
   }
 
   getCustomerById(id: number): void {
@@ -41,7 +65,12 @@ export class CustomersComponent implements OnInit {
   }
 
   getCustomers(): void {
-    const customerFiltersQueryDto = {};
+    const customerFiltersQueryDto = {
+      fullName: this.fullNameControl.value,
+      address: this.addressControl.value,
+      phoneNumber: this.phoneNumberControl.value
+    };
+
     this.http.post<any>(`${BASIC_URL}customers/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
       customerFiltersQueryDto,
       {

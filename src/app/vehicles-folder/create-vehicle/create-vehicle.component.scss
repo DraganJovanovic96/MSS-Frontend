@@ -1,10 +1,8 @@
-/* General Container Styling */
 .edit-vehicle-container {
   display: flex;
   padding: 20px;
 }
 
-/* Sidebar Styling */
 .sidebar {
   width: 250px;
   background-color: #C85D24;
@@ -33,7 +31,7 @@
   font-weight: bold;
 }
 
-/* Main Content Styling */
+
 .main-content {
   flex: 1;
   padding: 30px 40px;
@@ -42,7 +40,7 @@
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header Styling */
+
 .header {
   display: flex;
   align-items: center;
@@ -60,7 +58,6 @@
   color: #FFA500;
 }
 
-/* Form Styling */
 .form-container {
   background: #ffffff;
   padding: 25px;
@@ -104,7 +101,6 @@
   width: 20px;
 }
 
-/* Button Styling */
 .button-container {
   display: flex;
   justify-content: flex-end;
@@ -126,7 +122,6 @@
   background-color: #FF8C00;
 }
 
-/* Layout and Alignment */
 .column-in-row {
   display: flex;
   gap: 20px;

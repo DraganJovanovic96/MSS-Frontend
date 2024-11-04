@@ -1,18 +1,19 @@
 .main-container {
-  display: flex; // Use flexbox for layout
-  gap: 20px; // Space between sidebar and customer list
+  display: flex; 
+  gap: 20px; 
 }
-  app-sidebar {
-    width: 250px; // Set a fixed width for the sidebar
-    flex-shrink: 0; // Prevent shrinking
-  }
+
+app-sidebar {
+  width: 250px; 
+  flex-shrink: 0; 
+}
 
 .customer-list {
-  margin: 20px auto; // Center the customer list
-  padding: 25px; // Adjust padding for better spacing
-  max-width: 800px; // Set a maximum width for the customer list
+  margin: 20px auto; 
+  padding: 25px; 
+  max-width: 800px; 
   border-radius: 10px;
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef); // Use a gradient background
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 
   .header {
@@ -43,7 +44,7 @@
     margin-bottom: 20px;
 
     input {
-      width: 100%; // Make the search fields full width
+      width: 100%; 
       padding: 10px 15px;
       font-size: 15px;
       border: 1px solid #ced4da;
@@ -87,8 +88,8 @@
       border: 1px solid #e9ecef;
       text-align: left;
       font-size: 15px;
-      background-color: #ffffff; // Set the background color to white
-      transition: background-color 0.3s; // Add transition for smooth effect
+      background-color: #ffffff; 
+      transition: background-color 0.3s; 
     }
 
     tbody tr {
@@ -96,12 +97,11 @@
       transition: background-color 0.3s ease, transform 0.3s ease;
 
       &:hover {
-        background-color: #dbe9ff !important; // Light blue color on hover
+        background-color: #dbe9ff !important; 
         transform: scale(1.03);
         
-        // Ensure the <td> background changes on hover
         td {
-          background-color: #dbe9ff !important; // Match the hover color for <td>
+          background-color: #dbe9ff !important; 
         }
       }
     }

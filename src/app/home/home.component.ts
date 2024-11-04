@@ -5,13 +5,13 @@ import { ProgressCircleComponent } from '../progress-circle/progress-circle.comp
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [ProgressCircleComponent], 
+  imports: [ProgressCircleComponent],
   standalone: true,
 })
 export class HomeComponent {
-  totalCustomers = 35; 
+  totalCustomers = 35;
   totalVehicles = 45;
-  totalServices = 50; 
+  totalServices = 50;
 
   constructor() { }
 }
