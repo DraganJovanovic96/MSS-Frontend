@@ -3,17 +3,25 @@
     <h2>Serviced Vehicles</h2>
     <i class="fa fa-user fa-2x"></i>
   </div>
+  
+  <div class="search-fields">
+    <input type="text" placeholder="Search First Name">
+    <input type="text" placeholder="Search Last Name">
+    <input type="text" placeholder="Search Address">
+    <input type="text" placeholder="Search Phone Number">
+  </div>
+
   <table>
     <thead>
       <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Address</th>
-        <th>Phone number</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>ADDRESS</th>
+        <th>PHONE NUMBER</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let customer of customers" (click)="getCustomerById(customer.id)" style="cursor: pointer;">
+      <tr *ngFor="let customer of customers" (click)="getCustomerById(customer.id)">
         <td>{{ customer.firstname }}</td>
         <td>{{ customer.lastname }}</td>
         <td>{{ customer.address }}</td>
@@ -22,10 +30,11 @@
     </tbody>
     <tbody *ngIf="customers.length === 0">
       <tr>
-        <td colspan="8" style="text-align: center;">No customers found.</td>
+        <td colspan="4">No customers found.</td>
       </tr>
     </tbody>
   </table>
+
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="totalItems" [pageSize]="pageSize"
     [pageIndex]="currentPage" (page)="onPageChange($event)" aria-label="Select page">
   </mat-paginator>
