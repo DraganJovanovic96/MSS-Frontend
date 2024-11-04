@@ -25,26 +25,14 @@
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Vehicle Plate</label>
-                        <input
-                          type="text"
-                          [(ngModel)]="vehicle.vehiclePlate"
-                          name="vehiclePlate"
-                          (input)="formatPlate($event)"
-                          placeholder="LJ-210-PO"
-                        />
+                        <input type="text" [(ngModel)]="vehicle.vehiclePlate" name="vehiclePlate"
+                            (input)="formatPlate($event)" placeholder="LJ-210-PO" />
                     </div>
                     <div class="form-group">
                         <label>VIN</label>
-                        <input
-                          type="text"
-                          id="vin"
-                          maxlength="21"
-                          (input)="formatVin($event)"
-                          placeholder="G122-MOZZ-7656-DCCZ-Z"
-                          [(ngModel)]="vehicle.vin"
-                          name="vin"
-                        />
-                      </div>
+                        <input type="text" id="vin" maxlength="21" (input)="formatVin($event)"
+                            placeholder="1GNC-T18W-71K1-0721-0" [(ngModel)]="vehicle.vin" name="vin" />
+                    </div>
                 </div>
                 <div class="column-in-row">
                     <div class="form-group">

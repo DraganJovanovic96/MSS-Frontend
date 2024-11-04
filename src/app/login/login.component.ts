@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  
+
   checkCapsLock(event: KeyboardEvent): void {
     this.capsLockOn = event.getModifierState && event.getModifierState('CapsLock');
   }

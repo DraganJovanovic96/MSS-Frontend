@@ -15,7 +15,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-create-customer',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule,SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
   templateUrl: './create-customer.component.html',
   styleUrl: './create-customer.component.scss'
 })
@@ -25,8 +25,8 @@ export class CreateCustomerComponent {
   customer: any = {
     id: null,
     createdAt: '',
-    updatedAt:'',
-    deleted:'',
+    updatedAt: '',
+    deleted: '',
     firstname: '',
     lastname: '',
     address: '',
@@ -49,7 +49,7 @@ export class CreateCustomerComponent {
   ) { }
 
   createCustomer(): void {
-    const cratedVehicle = { ...this.customer, deleted: this.isDeleted};
+    const cratedVehicle = { ...this.customer, deleted: this.isDeleted };
     this.http.post<any>(`${BASIC_URL}customers`, cratedVehicle, {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({

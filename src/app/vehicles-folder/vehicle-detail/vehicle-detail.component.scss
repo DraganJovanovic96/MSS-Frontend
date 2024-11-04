@@ -31,7 +31,6 @@
 .sidebar ul li a.active {
   font-weight: bold;
   color: #FFD700;
-  /* Active link color */
 }
 
 .main-content {
@@ -150,7 +149,7 @@ span {
 }
 
 i {
-  color: #FFA500; // Icon color
+  color: #FFA500;
 }
 
 .delete-button {
@@ -169,20 +168,20 @@ i {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
-  background-color: #fff; // Maintain a clean white background
-  color: #333; // Dark text for better readability
-  appearance: none; // Remove default styling
+  background-color: #fff;
+  color: #333;
+  appearance: none;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="gray" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg>'); // Custom dropdown arrow
   background-repeat: no-repeat;
-  background-position: right 10px center; // Position the arrow
-  background-size: 12px; // Size of the dropdown arrow
+  background-position: right 10px center;
+  background-size: 12px;
 }
 
 .form-group select:focus {
-  border-color: #FFA500; // Highlight border color on focus
-  outline: none; // Remove default outline
+  border-color: #FFA500;
+  outline: none;
 }
 
 .form-group select option {
-  padding: 10px; // Add padding to options for better usability
+  padding: 10px;
 }

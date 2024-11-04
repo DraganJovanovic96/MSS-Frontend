@@ -28,7 +28,7 @@ export class HeaderComponent {
   navigateToCustomers() {
     this.router.navigate(['customers']);
   }
-  
+
   navigateToVehicles() {
     this.router.navigate(['vehicles']);
     this.vehiclesDropdownOpen = false; // Close dropdown after navigation
@@ -36,12 +36,12 @@ export class HeaderComponent {
 
   navigateToCreateVehicle() {
     this.router.navigate(['create-vehicle']);
-    this.vehiclesDropdownOpen = false; 
+    this.vehiclesDropdownOpen = false;
   }
 
   navigateToCreateCustomer() {
     this.router.navigate(['create-customer']);
-    this.customerDropdownOpen = false; 
+    this.customerDropdownOpen = false;
   }
 
 
