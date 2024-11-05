@@ -44,7 +44,7 @@ export class VehiclesComponent implements OnInit {
   yearControl = new FormControl('');
   customerControl = new FormControl('');
 
-  selectedCustomerId: number | null = null; // Store selected customer ID
+  selectedCustomerId: number | null = null;
 
   vehicle: any = {
     id: null,
@@ -66,14 +66,15 @@ export class VehiclesComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-  ) {
-    this.loadCustomers();
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.currentPage = +params['page'] || 0;
-      this.pageSize = +params['pageSize'] || 5;
+    this.route.paramMap.subscribe(params => {
+      this.selectedCustomerId = params.get('customerId') ? +params.get('customerId')! : null;
+      this.currentPage = +this.route.snapshot.queryParamMap.get('page')! || 0;
+      this.pageSize = +this.route.snapshot.queryParamMap.get('pageSize')! || 5;
+
+      this.loadCustomers();
       this.getVehicles();
     });
 
@@ -104,7 +105,7 @@ export class VehiclesComponent implements OnInit {
       vehiclePlate: this.vehiclePlateControl.value,
       vin: this.vinControl.value,
       yearOfManufacture: this.yearControl.value,
-      customerId: this.selectedCustomerId // Use the selected customer ID here
+      customerId: this.selectedCustomerId 
     };
     
     this.http.post<any>(`${BASIC_URL}vehicles/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -127,7 +128,11 @@ export class VehiclesComponent implements OnInit {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.customers = data; // Store the full customer data including ID
+        this.customers = data; 
+        if (this.selectedCustomerId) {
+          const selectedCustomer = this.customers.find(customer => customer.id === this.selectedCustomerId);
+          this.customerControl.setValue(`${selectedCustomer?.firstname} ${selectedCustomer?.lastname}`);
+        }
       },
       error: (error) => console.error('Error fetching customers:', error)
     });

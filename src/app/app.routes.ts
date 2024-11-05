@@ -37,6 +37,11 @@ export const routes: Routes = [
     },
 
     {
+        path: 'vehicles/customer/:customerId',
+        component: VehiclesComponent
+    },
+
+    {
         path: "create-vehicle",
         component: CreateVehicleComponent,
         canActivate: [authGuard]
