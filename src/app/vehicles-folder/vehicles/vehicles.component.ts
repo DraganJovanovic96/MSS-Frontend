@@ -16,8 +16,16 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-vehicles',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, ReactiveFormsModule, MatPaginatorModule,
-    FormsModule, MatFormFieldModule, MatSelectModule, MatInputModule],
+  imports: [
+    CommonModule,
+    SidebarComponent,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule
+  ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.scss']
 })
@@ -28,13 +36,15 @@ export class VehiclesComponent implements OnInit {
   totalItems = 0;
   vehicles: any[] = [];
   customers: any[] = [];
-
+  
   manufacturerControl = new FormControl('');
   modelControl = new FormControl('');
   vehiclePlateControl = new FormControl('');
   vinControl = new FormControl('');
   yearControl = new FormControl('');
   customerControl = new FormControl('');
+
+  selectedCustomerId: number | null = null; // Store selected customer ID
 
   vehicle: any = {
     id: null,
@@ -56,7 +66,9 @@ export class VehiclesComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-  ) { this.loadCustomers(); }
+  ) {
+    this.loadCustomers();
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -65,29 +77,24 @@ export class VehiclesComponent implements OnInit {
       this.getVehicles();
     });
 
-    this.manufacturerControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
+    this.setupSearchControls();
+  }
 
-    this.modelControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
+  setupSearchControls(): void {
+    const controls = [
+      this.manufacturerControl,
+      this.modelControl,
+      this.vehiclePlateControl,
+      this.vinControl,
+      this.yearControl,
+      this.customerControl
+    ];
 
-    this.vehiclePlateControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.vinControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.yearControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.customerControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
+    controls.forEach(control => {
+      control.valueChanges
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe(() => this.onSearchChange());
+    });
   }
 
   getVehicles(): void {
@@ -97,8 +104,9 @@ export class VehiclesComponent implements OnInit {
       vehiclePlate: this.vehiclePlateControl.value,
       vin: this.vinControl.value,
       yearOfManufacture: this.yearControl.value,
-      customerId: this.customerControl.value
+      customerId: this.selectedCustomerId // Use the selected customer ID here
     };
+    
     this.http.post<any>(`${BASIC_URL}vehicles/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
       vehicleFiltersQueryDto,
       {
@@ -110,7 +118,7 @@ export class VehiclesComponent implements OnInit {
         this.vehicles = response.body;
         this.totalItems = parseInt(response.headers.get('x-total-items') || '0', 10);
       },
-      error: (error) => console.error('Error fetching customers:', error)
+      error: (error) => console.error('Error fetching vehicles:', error)
     });
   }
 
@@ -119,13 +127,18 @@ export class VehiclesComponent implements OnInit {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.customers = data;
+        this.customers = data; // Store the full customer data including ID
       },
       error: (error) => console.error('Error fetching customers:', error)
     });
   }
 
   onSearchChange(): void {
+    const selectedCustomer = this.customers.find(customer =>
+      `${customer.firstname} ${customer.lastname}` === this.customerControl.value
+    );
+    this.selectedCustomerId = selectedCustomer ? selectedCustomer.id : null;
+    
     this.currentPage = 0;
     this.getVehicles();
   }
