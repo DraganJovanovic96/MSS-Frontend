@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../layout/sidebar/sidebar.component';
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
