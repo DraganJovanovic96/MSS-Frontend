@@ -10,6 +10,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -24,7 +25,8 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
     FormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    NgSelectModule
   ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.scss']
@@ -43,7 +45,7 @@ export class VehiclesComponent implements OnInit {
   vehiclePlateControl = new FormControl('');
   vinControl = new FormControl('');
   yearControl = new FormControl('');
-  customerControl = new FormControl('');
+  customerControl = new FormControl(null);
 
   selectedCustomerId: number | null = null;
 
@@ -129,15 +131,21 @@ export class VehiclesComponent implements OnInit {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.customers = data;
+        this.customers = data.map(customer => ({
+          ...customer,
+          fullName: `${customer.firstname} ${customer.lastname}`  
+        }));
         if (this.selectedCustomerId) {
           const selectedCustomer = this.customers.find(customer => customer.id === this.selectedCustomerId);
-          this.customerControl.setValue(`${selectedCustomer?.firstname} ${selectedCustomer?.lastname}`);
+          if (selectedCustomer) {
+            this.customerControl.setValue(selectedCustomer.fullName); 
+          }
         }
       },
       error: (error) => console.error('Error fetching customers:', error)
     });
   }
+  
 
   onCustomerInputChange(event: any): void {
     const inputValue = this.customerControl.value;
