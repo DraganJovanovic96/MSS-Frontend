@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SharedDataService } from '../../services/SharedDataService';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,19 +11,27 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./sidebar.component.scss'],
   imports: [RouterModule, CommonModule]  
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   customerId: number | null = null;
   vehicleId: number | null = null;
+
+  private customerIdSub!: Subscription;
+  private vehicleIdSub!: Subscription;
 
   constructor(private sharedDataService: SharedDataService) {}
 
   ngOnInit(): void {
-    this.sharedDataService.customerId$.subscribe(id => {
+    this.customerIdSub = this.sharedDataService.customerId$.subscribe(id => {
       this.customerId = id;
     });
 
-    this.sharedDataService.vehicleId$.subscribe(id => {
+    this.vehicleIdSub = this.sharedDataService.vehicleId$.subscribe(id => {
       this.vehicleId = id; 
     });
+  }
+
+  ngOnDestroy(): void {
+    this.customerIdSub.unsubscribe();
+    this.vehicleIdSub.unsubscribe();
   }
 }
