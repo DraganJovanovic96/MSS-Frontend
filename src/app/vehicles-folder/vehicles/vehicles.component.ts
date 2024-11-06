@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -30,13 +30,14 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   styleUrls: ['./vehicles.component.scss']
 })
 export class VehiclesComponent implements OnInit {
+  @ViewChild('customerInput') customerInput!: ElementRef<HTMLInputElement>;
   isDropdownFocused = false;
   currentPage = 0;
   pageSize = 5;
   totalItems = 0;
   vehicles: any[] = [];
   customers: any[] = [];
-  
+
   manufacturerControl = new FormControl('');
   modelControl = new FormControl('');
   vehiclePlateControl = new FormControl('');
@@ -59,7 +60,7 @@ export class VehiclesComponent implements OnInit {
       firstname: '',
       lastname: ''
     }
-  }
+  };
 
   constructor(
     private http: HttpClient,
@@ -105,9 +106,9 @@ export class VehiclesComponent implements OnInit {
       vehiclePlate: this.vehiclePlateControl.value,
       vin: this.vinControl.value,
       yearOfManufacture: this.yearControl.value,
-      customerId: this.selectedCustomerId 
+      customerId: this.selectedCustomerId !== null ? this.selectedCustomerId : undefined 
     };
-    
+
     this.http.post<any>(`${BASIC_URL}vehicles/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
       vehicleFiltersQueryDto,
       {
@@ -128,7 +129,7 @@ export class VehiclesComponent implements OnInit {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.customers = data; 
+        this.customers = data;
         if (this.selectedCustomerId) {
           const selectedCustomer = this.customers.find(customer => customer.id === this.selectedCustomerId);
           this.customerControl.setValue(`${selectedCustomer?.firstname} ${selectedCustomer?.lastname}`);
@@ -138,12 +139,21 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
+  onCustomerInputChange(event: any): void {
+    const inputValue = this.customerControl.value;
+  
+    const parsedId = inputValue ? parseInt(inputValue, 10) : null;
+  
+    if (parsedId !== null && !isNaN(parsedId)) {
+      this.selectedCustomerId = parsedId; 
+    } else {
+      this.selectedCustomerId = null;  
+    }
+  
+    this.onSearchChange();
+  }
+
   onSearchChange(): void {
-    const selectedCustomer = this.customers.find(customer =>
-      `${customer.firstname} ${customer.lastname}` === this.customerControl.value
-    );
-    this.selectedCustomerId = selectedCustomer ? selectedCustomer.id : null;
-    
     this.currentPage = 0;
     this.getVehicles();
   }

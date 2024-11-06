@@ -6,22 +6,20 @@
       <i class="fa fa-car fa-2x"></i>
     </div>
     <div class="search-fields">
-      <input type="text" [formControl]="manufacturerControl" [ngClass]="{'highlight': customerControl.value}"
-        placeholder="Manufacturer">
-      <input type="text" [formControl]="modelControl" [ngClass]="{'highlight': customerControl.value}"
-        placeholder="Model">
-      <input type="text" [formControl]="vehiclePlateControl" [ngClass]="{'highlight': customerControl.value}"
-        placeholder="Vehicle Plate">
-      <input type="text" [formControl]="vinControl" [ngClass]="{'highlight': customerControl.value}" placeholder="VIN">
-      <input type="number" [formControl]="yearControl" [ngClass]="{'highlight': customerControl.value}"
-        placeholder="Year">
+      <input type="text" [formControl]="manufacturerControl" placeholder="Manufacturer">
+      <input type="text" [formControl]="modelControl" placeholder="Model">
+      <input type="text" [formControl]="vehiclePlateControl" placeholder="Vehicle Plate">
+      <input type="text" [formControl]="vinControl" placeholder="VIN">
+      <input type="number" [formControl]="yearControl" placeholder="Year">
+
       <div class="form-group">
-        <input type="text" [formControl]="customerControl"
-          [ngClass]="{'italic-input': !customerControl.value && !isDropdownFocused}" (focus)="isDropdownFocused = true"
-          (blur)="isDropdownFocused = false" placeholder="Customer" list="customersList">
-        <datalist id="customersList">
-          <option *ngFor="let customer of customers" [value]="customer.firstname + ' ' + customer.lastname"></option>
-        </datalist>
+        <select [formControl]="customerControl" (change)="onCustomerInputChange($event)"           [ngClass]="{'italic-input': !customerControl.value && !isDropdownFocused}" (focus)="isDropdownFocused = true"
+        (blur)="isDropdownFocused = false" placeholder="Customer" list="customersList">>
+          <option value="">Select Customer</option>
+          <option *ngFor="let customer of customers" [value]="customer.id">
+            {{ customer.firstname }} {{ customer.lastname }}
+          </option>
+        </select>
       </div>
     </div>
     <table>
@@ -49,7 +47,7 @@
       </tbody>
       <tbody *ngIf="vehicles.length === 0">
         <tr>
-          <td colspan="8" style="text-align: center;">No vehicles found.</td>
+          <td colspan="7" style="text-align: center;">No vehicles found.</td>
         </tr>
       </tbody>
     </table>
