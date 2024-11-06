@@ -1,27 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-vehicles',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, ReactiveFormsModule, MatPaginatorModule,
-    FormsModule, MatFormFieldModule, MatSelectModule, MatInputModule],
+  imports: [
+    CommonModule,
+    SidebarComponent,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    NgSelectModule
+  ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.scss']
 })
 export class VehiclesComponent implements OnInit {
+  @ViewChild('customerInput') customerInput!: ElementRef<HTMLInputElement>;
   isDropdownFocused = false;
   currentPage = 0;
   pageSize = 5;
@@ -34,7 +38,9 @@ export class VehiclesComponent implements OnInit {
   vehiclePlateControl = new FormControl('');
   vinControl = new FormControl('');
   yearControl = new FormControl('');
-  customerControl = new FormControl('');
+  customerControl = new FormControl(null);
+
+  selectedCustomerId: number | null = null;
 
   vehicle: any = {
     id: null,
@@ -49,45 +55,43 @@ export class VehiclesComponent implements OnInit {
       firstname: '',
       lastname: ''
     }
-  }
+  };
 
   constructor(
     private http: HttpClient,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-  ) { this.loadCustomers(); }
+  ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.currentPage = +params['page'] || 0;
-      this.pageSize = +params['pageSize'] || 5;
+    this.route.paramMap.subscribe(params => {
+      this.selectedCustomerId = params.get('customerId') ? +params.get('customerId')! : null;
+      this.currentPage = +this.route.snapshot.queryParamMap.get('page')! || 0;
+      this.pageSize = +this.route.snapshot.queryParamMap.get('pageSize')! || 5;
+
+      this.loadCustomers();
       this.getVehicles();
     });
 
-    this.manufacturerControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
+    this.setupSearchControls();
+  }
 
-    this.modelControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
+  setupSearchControls(): void {
+    const controls = [
+      this.manufacturerControl,
+      this.modelControl,
+      this.vehiclePlateControl,
+      this.vinControl,
+      this.yearControl,
+      this.customerControl
+    ];
 
-    this.vehiclePlateControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.vinControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.yearControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.customerControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
+    controls.forEach(control => {
+      control.valueChanges
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe(() => this.onSearchChange());
+    });
   }
 
   getVehicles(): void {
@@ -97,8 +101,9 @@ export class VehiclesComponent implements OnInit {
       vehiclePlate: this.vehiclePlateControl.value,
       vin: this.vinControl.value,
       yearOfManufacture: this.yearControl.value,
-      customerId: this.customerControl.value
+      customerId: this.selectedCustomerId !== null ? this.selectedCustomerId : undefined
     };
+
     this.http.post<any>(`${BASIC_URL}vehicles/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
       vehicleFiltersQueryDto,
       {
@@ -110,7 +115,7 @@ export class VehiclesComponent implements OnInit {
         this.vehicles = response.body;
         this.totalItems = parseInt(response.headers.get('x-total-items') || '0', 10);
       },
-      error: (error) => console.error('Error fetching customers:', error)
+      error: (error) => console.error('Error fetching vehicles:', error)
     });
   }
 
@@ -119,10 +124,28 @@ export class VehiclesComponent implements OnInit {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.customers = data;
+        this.customers = data.map(customer => ({
+          ...customer,
+          fullName: `${customer.firstname} ${customer.lastname}`
+        }));
       },
       error: (error) => console.error('Error fetching customers:', error)
     });
+  }
+
+
+  onCustomerInputChange(event: any): void {
+    const inputValue = this.customerControl.value;
+
+    const parsedId = inputValue ? parseInt(inputValue, 10) : null;
+
+    if (parsedId !== null && !isNaN(parsedId)) {
+      this.selectedCustomerId = parsedId;
+    } else {
+      this.selectedCustomerId = null;
+    }
+
+    this.onSearchChange();
   }
 
   onSearchChange(): void {

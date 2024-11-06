@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
+import { SharedDataService } from '../../services/SharedDataService';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -46,7 +47,8 @@ export class CustomerDetailComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sharedDataService: SharedDataService
   ) { }
 
 
@@ -114,6 +116,7 @@ export class CustomerDetailComponent implements OnInit {
       next: (data) => {
         this.customer = { ...this.customer, ...data };
         this.customer.isDeleted = data.deleted;
+        this.sharedDataService.setCustomerId(this.customer.id);
       },
       error: (error) => console.error(`Error fetching vehicle with ID ${id}:`, error)
     });

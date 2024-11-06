@@ -1,0 +1,58 @@
+<div class="main-container">
+  <app-sidebar></app-sidebar>
+  <div class="services-list">
+    <div class="header">
+      <h2>Services</h2>
+      <i class="fa fa-wrench fa-2x"></i>
+    </div>
+    <div class="search-fields">
+      <input type="text" [formControl]="invoiceCodeControl" [ngClass]="{'highlight': invoiceCodeControl.value}"
+        placeholder="Invoice code">
+        <input type="date" [formControl]="startDateControl" placeholder="Starting date" class="date-picker">
+      <input type="date" [formControl]="endDateControl" [ngClass]="{'highlight': endDateControl.value}"
+        placeholder="Ending date">
+      <div class="form-group">
+        <ng-select [formControl]="vehicleControl" (change)="onVehicleInputChange($event)" [items]="vehicles"
+          bindLabel="fullName" bindValue="id" [placeholder]="vehicleControl.value ? '' : 'Select Vehicle'"
+          [searchable]="true" [clearable]="true">
+        </ng-select>
+      </div>
+
+      <div class="form-group">
+        <ng-select [formControl]="userControl" (change)="onUserInputChange($event)" [items]="users" bindLabel="fullName"
+          bindValue="id" [placeholder]="userControl.value ? '' : 'Select User'" [searchable]="true" [clearable]="true">
+        </ng-select>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Invoice Code</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Current Mileage</th>
+          <th>Vehicle</th>
+          <th>Mechanic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of services" style="cursor: pointer;">
+          <td>{{ service.invoiceCode }}</td>
+          <td>{{ service.startDate | date: 'dd.MM.yyyy' }}</td>
+          <td>{{ service.endDate | date: 'dd.MM.yyyy' }}</td>
+          <td>{{ service.currentMileage }}</td>
+          <td>{{ service.vehicleDto.model }}</td>
+          <td>{{ service.userDto.firstname}} {{service.userDto.lastname }}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="services.length === 0">
+        <tr>
+          <td colspan="8" style="text-align: center;">No services found.</td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="totalItems" [pageSize]="pageSize"
+      [pageIndex]="currentPage" (page)="onPageChange($event)" aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>

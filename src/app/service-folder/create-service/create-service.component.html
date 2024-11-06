@@ -1,0 +1,51 @@
+<div class="edit-service-container">
+    <div class="layout">
+        <app-sidebar></app-sidebar>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h2>Create Service</h2>
+            <i class="fa fa-wrench fa-2x"></i>
+        </div>
+        <div class="form-container">
+            <form (ngSubmit)="createCustomer()">
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" [(ngModel)]="service.startDate" name="startDate" />
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" [(ngModel)]="service.endDate" name="endDate" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Current Mileage</label>
+                        <input type="number" [(ngModel)]="service.currentMileage" name="currentMileage" />
+                    </div>
+                    <div class="form-group">
+                        <label>Next Service Mileage</label>
+                        <input type="number" [(ngModel)]="service.nextServiceMileage" name="nextServiceMileage" />
+                    </div>
+                    <div class="form-group">
+                        <label>Vehicle</label>
+                        <select [(ngModel)]="service.vehicleId" name="vehicleId" required>
+                            <option *ngFor="let service of services" [value]="service.vehicleDto.id">
+                                {{ service.vehicleDto.manufacturer }} {{ service.vehicleDto.model }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group button-container">
+                        <button type="submit" class="save-button">Create Service</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

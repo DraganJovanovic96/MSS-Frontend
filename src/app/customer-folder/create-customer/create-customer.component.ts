@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
