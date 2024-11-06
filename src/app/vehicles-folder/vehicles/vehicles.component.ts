@@ -5,11 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
@@ -22,10 +19,6 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
     SidebarComponent,
     ReactiveFormsModule,
     MatPaginatorModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
     NgSelectModule
   ],
   templateUrl: './vehicles.component.html',
@@ -69,7 +62,7 @@ export class VehiclesComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -108,7 +101,7 @@ export class VehiclesComponent implements OnInit {
       vehiclePlate: this.vehiclePlateControl.value,
       vin: this.vinControl.value,
       yearOfManufacture: this.yearControl.value,
-      customerId: this.selectedCustomerId !== null ? this.selectedCustomerId : undefined 
+      customerId: this.selectedCustomerId !== null ? this.selectedCustomerId : undefined
     };
 
     this.http.post<any>(`${BASIC_URL}vehicles/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -133,31 +126,25 @@ export class VehiclesComponent implements OnInit {
       next: (data) => {
         this.customers = data.map(customer => ({
           ...customer,
-          fullName: `${customer.firstname} ${customer.lastname}`  
+          fullName: `${customer.firstname} ${customer.lastname}`
         }));
-        if (this.selectedCustomerId) {
-          const selectedCustomer = this.customers.find(customer => customer.id === this.selectedCustomerId);
-          if (selectedCustomer) {
-            this.customerControl.setValue(selectedCustomer.fullName); 
-          }
-        }
       },
       error: (error) => console.error('Error fetching customers:', error)
     });
   }
-  
+
 
   onCustomerInputChange(event: any): void {
     const inputValue = this.customerControl.value;
-  
+
     const parsedId = inputValue ? parseInt(inputValue, 10) : null;
-  
+
     if (parsedId !== null && !isNaN(parsedId)) {
-      this.selectedCustomerId = parsedId; 
+      this.selectedCustomerId = parsedId;
     } else {
-      this.selectedCustomerId = null;  
+      this.selectedCustomerId = null;
     }
-  
+
     this.onSearchChange();
   }
 

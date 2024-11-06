@@ -6,16 +6,22 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
-import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-services-components',
   standalone: true,
-  imports: [SidebarComponent, MatPaginatorModule, CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule],
+  imports: [
+    CommonModule,
+    SidebarComponent,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    NgSelectModule
+  ],
   templateUrl: './services-components.component.html',
   styleUrl: './services-components.component.scss'
 })
@@ -28,10 +34,11 @@ export class ServicesComponentsComponent implements OnInit {
   invoiceCodeControl = new FormControl('');
   startDateControl = new FormControl(null);
   endDateControl = new FormControl(null);
-  vehicleControl = new FormControl('');
-  userControl = new FormControl('');
+  vehicleControl = new FormControl(null);
+  userControl = new FormControl(null);
 
   selectedVehicleId: number | null = null;
+  selectedUserId: number | null = null;
 
   service: any = {
     id: null,
@@ -61,56 +68,37 @@ export class ServicesComponentsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) { this.loadUsers(); this.loadVehicles()}
-
-  onPageChange(event: PageEvent): void {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { page: this.currentPage, pageSize: this.pageSize },
-      queryParamsHandling: 'merge'
-    });
-
-    this.getServices();
-  }
+  ) { this.loadUsers(), this, this.loadVehicles() }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.currentPage = +params['page'] || 0;
-      this.pageSize = +params['pageSize'] || 5;
+    this.route.paramMap.subscribe(params => {
+      this.selectedVehicleId = params.get('vehicleId') ? +params.get('vehicleId')! : null;
+      this.selectedUserId = params.get('userId') ? +params.get('userId')! : null;
+      this.currentPage = +this.route.snapshot.queryParamMap.get('page')! || 0;
+      this.pageSize = +this.route.snapshot.queryParamMap.get('pageSize')! || 5;
+
+      this.loadUsers();
+      this.loadVehicles();
       this.getServices();
     });
 
-    this.invoiceCodeControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.startDateControl.valueChanges
-      .subscribe(() => this.onSearchChange());
-
-    this.endDateControl.valueChanges
-      .subscribe(() => this.onSearchChange());
-
-    this.vehicleControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
-
-    this.userControl.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => this.onSearchChange());
+    this.setupSearchControls();
   }
 
-  onSearchChange(): void {
-    this.currentPage = 0;
-    const selectedVehicle = this.vehicles.find(vehicle =>
-      `${vehicle.manufacturer} ${vehicle.model}` === this.vehicleControl.value
-    );
-    this.selectedVehicleId = selectedVehicle ? selectedVehicle.id : null;
-    
-    this.currentPage = 0;
-    this.getServices();
+  setupSearchControls(): void {
+    const controls = [
+      this.invoiceCodeControl,
+      this.startDateControl,
+      this.endDateControl,
+      this.vehicleControl,
+      this.userControl
+    ];
+
+    controls.forEach(control => {
+      control.valueChanges
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe(() => this.onSearchChange());
+    });
   }
 
   getServices(): void {
@@ -118,10 +106,10 @@ export class ServicesComponentsComponent implements OnInit {
       invoiceCode: this.invoiceCodeControl.value,
       startDate: this.startDateControl.value,
       endDate: this.endDateControl.value,
-      vehicleId: this.selectedVehicleId,
-      userId: this.userControl.value
+      vehicleId: this.selectedVehicleId !== null ? this.selectedVehicleId : undefined,
+      userId: this.selectedUserId !== null ? this.selectedUserId : undefined,
     };
-    console.log('Filters:', serviceFiltersQueryDto);
+
     this.http.post<any>(`${BASIC_URL}services/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
       serviceFiltersQueryDto,
       {
@@ -137,12 +125,16 @@ export class ServicesComponentsComponent implements OnInit {
     });
   }
 
+
   loadUsers(): void {
     this.http.get<any[]>(`${BASIC_URL}users`, {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.users = data;
+        this.users = data.map(user => ({
+          ...user,
+          fullName: `${user.firstname} ${user.lastname}`
+        }));
       },
       error: (error) => console.error('Error fetching users:', error)
     });
@@ -153,10 +145,59 @@ export class ServicesComponentsComponent implements OnInit {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.vehicles = data;
+        this.vehicles = data.map(vehicle => ({
+          ...vehicle,
+          fullName: `${vehicle.manufacturer} ${vehicle.model}`
+        }));
       },
       error: (error) => console.error('Error fetching vehicles:', error)
     });
   }
 
+
+  onVehicleInputChange(event: any): void {
+    const inputValue = this.vehicleControl.value;
+
+    const parsedId = inputValue ? parseInt(inputValue, 10) : null;
+
+    if (parsedId !== null && !isNaN(parsedId)) {
+      this.selectedVehicleId = parsedId;
+    } else {
+      this.selectedVehicleId = null;
+    }
+
+    this.onSearchChange();
+  }
+
+  onUserInputChange(event: any): void {
+    const inputValue = this.userControl.value;
+
+    const parsedId = inputValue ? parseInt(inputValue, 10) : null;
+
+    if (parsedId !== null && !isNaN(parsedId)) {
+      this.selectedUserId = parsedId;
+    } else {
+      this.selectedUserId = null;
+    }
+
+    this.onSearchChange();
+  }
+
+  onSearchChange(): void {
+    this.currentPage = 0;
+    this.getServices();
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: this.currentPage, pageSize: this.pageSize },
+      queryParamsHandling: 'merge'
+    });
+
+    this.getServices();
+  }
 }

@@ -13,18 +13,12 @@
       <input type="number" [formControl]="yearControl" placeholder="Year">
 
       <div class="form-group">
-        <ng-select 
-          [formControl]="customerControl" 
-          (change)="onCustomerInputChange($event)" 
-          [items]="customers"
-          bindLabel="fullName" 
-          bindValue="id" 
-          [placeholder]="customerControl.value ? '' : 'Select Customer'" 
-          [searchable]="true" 
-          [clearable]="true">
+        <ng-select [formControl]="customerControl" (change)="onCustomerInputChange($event)" [items]="customers"
+          bindLabel="fullName" bindValue="id" [placeholder]="customerControl.value ? '' : 'Select Customer'"
+          [searchable]="true" [clearable]="true">
         </ng-select>
       </div>
-      
+
     </div>
     <table>
       <thead>

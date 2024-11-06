@@ -8,28 +8,20 @@
     <div class="search-fields">
       <input type="text" [formControl]="invoiceCodeControl" [ngClass]="{'highlight': invoiceCodeControl.value}"
         placeholder="Invoice code">
-      <input type="date" [formControl]="startDateControl" [ngClass]="{'highlight': startDateControl.value}"
-        placeholder="Starting date">
+        <input type="date" [formControl]="startDateControl" placeholder="Starting date" class="date-picker">
       <input type="date" [formControl]="endDateControl" [ngClass]="{'highlight': endDateControl.value}"
         placeholder="Ending date">
-
       <div class="form-group">
-        <input type="text" [formControl]="vehicleControl"
-          [ngClass]="{'italic-input': !vehicleControl.value && !isDropdownFocused}" (focus)="isDropdownFocused = true"
-          (blur)="isDropdownFocused = false" placeholder="Vehicle" list="vehicleList">
-        <datalist id="vehicleList">
-          <option *ngFor="let vehicle of vehicles" [value]="vehicle.manufacturer + ' ' + vehicle.model"></option>
-        </datalist>
+        <ng-select [formControl]="vehicleControl" (change)="onVehicleInputChange($event)" [items]="vehicles"
+          bindLabel="fullName" bindValue="id" [placeholder]="vehicleControl.value ? '' : 'Select Vehicle'"
+          [searchable]="true" [clearable]="true">
+        </ng-select>
       </div>
 
       <div class="form-group">
-        <select [formControl]="userControl" [ngClass]="{'italic-input': !userControl.value && !isDropdownFocused}"
-          (focus)="isDropdownFocused = true" (blur)="isDropdownFocused = false">
-          <option class="placeholder" value="" selected>Mechanic</option>
-          <option *ngFor="let user of users" [value]="user.id">
-            {{ user.firstname }} {{ user.lastname }}
-          </option>
-        </select>
+        <ng-select [formControl]="userControl" (change)="onUserInputChange($event)" [items]="users" bindLabel="fullName"
+          bindValue="id" [placeholder]="userControl.value ? '' : 'Select User'" [searchable]="true" [clearable]="true">
+        </ng-select>
       </div>
     </div>
     <table>
