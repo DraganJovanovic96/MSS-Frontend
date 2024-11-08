@@ -34,6 +34,16 @@
   position: relative;
 }
 
+.header-button-item,
+.dropdown-item {
+  text-decoration: none; 
+  color: whitesmoke !important; 
+  background: none; 
+  border: none;
+  cursor: pointer;
+  font-size: 1.02rem;
+}
+
 .header-button {
   cursor: pointer;
   background: none;
@@ -72,7 +82,7 @@
 
 .dropdown-item {
   padding: 10px 15px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: whitesmoke;
   text-align: left;
   width: 100%;
@@ -86,3 +96,4 @@
 .dropdown-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
+

@@ -8,13 +8,14 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-create-vehicle',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent,NgSelectModule],
   templateUrl: './create-vehicle.component.html',
   styleUrls: ['./create-vehicle.component.scss']
 })
@@ -48,7 +49,10 @@ export class CreateVehicleComponent {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.customers = data;
+        this.customers = data.map(customer => ({
+          ...customer,
+          fullName: `${customer.firstname} ${customer.lastname}`
+        }));
       },
       error: (error) => console.error('Error fetching customers:', error)
     });

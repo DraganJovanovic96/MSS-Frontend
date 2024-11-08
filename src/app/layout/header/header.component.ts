@@ -32,7 +32,7 @@ export class HeaderComponent {
 
   navigateToVehicles() {
     this.router.navigate(['vehicles']);
-    this.vehiclesDropdownOpen = false; // Close dropdown after navigation
+    this.vehiclesDropdownOpen = false; 
   }
 
   navigateToCreateVehicle() {

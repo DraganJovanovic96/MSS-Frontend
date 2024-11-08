@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { SharedDataService } from '../../services/SharedDataService';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 interface VehicleUpdateDto {
   id: number;
@@ -40,7 +41,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   templateUrl: './vehicle-detail.component.html',
   styleUrls: ['./vehicle-detail.component.scss'],
   imports: [FormsModule, CommonModule, RouterModule, DeleteConfirmationDialogComponent,
-    SidebarComponent]
+    SidebarComponent,NgSelectModule]
 })
 export class VehicleDetailComponent implements OnInit {
   isDeleted: boolean = true;
@@ -70,17 +71,21 @@ export class VehicleDetailComponent implements OnInit {
   ) {
     this.loadCustomers();
   }
-
+  
   loadCustomers(): void {
     this.http.get<any[]>(`${BASIC_URL}customers`, {
       headers: this.authService.createAuthorizationHeader()
     }).subscribe({
       next: (data) => {
-        this.customers = data;
+        this.customers = data.map(customer => ({
+          ...customer,
+          fullName: `${customer.firstname} ${customer.lastname}`
+        }));
       },
       error: (error) => console.error('Error fetching customers:', error)
     });
   }
+
 
 
   ngOnInit(): void {

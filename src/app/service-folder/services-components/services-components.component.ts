@@ -68,7 +68,7 @@ export class ServicesComponentsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) { this.loadUsers(), this, this.loadVehicles() }
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {

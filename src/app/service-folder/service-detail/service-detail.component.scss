@@ -38,9 +38,10 @@
   
   .form-group input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    font-size: 16px;
   }
   
   .column-in-row {
@@ -136,5 +137,14 @@
     color: #15696F;
     margin-right: 20px;
     margin-left: 20px;
+  }
+
+  ::ng-deep .ng-select .ng-select-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    height: 42px !important;     
+    font-size: 16px;
   }
   

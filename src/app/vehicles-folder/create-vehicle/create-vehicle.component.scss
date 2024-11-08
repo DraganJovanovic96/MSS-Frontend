@@ -83,9 +83,8 @@
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border-radius: 20px;
 }
 
 .save-button:hover {
@@ -104,4 +103,13 @@
 
 .form-group:last-child {
   margin-right: 0;
+}
+
+::ng-deep .ng-select .ng-select-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  height: 42px !important;     
+  font-size: 16px;
 }

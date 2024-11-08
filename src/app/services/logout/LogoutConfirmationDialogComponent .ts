@@ -24,12 +24,12 @@ import { MatButtonModule } from '@angular/material/button';
       flex-grow: 1;
     }
     .logout-button {
-      background-color: #FFA500 !important; 
+      background-color: #454442 !important; 
       color: white !important; 
       border-radius: 20px; 
     }
     .logout-button:hover {
-      background-color: #FF8C00 !important; 
+      background-color: #666666 !important; 
     }
     .logout-button:focus {
       outline: none;
