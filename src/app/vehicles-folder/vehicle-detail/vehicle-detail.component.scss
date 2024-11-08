@@ -2,37 +2,6 @@
   display: flex;
 }
 
-.sidebar {
-  width: 250px;
-  background-color: #C85D24;
-  padding: 20px;
-  color: white;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar ul li {
-  margin: 15px 0;
-}
-
-.sidebar ul li a {
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.sidebar ul li a:hover {
-  color: #FFD700;
-}
-
-.sidebar ul li a.active {
-  font-weight: bold;
-  color: #FFD700;
-}
-
 .main-content {
   flex: 1;
   padding: 40px;
@@ -90,7 +59,7 @@
 
 .save-button {
   padding: 10px 20px;
-  background-color: #FFA500;
+  background-color: #454442;
   color: white;
   border: none;
   border-radius: 5px;
@@ -99,7 +68,7 @@
 }
 
 .save-button:hover {
-  background-color: #FF8C00;
+  background-color: #666666;
 }
 
 .column-in-row {
@@ -148,10 +117,6 @@ span {
   height: 30px;
 }
 
-i {
-  color: #FFA500;
-}
-
 .delete-button {
   padding: 10px 20px;
   background-color: #ff0000;
@@ -161,6 +126,11 @@ i {
   cursor: pointer;
   border-radius: 20px;
 }
+
+.delete-button:hover {
+  background-color: #f34747;
+}
+
 
 .form-group select {
   width: 100%;
@@ -178,10 +148,13 @@ i {
 }
 
 .form-group select:focus {
-  border-color: #FFA500;
   outline: none;
 }
 
 .form-group select option {
   padding: 10px;
+}
+
+.header .fa {
+  color: #15696F;
 }

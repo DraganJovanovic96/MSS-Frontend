@@ -5,33 +5,26 @@
             <div class="dropdown" *ngIf="isLoggedIn()">
                 <button class="header-button">Customers</button>
                 <div class="dropdown-content">
-                    <button class="dropdown-item" (click)="navigateToCustomers()">View Customers</button>
-                    <button class="dropdown-item" (click)="navigateToCreateCustomer()">Create customer</button>
+                    <a class="dropdown-item" [routerLink]="['/customers']">View Customers</a>
+                    <a class="dropdown-item" [routerLink]="['/create-customer']">Create customer</a>
                 </div>
             </div>
             <div class="dropdown" *ngIf="isLoggedIn()">
                 <button class="header-button">Vehicles</button>
                 <div class="dropdown-content">
-                    <button class="dropdown-item" (click)="navigateToVehicles()">View Vehicles</button>
-                    <button class="dropdown-item" (click)="navigateToCreateVehicle()">Create Vehicle</button>
+                    <a class="dropdown-item" [routerLink]="['/vehicles']">View Vehicles</a>
+                    <a class="dropdown-item" [routerLink]="['/create-vehicle']">Create Vehicle</a>
                 </div>
             </div>
-
             <div class="dropdown" *ngIf="isLoggedIn()">
                 <button class="header-button">Services</button>
                 <div class="dropdown-content">
-                    <button class="dropdown-item" (click)="navigateToServices()">View Services</button>
-                    <button class="dropdown-item" (click)="navigateToCreateService()">Create Service</button>
+                    <a class="dropdown-item" [routerLink]="['/services']">View Services</a>
+                    <a class="dropdown-item" [routerLink]="['/create-service']">Create Service</a>
                 </div>
             </div>
-            <!-- <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">Services</button> -->
             <button class="header-button" *ngIf="isLoggedIn() && isAdmin()" (click)="navigateToAdmin()">Admin</button>
         </div>
         <button class="log-out-button" *ngIf="isLoggedIn()" (click)="LogOut()">Log Out</button>
     </div>
 </header>
-
-
-
-
-
