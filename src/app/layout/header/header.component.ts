@@ -49,6 +49,10 @@ export class HeaderComponent {
     this.router.navigate(['services']);
   }
 
+  navigateToCreateService() {
+    this.router.navigate(['create-service']);
+  }
+
   navigateToAdmin() {
     this.router.navigate(['admin']);
   }

@@ -15,7 +15,7 @@
       <div class="form-group">
         <ng-select [formControl]="customerControl" (change)="onCustomerInputChange($event)" [items]="customers"
           bindLabel="fullName" bindValue="id" [placeholder]="customerControl.value ? '' : 'Select Customer'"
-          [searchable]="true" [clearable]="true">
+          [searchable]="true" [clearable]="true" [(ngModel)]="selectedCustomerId">
         </ng-select>
       </div>
 

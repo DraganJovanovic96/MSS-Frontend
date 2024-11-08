@@ -200,4 +200,8 @@ export class ServicesComponentsComponent implements OnInit {
 
     this.getServices();
   }
+
+  getServiceById(id: number): void {
+    this.router.navigate([`/services`, id]);
+  }
 }

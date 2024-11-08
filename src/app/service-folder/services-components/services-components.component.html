@@ -8,9 +8,15 @@
     <div class="search-fields">
       <input type="text" [formControl]="invoiceCodeControl" [ngClass]="{'highlight': invoiceCodeControl.value}"
         placeholder="Invoice code">
-        <input type="date" [formControl]="startDateControl" placeholder="Starting date" class="date-picker">
-      <input type="date" [formControl]="endDateControl" [ngClass]="{'highlight': endDateControl.value}"
-        placeholder="Ending date">
+
+      <input [ngClass]="{'italic-input': !startDateControl.value && !isDropdownFocused}"
+        (focus)="isDropdownFocused = true" (blur)="isDropdownFocused = false" type="date"
+        [formControl]="startDateControl">
+
+      <input [ngClass]="{'italic-input': !endDateControl.value && !isDropdownFocused}"
+        (focus)="isDropdownFocused = true" (blur)="isDropdownFocused = false" type="date"
+        [formControl]="endDateControl">
+
       <div class="form-group">
         <ng-select [formControl]="vehicleControl" (change)="onVehicleInputChange($event)" [items]="vehicles"
           bindLabel="fullName" bindValue="id" [placeholder]="vehicleControl.value ? '' : 'Select Vehicle'"
@@ -36,7 +42,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let service of services" style="cursor: pointer;">
+        <tr *ngFor="let service of services" (click)="getServiceById(service.id)" style="cursor: pointer;">
           <td>{{ service.invoiceCode }}</td>
           <td>{{ service.startDate | date: 'dd.MM.yyyy' }}</td>
           <td>{{ service.endDate | date: 'dd.MM.yyyy' }}</td>

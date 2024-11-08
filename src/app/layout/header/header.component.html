@@ -16,9 +16,22 @@
                     <button class="dropdown-item" (click)="navigateToCreateVehicle()">Create Vehicle</button>
                 </div>
             </div>
-            <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">Services</button>
+
+            <div class="dropdown" *ngIf="isLoggedIn()">
+                <button class="header-button">Services</button>
+                <div class="dropdown-content">
+                    <button class="dropdown-item" (click)="navigateToServices()">View Services</button>
+                    <button class="dropdown-item" (click)="navigateToCreateService()">Create Service</button>
+                </div>
+            </div>
+            <!-- <button class="header-button" *ngIf="isLoggedIn()" (click)="navigateToServices()">Services</button> -->
             <button class="header-button" *ngIf="isLoggedIn() && isAdmin()" (click)="navigateToAdmin()">Admin</button>
         </div>
         <button class="log-out-button" *ngIf="isLoggedIn()" (click)="LogOut()">Log Out</button>
     </div>
 </header>
+
+
+
+
+

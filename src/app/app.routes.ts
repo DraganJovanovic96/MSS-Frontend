@@ -12,6 +12,7 @@ import { CreateVehicleComponent } from './vehicles-folder/create-vehicle/create-
 import { CustomerDetailComponent } from './customer-folder/customer-detail/customer-detail.component';
 import { CreateCustomerComponent } from './customer-folder/create-customer/create-customer.component';
 import { CreateServiceComponent } from './service-folder/create-service/create-service.component';
+import { ServiceDetailComponent } from './service-folder/service-detail/service-detail.component';
 
 export const routes: Routes = [
     {
@@ -77,6 +78,19 @@ export const routes: Routes = [
         component: CreateServiceComponent,
         canActivate: [authGuard]
     },
+
+    {
+        path: "service",
+        component: CreateServiceComponent,
+        canActivate: [authGuard]
+    },
+
+        {
+        path: 'services/:id',
+        component: ServiceDetailComponent,
+        canActivate: [authGuard]
+    },
+
 
     {
         path: "progress",
