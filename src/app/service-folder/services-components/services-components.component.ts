@@ -47,7 +47,8 @@ export class ServicesComponentsComponent implements OnInit {
     endDate: '',
     currentMileage: '',
     vehicleDto: {
-      model: ''
+      model: '',
+      manufacturer: ''
     },
     userDto: {
       firstname: '',

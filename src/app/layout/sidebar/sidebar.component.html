@@ -2,23 +2,21 @@
         <ul>
                 <li><a class="side-bar-text-change" [routerLink]="['/dashboard']" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
-                <li class="spaced"><a [routerLink]="['/vehicles']" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Vehicles</a></li>
+                <li class="spaced"><a [routerLink]="['/vehicles']" routerLinkActive="active">Vehicles</a></li>
+                <li><a [routerLink]="['/create-vehicle']" routerLinkActive="active"
+                                [routerLinkActiveOptions]="{exact: true}">Create Vehicle</a></li>
                 <li *ngIf="vehicleId"><a [routerLink]="['/vehicles', vehicleId]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Last Selected Vehicle</a></li>
                 <li *ngIf="customerId"><a [routerLink]="['/customers', customerId]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Vehicle's Customer</a></li>
-                <li><a [routerLink]="['/create-vehicle']" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Create
-                                Vehicle</a></li>
-                <li class="spaced"><a [routerLink]="['/customers']" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Customers</a></li>
+                <li *ngIf="vehicleId"><a [routerLink]="['/services/vehicle', vehicleId]" routerLinkActive="active"
+                                [routerLinkActiveOptions]="{exact: true}">Vehicle's Services</a></li>
+                <li class="spaced"><a [routerLink]="['/customers']" routerLinkActive="active">Customers</a></li>
                 <li><a [routerLink]="['/create-customer']" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Create Customer</a></li>
                 <li *ngIf="customerId"><a [routerLink]="['/vehicles/customer', customerId]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Customer's Vehicles</a></li>
-                <li class="spaced"><a [routerLink]="['/services']" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Services</a></li>
+                <li class="spaced"><a [routerLink]="['/services']" routerLinkActive="active">Services</a></li>
                 <li><a [routerLink]="['/create-service']" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Create Service</a></li>
         </ul>

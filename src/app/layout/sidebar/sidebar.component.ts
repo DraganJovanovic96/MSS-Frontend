@@ -14,9 +14,11 @@ import { Subscription } from 'rxjs';
 export class SidebarComponent implements OnInit, OnDestroy {
   customerId: number | null = null;
   vehicleId: number | null = null;
+  serviceId: number | null = null;
 
   private customerIdSub!: Subscription;
   private vehicleIdSub!: Subscription;
+  private serviceIdSub!: Subscription;
 
   constructor(private sharedDataService: SharedDataService) {}
 
@@ -27,6 +29,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.vehicleIdSub = this.sharedDataService.vehicleId$.subscribe(id => {
       this.vehicleId = id; 
+    });
+
+    this.serviceIdSub = this.sharedDataService.serviceId$.subscribe(id => {
+      this.serviceId = id; 
     });
   }
 
