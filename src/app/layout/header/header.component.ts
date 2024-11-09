@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { LogoutService } from '../../services/logout/logout.service';
 import { UserStorageService } from '../../services/storage/user-storage.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
@@ -31,7 +32,7 @@ export class HeaderComponent {
 
   navigateToVehicles() {
     this.router.navigate(['vehicles']);
-    this.vehiclesDropdownOpen = false; // Close dropdown after navigation
+    this.vehiclesDropdownOpen = false; 
   }
 
   navigateToCreateVehicle() {
@@ -47,6 +48,10 @@ export class HeaderComponent {
 
   navigateToServices() {
     this.router.navigate(['services']);
+  }
+
+  navigateToCreateService() {
+    this.router.navigate(['create-service']);
   }
 
   navigateToAdmin() {

@@ -41,12 +41,11 @@
                             class="large-year-input" />
                     </div>
                     <div class="form-group">
-                        <label>Customer</label>
-                        <select [(ngModel)]="vehicle.customerId" name="customerId" required>
-                            <option *ngFor="let customer of customers" [value]="customer.id">
-                                {{ customer.firstname }} {{ customer.lastname }}
-                            </option>
-                        </select>
+                        <label>Select Customer</label>
+                        <ng-select [(ngModel)]="vehicle.customerId" name="userId" [items]="customers"
+                            bindLabel="fullName" bindValue="id" placeholder="Select Customer" [searchable]="true"
+                            [clearable]="true">
+                        </ng-select>
                     </div>
                 </div>
                 <div class="column-in-row">

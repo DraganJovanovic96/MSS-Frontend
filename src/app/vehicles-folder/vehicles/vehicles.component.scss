@@ -32,10 +32,6 @@ app-sidebar {
       margin: 0;
     }
 
-    i {
-      color: #ffa726;
-      font-size: 28px;
-    }
   }
 
   .search-fields {
@@ -60,7 +56,6 @@ app-sidebar {
       }
 
       &:focus {
-        border-color: #ffa726;
         box-shadow: 0 0 0 4px rgba(255, 165, 38, 0.2);
         outline: none;
       }
@@ -114,5 +109,9 @@ app-sidebar {
     .vehicle-plate {
       padding: 13px 10px;
     }
+  }
+
+  .header .fa {
+    color: #15696F;
   }
 }

@@ -8,18 +8,31 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
+const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-create-service',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent,NgSelectModule],
   templateUrl: './create-service.component.html',
   styleUrl: './create-service.component.scss'
 })
-export class CreateServiceComponent {
+export class CreateServiceComponent implements OnInit{
+
   isDeleted: boolean = false;
 
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
   services: any[] = [];
+  vehicles: any[] = [];
+  users: any[] = [];
 
   service: any = {
     id: null,
@@ -28,17 +41,44 @@ export class CreateServiceComponent {
     endDate: null,
     currentMileage: null,
     nextServiceMileage: null,
-    vehicleDto: {
-      manufacturer: '',
-      model: ''
-    },
-    userDto: {
-      firstname: '',
-      lastname: ''
-    }
+    vehicleId: null,
+    userId: null
   };
 
-  createCustomer() {
+  loadVehicles(): void {
+    this.http.get<any[]>(`${BASIC_URL}vehicles`, {
+      headers: this.authService.createAuthorizationHeader()
+    }).subscribe({
+      next: (data) => {
+        this.vehicles = data.map(vehicle => ({
+          ...vehicle,
+          fullName: `${vehicle.manufacturer} ${vehicle.model}`
+        }));
+      },
+      error: (error) => console.error('Error fetching vehicles:', error)
+    });
+  }
+
+  loadUsers(): void {
+    this.http.get<any[]>(`${BASIC_URL}users`, {
+      headers: this.authService.createAuthorizationHeader()
+    }).subscribe({
+      next: (data) => {
+        this.users = data.map(user => ({
+          ...user,
+          fullName: `${user.firstname} ${user.lastname}`
+        }));
+      },
+      error: (error) => console.error('Error fetching users:', error)
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadVehicles();
+    this.loadUsers() 
+  }
+
+  createService(): void {
     
   }
 

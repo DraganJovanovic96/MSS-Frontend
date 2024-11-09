@@ -1,1 +1,78 @@
-<p>service-detail works!</p>
+<div class="edit-service-container">
+    <div class="layout">
+        <app-sidebar></app-sidebar>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h2>View Service</h2>
+            <div class="form-group button-container">
+                <img src="assets/images/pdf-icon.png" alt="Download PDF" 
+                (click)="printService(serviceId)" style="cursor: pointer;
+                 width: 40px; height: 40px;" />
+            </div>
+            <i class="fa fa-wrench fa-2x"></i>
+        </div>
+
+        <div class="form-container">
+            <form (ngSubmit)="updateService()">
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Select Vehicle</label>
+                        <ng-select [items]="vehicles" bindLabel="fullName" bindValue="id"
+                            [placeholder]="'Select Vehicle'" [searchable]="true" [clearable]="true"
+                            [(ngModel)]="service.selectedVehicle" [(ngModel)]="service.vehicleId" name="vehicle">
+                        </ng-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Mechanic</label>
+                        <ng-select [items]="users" bindLabel="fullName" bindValue="id" [placeholder]="'Select Mechanic'"
+                            [searchable]="true" [clearable]="true" [(ngModel)]="service.userId" name="user">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Current Mileage</label>
+                        <input type="number" [(ngModel)]="service.currentMileage" name="currentMileage" />
+                    </div>
+                    <div class="form-group">
+                        <label>Next Service Mileage</label>
+                        <input type="number" [(ngModel)]="service.nextServiceMileage" name="nextServiceMileage" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" [(ngModel)]="service.startDate" name="startDate" />
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" [(ngModel)]="service.endDate" name="endDate" />
+                    </div>
+                </div>
+
+                <div class="column-in-row">
+                    <div *ngIf="service.isDeleted">
+                        <label class="checkbox-label">
+                            <input type="checkbox" [(ngModel)]="service.isDeleted" name="isDeleted"
+                                class="large-checkbox" />
+                            <span class="checkbox-text">{{ service.isDeleted ? 'Deleted' : 'Active' }}</span>
+                        </label>
+                    </div>
+                    <div *ngIf="!service.isDeleted">
+                        <div class="form-group button-container">
+                            <button type="button" class="delete-button"
+                                (click)="deleteService(service.id)">Delete</button>
+                        </div>
+                    </div>
+                    <div class="form-group button-container">
+                        <button type="submit" class="save-button">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

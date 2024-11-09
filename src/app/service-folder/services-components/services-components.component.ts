@@ -47,7 +47,8 @@ export class ServicesComponentsComponent implements OnInit {
     endDate: '',
     currentMileage: '',
     vehicleDto: {
-      model: ''
+      model: '',
+      manufacturer: ''
     },
     userDto: {
       firstname: '',
@@ -68,7 +69,7 @@ export class ServicesComponentsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) { this.loadUsers(), this, this.loadVehicles() }
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -199,5 +200,9 @@ export class ServicesComponentsComponent implements OnInit {
     });
 
     this.getServices();
+  }
+
+  getServiceById(id: number): void {
+    this.router.navigate([`/services`, id]);
   }
 }
