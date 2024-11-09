@@ -46,9 +46,7 @@ export class CreateServiceComponent implements OnInit{
   };
 
   loadVehicles(): void {
-    this.http.get<any[]>(`${BASIC_URL}vehicles`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}vehicles`).subscribe({
       next: (data) => {
         this.vehicles = data.map(vehicle => ({
           ...vehicle,
@@ -60,9 +58,7 @@ export class CreateServiceComponent implements OnInit{
   }
 
   loadUsers(): void {
-    this.http.get<any[]>(`${BASIC_URL}users`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}users`).subscribe({
       next: (data) => {
         this.users = data.map(user => ({
           ...user,

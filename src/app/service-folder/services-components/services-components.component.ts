@@ -114,7 +114,6 @@ export class ServicesComponentsComponent implements OnInit {
     this.http.post<any>(`${BASIC_URL}services/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
       serviceFiltersQueryDto,
       {
-        headers: this.authService.createAuthorizationHeader(),
         observe: 'response'
       }
     ).subscribe({
@@ -128,9 +127,7 @@ export class ServicesComponentsComponent implements OnInit {
 
 
   loadUsers(): void {
-    this.http.get<any[]>(`${BASIC_URL}users`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}users`).subscribe({
       next: (data) => {
         this.users = data.map(user => ({
           ...user,
@@ -142,9 +139,7 @@ export class ServicesComponentsComponent implements OnInit {
   }
 
   loadVehicles(): void {
-    this.http.get<any[]>(`${BASIC_URL}vehicles`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}vehicles`).subscribe({
       next: (data) => {
         this.vehicles = data.map(vehicle => ({
           ...vehicle,

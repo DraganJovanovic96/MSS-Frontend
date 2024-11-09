@@ -61,9 +61,7 @@ export class CustomerDetailComponent implements OnInit {
 
   updateCustomer(): void {
     const updatedCustomer = { ...this.customer, deleted: this.customer.isDeleted };
-    this.http.put<any>(`${BASIC_URL}customers/id/${this.customer.id}`, updatedCustomer, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.put<any>(`${BASIC_URL}customers/id/${this.customer.id}`, updatedCustomer).subscribe({
       next: () => {
         this.snackBar.open('Customer status updated successfully!', 'Close', {
           duration: 3000,
@@ -79,9 +77,7 @@ export class CustomerDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete<any>(`${BASIC_URL}customers/id/${id}`, {
-          headers: this.authService.createAuthorizationHeader()
-        }).subscribe({
+        this.http.delete<any>(`${BASIC_URL}customers/id/${id}`).subscribe({
           next: () => {
             this.snackBar.open('Customer deleted successfully!', 'Close', {
               duration: 3000,
@@ -110,9 +106,7 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   getCustomerById(id: number): void {
-    this.http.get<any>(`${BASIC_URL}customers/id/${id}`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any>(`${BASIC_URL}customers/id/${id}`).subscribe({
       next: (data) => {
         this.customer = { ...this.customer, ...data };
         this.customer.isDeleted = data.deleted;

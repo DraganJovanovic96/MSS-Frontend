@@ -33,4 +33,8 @@ export class UserStorageService {
   public getToken(): string | null {
     return window.localStorage.getItem(TOKEN);
   }
+
+  public getRefreshToken(): string | null {
+    return window.localStorage.getItem(REFRESH_TOKEN);
+  }
 }
