@@ -37,4 +37,10 @@ export class UserStorageService {
   public getRefreshToken(): string | null {
     return window.localStorage.getItem(REFRESH_TOKEN);
   }
+
+  clearTokens(): void {
+    localStorage.removeItem(TOKEN);
+    localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.removeItem(USER);
+  }
 }

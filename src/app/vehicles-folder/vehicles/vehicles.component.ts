@@ -70,7 +70,6 @@ export class VehiclesComponent implements OnInit {
       this.currentPage = +this.route.snapshot.queryParamMap.get('page')! || 0;
       this.pageSize = +this.route.snapshot.queryParamMap.get('pageSize')! || 5;
 
-      this.loadCustomers();
       this.getVehicles();
     });
 
@@ -116,6 +115,7 @@ export class VehiclesComponent implements OnInit {
       },
       error: (error) => console.error('Error fetching vehicles:', error)
     });
+    this.loadCustomers();
   }
 
   loadCustomers(): void {
