@@ -1,46 +1,54 @@
 import { Injectable } from '@angular/core';
 
-const TOKEN = 'mss-token';
-const REFRESH_TOKEN = 'mss-refresh-token';
-const USER = 'mss-user';
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserStorageService {
+  private tokenKey = 'auth-token';
+  private refreshTokenKey = 'refresh-token';
+  private USER = 'mss-user';
 
-  constructor() { }
-
-  public saveToken(token: string): void {
-    window.localStorage.removeItem(TOKEN);
-    window.localStorage.setItem(TOKEN, token);
+  saveToken(token: string): void {
+    console.log("Saving access token:", token);
+    localStorage.setItem(this.tokenKey, token);
+    console.log("Access token saved successfully.");
   }
 
   public saveUser(user: Object): void {
-    window.localStorage.removeItem(USER);
-    window.localStorage.setItem(USER, JSON.stringify(user));
+    console.log("Saving user data:", user);
+    window.localStorage.removeItem(this.USER);
+    window.localStorage.setItem(this.USER, JSON.stringify(user));
+    console.log("User data saved successfully.");
   }
 
   public getUser(): string | null {
-    return window.localStorage.getItem(USER);
+    const user = window.localStorage.getItem(this.USER);
+    // console.log("Retrieved user data:", user);
+    return user;
   }
 
-  public saveRefreshToken(refresh_token: string): void {
-    window.localStorage.removeItem(REFRESH_TOKEN);
-    window.localStorage.setItem(REFRESH_TOKEN, refresh_token);
+  getToken(): string | null {
+    const token = localStorage.getItem(this.tokenKey);
+    // console.log("Retrieved access token:", token);
+    return token;
   }
 
-  public getToken(): string | null {
-    return window.localStorage.getItem(TOKEN);
+  saveRefreshToken(token: string): void {
+    console.log("Saving refresh token:", token);
+    localStorage.setItem(this.refreshTokenKey, token);
+    console.log("Refresh token saved successfully.");
   }
 
-  public getRefreshToken(): string | null {
-    return window.localStorage.getItem(REFRESH_TOKEN);
+  getRefreshToken(): string | null {
+    const refreshToken = localStorage.getItem(this.refreshTokenKey);
+    // console.log("Retrieved refresh token:", refreshToken);
+    return refreshToken;
   }
 
   clearTokens(): void {
-    localStorage.removeItem(TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
-    localStorage.removeItem(USER);
+    console.log("Clearing tokens");
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.refreshTokenKey);
+    console.log("Tokens cleared successfully.");
   }
 }

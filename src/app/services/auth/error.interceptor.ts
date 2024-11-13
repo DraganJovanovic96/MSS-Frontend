@@ -14,27 +14,31 @@ export const errorInterceptor = (req: HttpRequest<any>, next: HttpHandlerFn): Ob
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 ) {
-        if (tokenStateService.getRefreshAttempted()) {
+      if (error.status === 401 && tokenStateService.getRefreshAttempted()) {
+    
           // If the refresh was already attempted, log the user out
           // console.log("Second 401 Unauthorized error in ErrorInterceptor, logging out user.");
-          // userStorageService.clearTokens();
-          // authService.logout();
+          tokenStateService.reset();
+          userStorageService.clearTokens();
+          authService.logout();
           // router.navigate(['/login']); 
           //  && error.message.startsWith("Invalid token: JWT signature does not match")
           
-        }
+        
       } else if (error.status === 403) {
         // Handle 403 Forbidden error
+        tokenStateService.reset();
         userStorageService.clearTokens();
         authService.logout();
         router.navigate(['/login']); // Redirect to unauthorized page
       } else {
         // Log other errors
+        tokenStateService.reset();
         console.error(`HTTP error: ${error.status} - ${error.message}`);
       }
 
       // Rethrow error after logging it or performing actions
+      tokenStateService.reset();
       return throwError(() => error);
     })
   );

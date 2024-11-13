@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError, share } from 'rxjs';
 import { UserStorageService } from '../storage/user-storage.service';
 import { Router } from '@angular/router';
+import { TokenStateService } from './token.state.service';
 
 const BASIC_URL = "http://localhost:8080/api/v1/";
 
@@ -20,23 +21,27 @@ export class AuthService {
 
   constructor(private http: HttpClient,
               private userStorageService: UserStorageService,
+              private tokenStateService: TokenStateService,
               private router: Router) {}
 
   login(email: string, password: string): any {
+    this.refreshTokenObservable = undefined; // Clear for new login
+    this.inProgress = false;
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
                                       .set('Accept', '*/*');
     const body = { email, password };
-
     return this.http.post<AuthResponse>(BASIC_URL + 'auth/authenticate', body, { headers, observe: 'response' }).pipe(
       map((res) => {
         const token = res.body?.access_token;
         const refresh_token = res.body?.refresh_token;
         if (token) {
           this.userStorageService.saveToken(token);
+          this.tokenStateService.reset();
           this.fetchUser(token).subscribe();
         }
         if (refresh_token) {
           this.userStorageService.saveRefreshToken(refresh_token);
+          this.tokenStateService.reset();
           this.router.navigate(['/']);
           return true;
         }
@@ -88,6 +93,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.tokenStateService.reset();
     this.userStorageService.clearTokens();
   }
 
