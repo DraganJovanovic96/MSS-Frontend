@@ -45,9 +45,7 @@ export class CreateVehicleComponent {
   }
 
   loadCustomers(): void {
-    this.http.get<any[]>(`${BASIC_URL}customers`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}customers`).subscribe({
       next: (data) => {
         this.customers = data.map(customer => ({
           ...customer,
@@ -70,9 +68,7 @@ export class CreateVehicleComponent {
       customerId: this.vehicle.customerId
     };
 
-    this.http.post<any>(`${BASIC_URL}vehicles`, createdVehicle, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.post<any>(`${BASIC_URL}vehicles`, createdVehicle).subscribe({
       next: () => {
         this.snackBar.open('Vehicle created successfully!', 'Close', {
           duration: 3000,

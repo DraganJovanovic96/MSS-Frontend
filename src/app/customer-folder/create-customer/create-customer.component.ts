@@ -49,9 +49,7 @@ export class CreateCustomerComponent {
 
   createCustomer(): void {
     const cratedVehicle = { ...this.customer, deleted: this.isDeleted };
-    this.http.post<any>(`${BASIC_URL}customers`, cratedVehicle, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.post<any>(`${BASIC_URL}customers`, cratedVehicle).subscribe({
       next: () => {
         this.snackBar.open('Customer created successfully!', 'Close', {
           duration: 3000,

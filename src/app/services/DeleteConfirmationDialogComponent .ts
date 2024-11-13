@@ -39,4 +39,4 @@ import { MatButtonModule } from '@angular/material/button';
     }
   `]
 })
-export class DeleteConfirmationDialogComponent  { }
+export class DeleteConfirmationDialogComponent { }

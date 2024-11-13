@@ -72,9 +72,7 @@ export class ServiceDetailComponent implements OnInit {
   }
 
   loadVehicles(): void {
-    this.http.get<any[]>(`${BASIC_URL}vehicles`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}vehicles`).subscribe({
       next: (data) => {
         this.vehicles = data.map(vehicle => ({
           ...vehicle,
@@ -88,9 +86,7 @@ export class ServiceDetailComponent implements OnInit {
   }
 
   loadUsers(): void {
-    this.http.get<any[]>(`${BASIC_URL}users`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}users`).subscribe({
       next: (data) => {
         this.users = data.map(user => ({
           ...user,
@@ -106,9 +102,7 @@ export class ServiceDetailComponent implements OnInit {
   }
 
   getServiceById(id: number): void {
-    this.http.get<any>(`${BASIC_URL}services/id/${id}`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any>(`${BASIC_URL}services/id/${id}`).subscribe({
       next: (data) => {
         this.service = { ...this.service, ...data };
         this.service.isDeleted = data.deleted;
@@ -121,7 +115,6 @@ export class ServiceDetailComponent implements OnInit {
 
   printService(id: number): void {
     this.http.get(`${BASIC_URL}download-invoice/id/${id}`, {
-        headers: this.authService.createAuthorizationHeader(),
         responseType: 'blob'  
     }).subscribe({
         next: (data) => {
@@ -137,9 +130,7 @@ export class ServiceDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete<any>(`${BASIC_URL}services/id/${id}`, {
-          headers: this.authService.createAuthorizationHeader()
-        }).subscribe({
+        this.http.delete<any>(`${BASIC_URL}services/id/${id}`).subscribe({
           next: () => {
             this.snackBar.open('Service deleted successfully!', 'Close', {
               duration: 3000,
@@ -179,9 +170,7 @@ export class ServiceDetailComponent implements OnInit {
       nextServiceMileage: this.service.nextServiceMileage
     };
 
-    this.http.put<ServiceUpdateDto>(`${BASIC_URL}services/id/${this.service.id}`, updateService, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.put<ServiceUpdateDto>(`${BASIC_URL}services/id/${this.service.id}`, updateService).subscribe({
       next: () => {
         this.snackBar.open('Service updated successfully!', 'Close', {
           duration: 3000,

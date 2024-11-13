@@ -74,7 +74,6 @@ export class CustomersComponent implements OnInit {
     this.http.post<any>(`${BASIC_URL}customers/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
       customerFiltersQueryDto,
       {
-        headers: this.authService.createAuthorizationHeader(),
         observe: 'response'
       }
     ).subscribe({

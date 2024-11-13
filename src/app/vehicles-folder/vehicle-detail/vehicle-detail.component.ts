@@ -73,9 +73,7 @@ export class VehicleDetailComponent implements OnInit {
   }
   
   loadCustomers(): void {
-    this.http.get<any[]>(`${BASIC_URL}customers`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any[]>(`${BASIC_URL}customers`).subscribe({
       next: (data) => {
         this.customers = data.map(customer => ({
           ...customer,
@@ -96,9 +94,7 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   getVehicleById(id: number): void {
-    this.http.get<any>(`${BASIC_URL}vehicles/id/${id}`, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.get<any>(`${BASIC_URL}vehicles/id/${id}`).subscribe({
       next: (data) => {
         this.vehicle = { ...this.vehicle, ...data };
         this.vehicle.isDeleted = data.deleted;
@@ -114,9 +110,7 @@ export class VehicleDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.http.delete<any>(`${BASIC_URL}vehicles/id/${id}`, {
-          headers: this.authService.createAuthorizationHeader()
-        }).subscribe({
+        this.http.delete<any>(`${BASIC_URL}vehicles/id/${id}`).subscribe({
           next: () => {
             this.snackBar.open('Vehicle deleted successfully!', 'Close', {
               duration: 3000,
@@ -159,9 +153,7 @@ export class VehicleDetailComponent implements OnInit {
       customerId: this.vehicle.customerId
     };
 
-    this.http.put<VehicleDto>(`${BASIC_URL}vehicles/id/${this.vehicle.id}`, updatedVehicle, {
-      headers: this.authService.createAuthorizationHeader()
-    }).subscribe({
+    this.http.put<VehicleDto>(`${BASIC_URL}vehicles/id/${this.vehicle.id}`, updatedVehicle).subscribe({
       next: () => {
         this.snackBar.open('Vehicle updated successfully!', 'Close', {
           duration: 3000,
