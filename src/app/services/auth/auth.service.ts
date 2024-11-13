@@ -20,15 +20,15 @@ export class AuthService {
   private inProgress: boolean = false;
 
   constructor(private http: HttpClient,
-              private userStorageService: UserStorageService,
-              private tokenStateService: TokenStateService,
-              private router: Router) {}
+    private userStorageService: UserStorageService,
+    private tokenStateService: TokenStateService,
+    private router: Router) { }
 
   login(email: string, password: string): any {
-    this.refreshTokenObservable = undefined; // Clear for new login
+    this.refreshTokenObservable = undefined;
     this.inProgress = false;
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
-                                      .set('Accept', '*/*');
+      .set('Accept', '*/*');
     const body = { email, password };
     return this.http.post<AuthResponse>(BASIC_URL + 'auth/authenticate', body, { headers, observe: 'response' }).pipe(
       map((res) => {
@@ -52,8 +52,8 @@ export class AuthService {
 
   fetchUser(token: string): Observable<void> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
-                                      .set('Accept', '*/*')
-                                      .set('Authorization', `Bearer ${token}`);
+      .set('Accept', '*/*')
+      .set('Authorization', `Bearer ${token}`);
 
     return this.http.get<AuthResponse>(BASIC_URL + 'users/user', { headers, observe: 'response' }).pipe(
       map((res) => {

@@ -23,13 +23,11 @@ export class UserStorageService {
 
   public getUser(): string | null {
     const user = window.localStorage.getItem(this.USER);
-    // console.log("Retrieved user data:", user);
     return user;
   }
 
   getToken(): string | null {
     const token = localStorage.getItem(this.tokenKey);
-    // console.log("Retrieved access token:", token);
     return token;
   }
 
@@ -41,7 +39,6 @@ export class UserStorageService {
 
   getRefreshToken(): string | null {
     const refreshToken = localStorage.getItem(this.refreshTokenKey);
-    // console.log("Retrieved refresh token:", refreshToken);
     return refreshToken;
   }
 

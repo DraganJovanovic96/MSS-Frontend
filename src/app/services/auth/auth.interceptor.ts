@@ -14,8 +14,6 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   const authToken = userStorage.getToken();
   const refreshToken = userStorage.getRefreshToken();
 
-
-  console.log(tokenStateService.getRefreshAttempted())
   let authReq = req;
   if (authToken) {
     authReq = req.clone({
@@ -25,19 +23,16 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
 
   return next(authReq).pipe(
     catchError((error) => {
-      
-      
+
+
       if (error.status === 401) {
-        console.log("401 Unauthorized error, attempting token refresh");
-        
+
         tokenStateService.setRefreshAttempted(true);
         if (refreshToken) {
-          console.log("Refresh token found, attempting to refresh token");
 
           return authService.refreshToken().pipe(
             switchMap((newAccessToken) => {
               if (newAccessToken) {
-                console.log("New access token received:", newAccessToken);
                 userStorage.saveToken(newAccessToken);
                 userStorage.saveRefreshToken(refreshToken);
                 const retryReq = req.clone({
@@ -47,24 +42,18 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
                 return next(retryReq);
               } else {
                 tokenStateService.reset();
-                console.log("Unable to refresh token, logging out");
-                // userStorage.clearTokens();
                 authService.logout();
                 return throwError(() => new Error('Unable to refresh token'));
               }
             }),
             catchError((refreshError) => {
               tokenStateService.reset();
-              console.log("Error during refresh token:", refreshError);
-              // userStorage.clearTokens();
               authService.logout();
               return throwError(() => refreshError);
             })
           );
         } else {
           tokenStateService.reset();
-          console.log("No refresh token found, logging out");
-          // userStorage.clearTokens();
           authService.logout();
           router.navigate(['/login']);
         }
