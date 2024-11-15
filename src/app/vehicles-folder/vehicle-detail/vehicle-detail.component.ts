@@ -40,7 +40,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   standalone: true,
   templateUrl: './vehicle-detail.component.html',
   styleUrls: ['./vehicle-detail.component.scss'],
-  imports: [FormsModule, CommonModule, RouterModule, DeleteConfirmationDialogComponent,
+  imports: [FormsModule, CommonModule, RouterModule,
     SidebarComponent,NgSelectModule]
 })
 export class VehicleDetailComponent implements OnInit {
@@ -63,7 +63,6 @@ export class VehicleDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,

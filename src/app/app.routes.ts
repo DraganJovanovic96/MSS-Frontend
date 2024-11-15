@@ -13,6 +13,7 @@ import { CustomerDetailComponent } from './customer-folder/customer-detail/custo
 import { CreateCustomerComponent } from './customer-folder/create-customer/create-customer.component';
 import { CreateServiceComponent } from './service-folder/create-service/create-service.component';
 import { ServiceDetailComponent } from './service-folder/service-detail/service-detail.component';
+import { CreateUserComponent } from './admin/create-user-folder/create-user/create-user.component';
 
 export const routes: Routes = [
     {
@@ -107,6 +108,12 @@ export const routes: Routes = [
     {
         path: "admin",
         component: AdminComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: "create-user",
+        component: CreateUserComponent,
         canActivate: [authGuard]
     },
 

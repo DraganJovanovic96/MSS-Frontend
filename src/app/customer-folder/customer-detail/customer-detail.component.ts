@@ -16,7 +16,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-customer-detail',
   standalone: true,
-  imports: [FormsModule, CommonModule, DeleteConfirmationDialogComponent, RouterModule, SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
   templateUrl: './customer-detail.component.html',
   styleUrl: './customer-detail.component.scss'
 })
@@ -44,7 +44,6 @@ export class CustomerDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
