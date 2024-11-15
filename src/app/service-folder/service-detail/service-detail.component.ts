@@ -26,7 +26,7 @@ interface ServiceUpdateDto {
 @Component({
   selector: 'app-service-detail',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, DeleteConfirmationDialogComponent,
+  imports: [FormsModule, CommonModule, RouterModule,
     SidebarComponent, NgSelectModule],
   templateUrl: './service-detail.component.html',
   styleUrls: ['./service-detail.component.scss']
