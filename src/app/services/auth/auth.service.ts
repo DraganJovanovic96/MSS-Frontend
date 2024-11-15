@@ -95,6 +95,7 @@ export class AuthService {
   logout(): void {
     this.tokenStateService.reset();
     this.userStorageService.clearTokens();
+    this.userStorageService.clearUser();
   }
 
   public createAuthorizationHeader(): HttpHeaders {
