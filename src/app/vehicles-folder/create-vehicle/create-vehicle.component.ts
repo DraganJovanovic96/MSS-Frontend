@@ -15,7 +15,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-create-vehicle',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent,NgSelectModule],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, NgSelectModule],
   templateUrl: './create-vehicle.component.html',
   styleUrls: ['./create-vehicle.component.scss']
 })

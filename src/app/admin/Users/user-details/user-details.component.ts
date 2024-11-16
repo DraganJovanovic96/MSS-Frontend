@@ -1,29 +1,27 @@
-import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../../layout/sidebar/sidebar.component';
-import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
-  selector: 'app-create-user',
+  selector: 'app-user-details',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, ReactiveFormsModule],
-  templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss']
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
+  templateUrl: './user-details.component.html',
+  styleUrl: './user-details.component.scss'
 })
-
-export class CreateUserComponent implements OnInit {
-  @ViewChild('createUserForm', { static: false }) createUserForm!: NgForm;
-
+export class UserDetailsComponent implements OnInit {
+  isEditingImage = false;
   isDeleted: boolean = false;
   passwordVisible = false;
   repeatPasswordVisible = false;
   capsLockOn = false;
-  isEditingImage = false;
   blurredEmail = false;
   blurredMobileNumber = false;
   blurredPassword = false;
@@ -31,31 +29,58 @@ export class CreateUserComponent implements OnInit {
   emailPattern: string = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
   passwordPattern: string = "^(?=(.*[a-zA-Z]))(?=(.*[0-9]))[a-zA-Z0-9]{6,}$";
 
-  registerRequestDto: any = {
+  user: any = {
     createdAt: '',
     updatedAt: '',
     deleted: '',
     firstname: '',
     lastname: '',
     email: '',
-    address: '',
     mobileNumber: '',
-    password: '',
-    repeatPassword: '',
-    imageUrl: '',
-    dateOfBirth: null
-  };
+    dateOfBirth: null,
+    address: '',
+    imageUrl: ''
+  }
 
   constructor(
-    private renderer: Renderer2,
-    private el: ElementRef,
+    private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.checkCapsLockStatusOnInit();
+    this.getUser();
+  }
+
+  updateUser(): void {
+    const updatedUser = { ...this.user, deleted: this.user.isDeleted };
+    this.http.put<any>(`${BASIC_URL}users/user-details-update`, updatedUser).subscribe({
+      next: () => {
+        this.snackBar.open('User status updated successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom'
+        });
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => console.error('Error updating user:', error)
+    });
+  }
+
+  getUser(): void {
+    this.http.get<any>(`${BASIC_URL}users/user-details`).subscribe({
+      next: (data) => {
+        this.user = { ...this.user, ...data };
+        this.user.isDeleted = data.deleted;
+      },
+      error: (error) => console.error(`Error fetching User`, error)
+    });
+  }
+
+
+  toggleImageEdit(): void {
+    this.isEditingImage = !this.isEditingImage;
   }
 
   togglePasswordVisibility(): void {
@@ -76,55 +101,14 @@ export class CreateUserComponent implements OnInit {
     this.capsLockOn = event.getModifierState && event.getModifierState('CapsLock');
   }
 
-  toggleImageEdit(): void {
-    this.isEditingImage = !this.isEditingImage;
-  }
-
   @HostListener('document:click', ['$event.target'])
   onClickOutside(targetElement: HTMLElement): void {
-    const clickedInsideInput = targetElement.matches('.image-url-input input'); // Matches only the input element directly
+    const clickedInsideInput = targetElement.matches('.image-url-input input');
     const clickedInsideIcon = targetElement.closest('.edit-icon');
 
     if (!clickedInsideInput && !clickedInsideIcon && this.isEditingImage) {
       this.isEditingImage = false;
     }
-  }
-
-  createUser(): void {
-    if (this.createUserForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
-      Object.keys(this.createUserForm.controls).forEach((field) => {
-        const control = this.createUserForm.controls[field];
-        control.markAsTouched({ onlySelf: true });
-      });
-
-      this.snackBar.open('Please fix the errors in the form.', 'Close', {
-        duration: 3000,
-        verticalPosition: 'bottom',
-      });
-      return;
-    }
-
-    const createdUser = { ...this.registerRequestDto, deleted: this.isDeleted };
-
-    if (this.registerRequestDto.password !== this.registerRequestDto.repeatPassword) {
-      this.snackBar.open('Passwords do not match!', 'Close', {
-        duration: 3000,
-        verticalPosition: 'bottom',
-      });
-      return;
-    }
-
-    this.http.post<any>(`${BASIC_URL}register`, createdUser).subscribe({
-      next: () => {
-        this.snackBar.open('User created successfully!', 'Close', {
-          duration: 3000,
-          verticalPosition: 'bottom',
-        });
-        this.router.navigate(['/dashboard']);
-      },
-      error: (error) => console.error('Error creating user:', error),
-    });
   }
 
   onEmailBlur() {
@@ -152,7 +136,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   sanitizePhoneNumber(): void {
-    this.registerRequestDto.mobileNumber = this.registerRequestDto.mobileNumber.replace(/[^0-9+\-()\s]/g, '');
+    this.user.mobileNumber = this.user.mobileNumber.replace(/[^0-9+\-()\s]/g, '');
   }
 
   onPasswordBlur() {
@@ -170,4 +154,5 @@ export class CreateUserComponent implements OnInit {
   onRepeatPasswordFocus(): void {
     this.blurredRepeatPassword = false;
   }
+
 }

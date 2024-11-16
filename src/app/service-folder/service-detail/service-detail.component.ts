@@ -115,16 +115,16 @@ export class ServiceDetailComponent implements OnInit {
 
   printService(id: number): void {
     this.http.get(`${BASIC_URL}download-invoice/id/${id}`, {
-        responseType: 'blob'  
+      responseType: 'blob'
     }).subscribe({
-        next: (data) => {
-            const blob = new Blob([data], { type: 'application/pdf' });
-            const url = window.URL.createObjectURL(blob);
-            window.open(url);  
-        },
-        error: (error) => console.error(`Error creating pdf of service with ID ${id}:`, error)
+      next: (data) => {
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+      },
+      error: (error) => console.error(`Error creating pdf of service with ID ${id}:`, error)
     });
-}
+  }
 
   deleteService(id: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);

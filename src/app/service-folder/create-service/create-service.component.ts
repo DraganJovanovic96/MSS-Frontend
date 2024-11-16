@@ -15,11 +15,11 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-create-service',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent,NgSelectModule],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, NgSelectModule],
   templateUrl: './create-service.component.html',
   styleUrl: './create-service.component.scss'
 })
-export class CreateServiceComponent implements OnInit{
+export class CreateServiceComponent implements OnInit {
 
   isDeleted: boolean = false;
 
@@ -28,7 +28,7 @@ export class CreateServiceComponent implements OnInit{
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   services: any[] = [];
   vehicles: any[] = [];
@@ -71,11 +71,11 @@ export class CreateServiceComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadVehicles();
-    this.loadUsers() 
+    this.loadUsers()
   }
 
   createService(): void {
-    
+
   }
 
 }

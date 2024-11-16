@@ -13,7 +13,8 @@ import { CustomerDetailComponent } from './customer-folder/customer-detail/custo
 import { CreateCustomerComponent } from './customer-folder/create-customer/create-customer.component';
 import { CreateServiceComponent } from './service-folder/create-service/create-service.component';
 import { ServiceDetailComponent } from './service-folder/service-detail/service-detail.component';
-import { CreateUserComponent } from './admin/create-user-folder/create-user/create-user.component';
+import { CreateUserComponent } from './admin/Users/create-user/create-user.component';
+import { UserDetailsComponent } from './admin/Users/user-details/user-details.component';
 
 export const routes: Routes = [
     {
@@ -91,7 +92,7 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
 
-        {
+    {
         path: 'services/:id',
         component: ServiceDetailComponent,
         canActivate: [authGuard]
@@ -114,6 +115,12 @@ export const routes: Routes = [
     {
         path: "create-user",
         component: CreateUserComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: "update-user",
+        component: UserDetailsComponent,
         canActivate: [authGuard]
     },
 

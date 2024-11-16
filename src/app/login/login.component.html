@@ -1,29 +1,28 @@
 <div class="login-container">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="logo-title-container">
-       <img src="/assets/images/mss-logo-black-png.png" alt="Logo image" class="logo" />
-    </div>
-    <div class="form-group">
-       <label for="email">Email</label>
-       <input id="email" formControlName="email" type="email" required (focus)="onEmailFocus()"
-       (blur)="onEmailBlur()" />
-       <div *ngIf="
+   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="logo-title-container">
+         <img src="/assets/images/mss-logo-black-png.png" alt="Logo image" class="logo" />
+      </div>
+      <div class="form-group">
+         <label for="email">Email</label>
+         <input id="email" formControlName="email" type="email" required (focus)="onEmailFocus()"
+            (blur)="onEmailBlur()" />
+         <div *ngIf="
           blurredEmail &&
           loginForm.get('email')
           ?.invalid
           ">
-          <small class="error" *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
-          <small class="error" *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</small>
-       </div>
-    </div>
-    <div class="form-group password-group">
-       <label for="password">Password</label>
-       <div class="password-container">
-          <!-- Caps Lock Indicator outside the input field -->
-          <span class="caps-lock-warning" *ngIf="capsLockOn" title="CAPS-LOCK ON">
-          <i class="fa-solid fa-eject"></i>
-          </span>
-          <input id="password" [type]="
+            <small class="error" *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
+            <small class="error" *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</small>
+         </div>
+      </div>
+      <div class="form-group password-group">
+         <label for="password">Password</label>
+         <div class="password-container">
+            <span class="caps-lock-warning" *ngIf="capsLockOn" title="CAPS-LOCK ON">
+               <i class="fa-solid fa-eject"></i>
+            </span>
+            <input id="password" [type]="
           passwordVisible
           ? 'text'
           : 'password'
@@ -32,21 +31,20 @@
           $event
           )
           " />
-          <!-- Toggle Password Visibility Icon -->
-          <span class="toggle-password" (click)="
+            <span class="toggle-password" (click)="
              togglePasswordVisibility()
              ">
-          <i [class]="
+               <i [class]="
              passwordVisible
              ? 'fa fa-eye-slash'
              : 'fa fa-eye'
              "></i>
-          </span>
-       </div>
-    </div>
-    <button class="log-in-button">Login</button>
-    </form>
-    <div *ngIf="errorMessage" class="error-message">
-       {{ errorMessage }}
-    </div>
- </div>
+            </span>
+         </div>
+      </div>
+      <button class="log-in-button">Login</button>
+   </form>
+   <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+   </div>
+</div>

@@ -111,7 +111,7 @@ export class CustomerDetailComponent implements OnInit {
         this.customer.isDeleted = data.deleted;
         this.sharedDataService.setCustomerId(this.customer.id);
       },
-      error: (error) => console.error(`Error fetching vehicle with ID ${id}:`, error)
+      error: (error) => console.error(`Error fetching customer with ID ${id}:`, error)
     });
   }
 

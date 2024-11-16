@@ -4,12 +4,20 @@ import { Observable, catchError, map, throwError, share } from 'rxjs';
 import { UserStorageService } from '../storage/user-storage.service';
 import { Router } from '@angular/router';
 import { TokenStateService } from './token.state.service';
+import { UserStateService } from './user.state.service';
 
 const BASIC_URL = "http://localhost:8080/api/v1/";
 
 interface AuthResponse {
   access_token: string;
   refresh_token: string;
+}
+
+interface UserResponse {
+  firstname: string;
+  lastname: string;
+  imageUrl: string;
+  role: string;
 }
 
 @Injectable({
@@ -19,10 +27,13 @@ export class AuthService {
   private refreshTokenObservable?: Observable<string>;
   private inProgress: boolean = false;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private userStorageService: UserStorageService,
     private tokenStateService: TokenStateService,
-    private router: Router) { }
+    private userStateService: UserStateService,
+    private router: Router
+  ) { }
 
   login(email: string, password: string): any {
     this.refreshTokenObservable = undefined;
@@ -55,10 +66,11 @@ export class AuthService {
       .set('Accept', '*/*')
       .set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<AuthResponse>(BASIC_URL + 'users/user', { headers, observe: 'response' }).pipe(
+    return this.http.get<UserResponse>(BASIC_URL + 'users/user', { headers }).pipe(
       map((res) => {
-        if (res.body) {
-          this.userStorageService.saveUser(res.body);
+        if (res) {
+          this.userStorageService.saveUser(res);
+          this.userStateService.setUserImage(res.imageUrl);
         }
       })
     );

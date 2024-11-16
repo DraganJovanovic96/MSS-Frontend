@@ -36,6 +36,15 @@ export class UserStorageService {
     return refreshToken;
   }
 
+  getUserImage(): string | null {
+    const user = this.getUser();
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.imageUrl;
+    }
+    return null;
+  }
+
   clearTokens(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.refreshTokenKey);

@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  imports: [RouterModule, CommonModule]  
+  imports: [RouterModule, CommonModule]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   customerId: number | null = null;
@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private vehicleIdSub!: Subscription;
   private serviceIdSub!: Subscription;
 
-  constructor(private sharedDataService: SharedDataService) {}
+  constructor(private sharedDataService: SharedDataService) { }
 
   ngOnInit(): void {
     this.customerIdSub = this.sharedDataService.customerId$.subscribe(id => {
@@ -28,11 +28,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
 
     this.vehicleIdSub = this.sharedDataService.vehicleId$.subscribe(id => {
-      this.vehicleId = id; 
+      this.vehicleId = id;
     });
 
     this.serviceIdSub = this.sharedDataService.serviceId$.subscribe(id => {
-      this.serviceId = id; 
+      this.serviceId = id;
     });
   }
 
