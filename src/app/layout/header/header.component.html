@@ -30,6 +30,14 @@
         </div>
       </div>
 
+      <div class="dropdown" *ngIf="isLoggedIn()">
+        <a class="header-button-item dropdown-toggle" [routerLink]="['/service-types']">Type Of Service</a>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/service-types']">View Service Types</a>
+          <a class="dropdown-item" [routerLink]="['/create-service-type']">Create Service Types</a>
+        </div>
+      </div>
+
       <div class="dropdown" *ngIf="isLoggedIn() && isAdmin()">
         <a class="header-button-item dropdown-toggle" [routerLink]="['/admin']">Admin</a>
         <div class="dropdown-content">

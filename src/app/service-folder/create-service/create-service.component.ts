@@ -25,9 +25,8 @@ export class CreateServiceComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private snackBar: MatSnackBar
   ) { }
 
   services: any[] = [];
@@ -75,7 +74,23 @@ export class CreateServiceComponent implements OnInit {
   }
 
   createService(): void {
+    const createdService = {
+      ...this.service,
+      deleted: this.isDeleted,
+      vehicleId: this.service.vehicleId
+    };
 
+    this.http.post<any>(`${BASIC_URL}services`, createdService).subscribe({
+      next: () => {
+        this.snackBar.open('Service created successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom'
+        });
+        this.router.navigate(['/services']);
+      },
+      error: (error) => console.error('Error creating service:', error)
+    });
   }
+
 
 }

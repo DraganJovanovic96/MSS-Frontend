@@ -151,3 +151,16 @@
   width: 20px;
   object-fit: contain;
 }
+
+.dropdown-item-type{
+  padding: 10px 15px;
+  font-size: 0.75rem;
+  color: whitesmoke;
+  text-align: left;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
