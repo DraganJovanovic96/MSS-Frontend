@@ -8,18 +8,18 @@
     <div class="main-content">
         <div class="header">
             <h2>Create Service Type</h2>
-            <i class="fa fa-user fa-2x"></i>
+            <i class="fa fa-wrench fa-2x"></i>
         </div>
         <div class="form-container">
             <form (ngSubmit)="createServiceType()">
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Type Of Service</label>
-                        <input type="text" [(ngModel)]="serviceType.typeOfService" name="serviceType" />
+                        <input placeholder="Part" type="text" [(ngModel)]="serviceType.typeOfService" name="serviceType" />
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <input type="text" [(ngModel)]="serviceType.description" name="description" />
+                        <input placeholder="Price of part" type="text" [(ngModel)]="serviceType.description" name="description" />
                     </div>
                 </div>
                 <div class="column-in-row">
@@ -37,7 +37,7 @@
                         </ng-select>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
+                        <label>Price €</label>
                         <input type="number" min="0" oninput="validity.valid||(value='');" [(ngModel)]="serviceType.price" name="price" />
                     </div>
                 </div>

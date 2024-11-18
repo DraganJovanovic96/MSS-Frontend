@@ -12,7 +12,7 @@
       <input [ngClass]="{'italic-input': !startDateControl.value && !isDropdownFocused}"
         (focus)="isDropdownFocused = true" (blur)="isDropdownFocused = false" type="date"
         [formControl]="startDateControl">
-
+      
       <input [ngClass]="{'italic-input': !endDateControl.value && !isDropdownFocused}"
         (focus)="isDropdownFocused = true" (blur)="isDropdownFocused = false" type="date"
         [formControl]="endDateControl">
@@ -26,7 +26,7 @@
 
       <div class="form-group">
         <ng-select [formControl]="userControl" (change)="onUserInputChange($event)" [items]="users" bindLabel="fullName"
-          bindValue="id" [placeholder]="userControl.value ? '' : 'Select User'" [searchable]="true" [clearable]="true">
+          bindValue="id" [placeholder]="userControl.value ? '' : 'Select Mechanic'" [searchable]="true" [clearable]="true">
         </ng-select>
       </div>
     </div>

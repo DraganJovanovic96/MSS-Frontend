@@ -8,8 +8,8 @@
       <div class="search-fields">
         <input type="text" [formControl]="typeOfServiceControl" placeholder="Type of service">
         <input type="text" [formControl]="descriptionControl" placeholder="Description">
-        <input type="number" [formControl]="priceMinControl" placeholder="Price MIN">
-        <input type="number" [formControl]="priceMaxControl" placeholder="Price MAX">
+        <input type="number" [formControl]="priceMinControl" placeholder="Price MIN €">
+        <input type="number" [formControl]="priceMaxControl" placeholder="Price MAX €">
   
         <div class="form-group">
           <ng-select [formControl]="serviceControl" (change)="onServiceInputChange($event)" [items]="services"
@@ -24,7 +24,7 @@
           <tr>
             <th>Type Of Service</th>
             <th>Description</th>
-            <th>Price</th>
+            <th>Price €</th>
             <th>Service</th>
           </tr>
         </thead>
