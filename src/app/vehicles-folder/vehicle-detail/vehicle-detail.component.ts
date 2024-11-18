@@ -105,6 +105,7 @@ export class VehicleDetailComponent implements OnInit {
       error: (error) => console.error(`Error fetching vehicle with ID ${id}:`, error)
     });
   }
+  
   deleteVehicle(id: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe(result => {

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -35,9 +33,7 @@ export class CreateVehicleComponent {
   customers: any[] = [];
 
   constructor(
-    private route: ActivatedRoute,
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {

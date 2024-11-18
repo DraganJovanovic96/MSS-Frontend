@@ -86,7 +86,7 @@ export class CreateServiceComponent implements OnInit {
           duration: 3000,
           verticalPosition: 'bottom'
         });
-        this.router.navigate(['/services']);
+        this.router.navigate(['/create-service-type']);
       },
       error: (error) => console.error('Error creating service:', error)
     });

@@ -55,7 +55,6 @@ export class ServiceDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
@@ -108,6 +107,7 @@ export class ServiceDetailComponent implements OnInit {
         this.service.isDeleted = data.deleted;
         this.service.vehicleId = data.vehicleDto?.id || null;
         this.service.userId = data.userDto?.id || null;
+        this.sharedDataService.serServiceId(this.service.id);
       },
       error: (error) => console.error(`Error fetching service with ID ${id}:`, error)
     });

@@ -19,5 +19,12 @@
                 <li class="spaced"><a [routerLink]="['/services']" routerLinkActive="active">Services</a></li>
                 <li><a [routerLink]="['/create-service']" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Create Service</a></li>
+                <li *ngIf="serviceId">
+                        <a [routerLink]="['/create-service-type']" [queryParams]="{ serviceId: serviceId }"
+                                routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Service
+                                Type</a>
+                </li>
+                <li *ngIf="serviceId"><a [routerLink]="['/service-types/service', serviceId]" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">Service's Type Of Service</a></li>
         </ul>
 </div>

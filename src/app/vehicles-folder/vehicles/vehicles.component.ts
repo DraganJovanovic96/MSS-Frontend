@@ -59,7 +59,6 @@ export class VehiclesComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
   ) { }
