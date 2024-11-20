@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -19,7 +20,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
     ReactiveFormsModule,
     MatPaginatorModule,
     NgSelectModule,
-    FormsModule, CommonModule, RouterModule],
+    FormsModule, CommonModule, RouterModule, MatSlideToggleModule],
   templateUrl: './service-types.component.html',
   styleUrl: './service-types.component.scss'
 })
@@ -29,6 +30,7 @@ export class ServiceTypesComponent implements OnInit {
   currentPage = 0;
   pageSize = 5;
   totalItems = 0;
+  isDeleted = false;
   serviceTypes: any[] = [];
   services: any[] = [];
 
@@ -112,6 +114,7 @@ export class ServiceTypesComponent implements OnInit {
       priceMin: this.priceMinControl.value,
       priceMax: this.priceMaxControl.value,
       serviceId: this.selectedServiceId !== null ? this.selectedServiceId : undefined,
+      isDeleted: this.isDeleted
     };
 
     this.http.post<any>(`${BASIC_URL}service-types/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -157,5 +160,11 @@ export class ServiceTypesComponent implements OnInit {
   onSearchChange(): void {
     this.currentPage = 0;
     this.getServiceTypes();
+  }
+
+  onToggleChange(event: any): void {
+    this.isDeleted = event.checked;
+    this.currentPage = 0;
+    this.getServiceTypes(); 
   }
 }

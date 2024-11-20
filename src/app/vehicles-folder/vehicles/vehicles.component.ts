@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
@@ -8,6 +7,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -19,7 +19,8 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
     SidebarComponent,
     ReactiveFormsModule,
     MatPaginatorModule,
-    NgSelectModule
+    NgSelectModule,
+    MatSlideToggleModule
   ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.scss']
@@ -30,6 +31,7 @@ export class VehiclesComponent implements OnInit {
   currentPage = 0;
   pageSize = 5;
   totalItems = 0;
+  isDeleted = false;
   vehicles: any[] = [];
   customers: any[] = [];
 
@@ -99,7 +101,8 @@ export class VehiclesComponent implements OnInit {
       vehiclePlate: this.vehiclePlateControl.value,
       vin: this.vinControl.value,
       yearOfManufacture: this.yearControl.value,
-      customerId: this.selectedCustomerId !== null ? this.selectedCustomerId : undefined
+      customerId: this.selectedCustomerId !== null ? this.selectedCustomerId : undefined,
+      isDeleted: this.isDeleted
     };
 
     this.http.post<any>(`${BASIC_URL}vehicles/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -164,5 +167,11 @@ export class VehiclesComponent implements OnInit {
     });
 
     this.getVehicles();
+  }
+
+  onToggleChange(event: any): void {
+    this.isDeleted = event.checked;
+    this.currentPage = 0;
+    this.getVehicles(); 
   }
 }

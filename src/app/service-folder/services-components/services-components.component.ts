@@ -5,10 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth/auth.service';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -20,7 +20,8 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
     SidebarComponent,
     ReactiveFormsModule,
     MatPaginatorModule,
-    NgSelectModule
+    NgSelectModule,
+    MatSlideToggleModule
   ],
   templateUrl: './services-components.component.html',
   styleUrl: './services-components.component.scss'
@@ -30,6 +31,7 @@ export class ServicesComponentsComponent implements OnInit {
   serviceTypeDtos: any[] = [];
   users: any[] = [];
   vehicles: any[] = [];
+  isDeleted = false;
 
   invoiceCodeControl = new FormControl('');
   startDateControl = new FormControl(null);
@@ -66,7 +68,6 @@ export class ServicesComponentsComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -109,6 +110,7 @@ export class ServicesComponentsComponent implements OnInit {
       endDate: this.endDateControl.value,
       vehicleId: this.selectedVehicleId !== null ? this.selectedVehicleId : undefined,
       userId: this.selectedUserId !== null ? this.selectedUserId : undefined,
+      isDeleted: this.isDeleted
     };
 
     this.http.post<any>(`${BASIC_URL}services/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -199,5 +201,11 @@ export class ServicesComponentsComponent implements OnInit {
 
   getServiceById(id: number): void {
     this.router.navigate([`/services`, id]);
+  }
+
+  onToggleChange(event: any): void {
+    this.isDeleted = event.checked;
+    this.currentPage = 0;
+    this.getServices(); 
   }
 }

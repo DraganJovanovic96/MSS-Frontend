@@ -31,6 +31,10 @@ app-sidebar {
       color: #495057;
       margin: 0;
     }
+
+    .toggle-container {
+      margin-left: auto;
+    }
   }
 
   .search-fields {
@@ -100,6 +104,10 @@ app-sidebar {
         }
       }
     }
+  }
+
+  .customer-toggle {
+    margin-left: auto;
   }
 
   .header .fa {

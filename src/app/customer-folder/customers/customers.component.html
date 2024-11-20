@@ -1,12 +1,15 @@
 <div class="main-container">
   <app-sidebar></app-sidebar>
-
   <div class="customer-list">
     <div class="header">
       <h2>Serviced Customers</h2>
       <i class="fa fa-user fa-2x"></i>
+      <div class="toggle-container">
+        <mat-slide-toggle [checked]="isDeleted" color="primary" class="customer-toggle" (change)="onToggleChange($event)">
+           Deleted Customers
+        </mat-slide-toggle>
+      </div>
     </div>
-
     <div class="search-fields">
       <input type="text" [formControl]="fullNameControl" placeholder="Search Name">
       <input type="text" [formControl]="addressControl" placeholder="Search Address">

@@ -4,6 +4,11 @@
     <div class="header">
       <h2>Services</h2>
       <i class="fa fa-wrench fa-2x"></i>
+      <div class="toggle-container">
+        <mat-slide-toggle [checked]="isDeleted" color="primary" (change)="onToggleChange($event)">
+          Deleted Services
+        </mat-slide-toggle>
+      </div>
     </div>
     <div class="search-fields">
       <input type="text" [formControl]="invoiceCodeControl" [ngClass]="{'highlight': invoiceCodeControl.value}"

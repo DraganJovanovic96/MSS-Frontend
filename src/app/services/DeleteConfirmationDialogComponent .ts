@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
     <mat-dialog-actions>
       <button class="cancel-button" mat-flat-button [mat-dialog-close]="false">Cancel</button>
       <div class="spacer"></div>
-      <button mat-flat-button class="logout-button" [mat-dialog-close]="true">Deletion</button>
+      <button mat-flat-button class="logout-button" [mat-dialog-close]="true">Delete</button>
     </mat-dialog-actions>
   `,
   styles: [`
