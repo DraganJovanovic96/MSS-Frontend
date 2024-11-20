@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -111,7 +110,7 @@ export class CustomerDetailComponent implements OnInit {
         this.customer.isDeleted = data.deleted;
         this.sharedDataService.setCustomerId(this.customer.id);
       },
-      error: (error) => console.error(`Error fetching vehicle with ID ${id}:`, error)
+      error: (error) => console.error(`Error fetching customer with ID ${id}:`, error)
     });
   }
 

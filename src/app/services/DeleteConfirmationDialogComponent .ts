@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
     <mat-dialog-actions>
       <button class="cancel-button" mat-flat-button [mat-dialog-close]="false">Cancel</button>
       <div class="spacer"></div>
-      <button mat-flat-button class="logout-button" [mat-dialog-close]="true">Deletion</button>
+      <button mat-flat-button class="logout-button" [mat-dialog-close]="true">Delete</button>
     </mat-dialog-actions>
   `,
   styles: [`
@@ -24,18 +24,22 @@ import { MatButtonModule } from '@angular/material/button';
       flex-grow: 1; 
     }
     .logout-button {
-      background-color: #FFA500 !important; 
+      background-color: #454442 !important; 
       color: white !important; 
       border-radius: 20px; 
     }
     .logout-button:hover {
-      background-color: #FF8C00 !important; 
+      background-color: #666666 !important; 
     }
     .logout-button:focus {
       outline: none; 
     }
     .cancel-button{
       border-radius: 20px;
+    }
+
+    .cancel-button:hover {
+      background-color: #d1cfc7 !important; 
     }
   `]
 })

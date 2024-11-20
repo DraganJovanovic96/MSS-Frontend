@@ -13,7 +13,11 @@ import { CustomerDetailComponent } from './customer-folder/customer-detail/custo
 import { CreateCustomerComponent } from './customer-folder/create-customer/create-customer.component';
 import { CreateServiceComponent } from './service-folder/create-service/create-service.component';
 import { ServiceDetailComponent } from './service-folder/service-detail/service-detail.component';
-import { CreateUserComponent } from './admin/create-user-folder/create-user/create-user.component';
+import { CreateUserComponent } from './admin/Users/create-user/create-user.component';
+import { UserDetailsComponent } from './admin/Users/user-details/user-details.component';
+import { ServiceTypeCreateComponent } from './service-type-folder/service-type-create/service-type-create.component';
+import { ServiceTypeDetailsComponent } from './service-type-folder/service-type-details/service-type-details.component';
+import { ServiceTypesComponent } from './service-type-folder/service-types/service-types.component';
 
 export const routes: Routes = [
     {
@@ -91,7 +95,7 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
 
-        {
+    {
         path: 'services/:id',
         component: ServiceDetailComponent,
         canActivate: [authGuard]
@@ -115,6 +119,35 @@ export const routes: Routes = [
         path: "create-user",
         component: CreateUserComponent,
         canActivate: [authGuard]
+    },
+
+    {
+        path: "update-user",
+        component: UserDetailsComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: "create-service-type",
+        component: ServiceTypeCreateComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: 'service-types/:id',
+        component: ServiceTypeDetailsComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: 'service-types',
+        component: ServiceTypesComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: 'service-types/service/:serviceId',
+        component: ServiceTypesComponent
     },
 
     {

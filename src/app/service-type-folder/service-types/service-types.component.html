@@ -1,0 +1,56 @@
+<div class="main-container">
+    <app-sidebar></app-sidebar>
+    <div class="vehicle-list">
+      <div class="header">
+        <h2>Service Types</h2>
+        <i class="fa fa-wrench fa-2x"></i>
+        <div class="toggle-container">
+          <mat-slide-toggle [checked]="isDeleted" color="primary" (change)="onToggleChange($event)">
+            Deleted Service Types
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div class="search-fields">
+        <input type="text" [formControl]="typeOfServiceControl" placeholder="Type of service">
+        <input type="text" [formControl]="descriptionControl" placeholder="Description">
+        <input type="number" [formControl]="priceMinControl" placeholder="Price MIN €">
+        <input type="number" [formControl]="priceMaxControl" placeholder="Price MAX €">
+  
+        <div class="form-group">
+          <ng-select [formControl]="serviceControl" (change)="onServiceInputChange($event)" [items]="services"
+            bindLabel="invoiceCode" bindValue="id" [placeholder]="serviceControl.value ? '' : 'Select Service'"
+            [searchable]="true" [clearable]="true" [(ngModel)]="selectedServiceId">
+          </ng-select>
+        </div>
+
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Type Of Service</th>
+            <th>Description</th>
+            <th>Price €</th>
+            <th>Service</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let serviceType of serviceTypes" (click)="getServiceTypeById(serviceType.id)" style="cursor: pointer;">
+            <td>{{ serviceType.typeOfService }}</td>
+            <td>{{ serviceType.description }}</td>
+            <td>{{ serviceType.price }}</td>
+            <td>{{ serviceType.serviceDto.invoiceCode }}</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="serviceTypes.length === 0">
+          <tr>
+            <td colspan="7" style="text-align: center;">No service types found.</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="totalItems" [pageSize]="pageSize"
+        [pageIndex]="currentPage" (page)="onPageChange($event)" aria-label="Select page">
+      </mat-paginator>
+    </div>
+  </div>
+  

@@ -13,7 +13,7 @@ export class UserStorageService {
   }
 
   public saveUser(user: Object): void {
-    window.localStorage.removeItem(this.USER);
+    this.clearUser();
     window.localStorage.setItem(this.USER, JSON.stringify(user));
   }
 
@@ -36,8 +36,21 @@ export class UserStorageService {
     return refreshToken;
   }
 
+  getUserImage(): string | null {
+    const user = this.getUser();
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.imageUrl;
+    }
+    return null;
+  }
+
   clearTokens(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.refreshTokenKey);
+  }
+
+  clearUser(): void {
+    localStorage.removeItem(this.USER);
   }
 }

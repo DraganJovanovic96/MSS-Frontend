@@ -4,6 +4,11 @@
     <div class="header">
       <h2>Serviced Vehicles</h2>
       <i class="fa fa-car fa-2x"></i>
+      <div class="toggle-container">
+        <mat-slide-toggle [checked]="isDeleted" color="primary" class="vehicle-toggle" (change)="onToggleChange($event)">
+          Deleted Vehicles
+        </mat-slide-toggle>
+      </div>
     </div>
     <div class="search-fields">
       <input type="text" [formControl]="manufacturerControl" placeholder="Manufacturer">
@@ -18,7 +23,6 @@
           [searchable]="true" [clearable]="true" [(ngModel)]="selectedCustomerId">
         </ng-select>
       </div>
-
     </div>
     <table>
       <thead>

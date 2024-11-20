@@ -25,29 +25,28 @@
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Current Mileage</label>
-                        <input type="number" [(ngModel)]="service.currentMileage" name="currentMileage" />
+                        <input placeholder="172800" type="number" [(ngModel)]="service.currentMileage" name="currentMileage" />
                     </div>
                     <div class="form-group">
                         <label>Next Service Mileage</label>
-                        <input type="number" [(ngModel)]="service.nextServiceMileage" name="nextServiceMileage" />
+                        <input placeholder="182800" type="number" [(ngModel)]="service.nextServiceMileage" name="nextServiceMileage" />
                     </div>
                 </div>
-                    <div class="column-in-row">
-                        <div class="form-group">
-                            <label>Select Vehicle</label>
-                            <ng-select [(ngModel)]="service.vehicleId" name="vehicleId" [items]="vehicles"
-                                bindLabel="fullName" bindValue="id" placeholder="Select Vehicle" [searchable]="true"
-                                [clearable]="true">
-                            </ng-select>
-                        </div>
-                        <div class="form-group">
-                            <label>Select User</label>
-                            <ng-select [(ngModel)]="service.userId" name="userId" [items]="users"
-                                bindLabel="fullName" bindValue="id" placeholder="Select Mechanic" [searchable]="true"
-                                [clearable]="true">
-                            </ng-select>
-                        </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Select Vehicle</label>
+                        <ng-select [(ngModel)]="service.vehicleId" name="vehicleId" [items]="vehicles"
+                            bindLabel="fullName" bindValue="id" placeholder="Select Vehicle" [searchable]="true"
+                            [clearable]="true">
+                        </ng-select>
                     </div>
+                    <div class="form-group">
+                        <label>Select User</label>
+                        <ng-select [(ngModel)]="service.userId" name="userId" [items]="users" bindLabel="fullName"
+                            bindValue="id" placeholder="Select Mechanic" [searchable]="true" [clearable]="true">
+                        </ng-select>
+                    </div>
+                </div>
                 <div class="column-in-row">
                     <div class="form-group button-container">
                         <button type="submit" class="save-button">Create Service</button>

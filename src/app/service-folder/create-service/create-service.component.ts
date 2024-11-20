@@ -15,20 +15,19 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-create-service',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent,NgSelectModule],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, NgSelectModule],
   templateUrl: './create-service.component.html',
   styleUrl: './create-service.component.scss'
 })
-export class CreateServiceComponent implements OnInit{
+export class CreateServiceComponent implements OnInit {
 
   isDeleted: boolean = false;
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private snackBar: MatSnackBar
+  ) { }
 
   services: any[] = [];
   vehicles: any[] = [];
@@ -71,11 +70,27 @@ export class CreateServiceComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadVehicles();
-    this.loadUsers() 
+    this.loadUsers()
   }
 
   createService(): void {
-    
+    const createdService = {
+      ...this.service,
+      deleted: this.isDeleted,
+      vehicleId: this.service.vehicleId
+    };
+
+    this.http.post<any>(`${BASIC_URL}services`, createdService).subscribe({
+      next: () => {
+        this.snackBar.open('Service created successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom'
+        });
+        this.router.navigate(['/create-service-type']);
+      },
+      error: (error) => console.error('Error creating service:', error)
+    });
   }
+
 
 }

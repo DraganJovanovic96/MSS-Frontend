@@ -32,6 +32,13 @@ app-sidebar {
       margin: 0;
     }
 
+    i.fa-car {
+      color: #15696f; 
+    }
+
+    .toggle-container {
+      margin-left: auto;
+    }
   }
 
   .search-fields {
@@ -112,6 +119,10 @@ app-sidebar {
   }
 
   .header .fa {
-    color: #15696F;
+    color: #15696f;
+  }
+
+  .vehicle-toggle {
+    margin-left: auto;
   }
 }

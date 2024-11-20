@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -15,7 +13,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 @Component({
   selector: 'app-create-vehicle',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent,NgSelectModule],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, NgSelectModule],
   templateUrl: './create-vehicle.component.html',
   styleUrls: ['./create-vehicle.component.scss']
 })
@@ -35,9 +33,7 @@ export class CreateVehicleComponent {
   customers: any[] = [];
 
   constructor(
-    private route: ActivatedRoute,
     private http: HttpClient,
-    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {

@@ -1,150 +1,149 @@
 .edit-service-container {
-    display: flex;
-  }
-  
-  .main-content {
-    flex: 1;
-    padding: 40px;
-    background-color: #f3f6f9;
-  }
-  
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .header h2 {
-    margin: 0;
-  }
-  
-  .form-container {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .column-in-row {
-    flex-wrap: wrap;
-    gap: 50px;
-  }
-  
-  .form-container {
-    margin-top: 20px;
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  
-  .save-button {
-    padding: 10px 20px;
-    background-color: #454442;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    border-radius: 20px;
-  }
-  
-  .save-button:hover {
-    background-color: #666666;
-  }
-  
-  .column-in-row {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .form-group {
-    flex: 1;
-    margin-right: 10px;
-  }
-  
-  .form-group:last-child {
-    margin-right: 0;
-  }
-  
-  .large-year-input {
-    font-size: 16px;
-    padding: 10px;
-    width: 100%;
-  }
-  
-  .large-year-input::-webkit-inner-spin-button,
-  .large-year-input::-webkit-outer-spin-button {
-    height: 40px;
-    width: 25px;
-  }
-  
-  .checkbox-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    width: fit-content;
-  }
-  
-  input.large-checkbox {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  
-  span {
-    display: inline-flex;
-    align-items: center;
-    height: 30px;
-  }
-  
-  .delete-button {
-    padding: 10px 20px;
-    background-color: #ff0000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    border-radius: 20px;
-  }
+  display: flex;
+}
 
-  .delete-button:hover {
-    background-color: #f34747;
-  }
-  
-  .header .fa {
-    color: #15696F;
-    margin-right: 20px;
-    margin-left: 20px;
-  }
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background-color: #f3f6f9;
+}
 
-  ::ng-deep .ng-select .ng-select-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-    height: 42px !important;     
-    font-size: 16px;
-  }
-  
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.form-container {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.column-in-row {
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.form-container {
+  margin-top: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-button {
+  padding: 10px 20px;
+  background-color: #454442;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.save-button:hover {
+  background-color: #666666;
+}
+
+.column-in-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+.large-year-input {
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+}
+
+.large-year-input::-webkit-inner-spin-button,
+.large-year-input::-webkit-outer-spin-button {
+  height: 40px;
+  width: 25px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+}
+
+input.large-checkbox {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+span {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+}
+
+.delete-button {
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.delete-button:hover {
+  background-color: #f34747;
+}
+
+.header .fa {
+  color: #15696F;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+::ng-deep .ng-select .ng-select-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  height: 42px !important;
+  font-size: 16px;
+}

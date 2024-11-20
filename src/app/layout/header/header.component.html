@@ -30,14 +30,35 @@
         </div>
       </div>
 
+      <div class="dropdown" *ngIf="isLoggedIn()">
+        <a class="header-button-item dropdown-toggle" [routerLink]="['/service-types']">Type Of Service</a>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/service-types']">View Service Types</a>
+          <a class="dropdown-item" [routerLink]="['/create-service-type']">Create Service Types</a>
+        </div>
+      </div>
+
       <div class="dropdown" *ngIf="isLoggedIn() && isAdmin()">
         <a class="header-button-item dropdown-toggle" [routerLink]="['/admin']">Admin</a>
         <div class="dropdown-content">
           <a class="dropdown-item" [routerLink]="['/admin']">Admin</a>
-          <a class="dropdown-item" [routerLink]="['/create-user']">Create User</a>
+          <a class="dropdown-item" [routerLink]="['/create-user']">Create Mechanic</a>
         </div>
       </div>
     </div>
-    <button class="log-out-button" *ngIf="isLoggedIn()" (click)="LogOut()">Log Out</button>
+
+
+    <div class="dropdown user-dropdown" *ngIf="isLoggedIn() && userImage">
+      <div class="user-container">
+        <img [src]="userImage" alt="User profile picture" class="user-image" />
+      </div>
+      <div class="dropdown-content">
+        <a class="logo-drop-container dropdown-item" [routerLink]="['/update-user']">
+          <img src="/assets/images/settings.png" alt="Settings icon" class="logo-drop" />
+          <span class="settings-text">Settings</span>
+        </a>
+        <button class="dropdown-item" (click)="LogOut()">Log Out</button>
+      </div>
+    </div>
   </div>
 </header>

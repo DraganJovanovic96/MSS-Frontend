@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule, ReactiveFormsModule, SidebarComponent],
+  imports: [CommonModule, MatPaginatorModule, ReactiveFormsModule, SidebarComponent, MatSlideToggleModule],
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
 })
@@ -22,6 +22,7 @@ export class CustomersComponent implements OnInit {
   currentPage = 0;
   pageSize = 5;
   totalItems = 0;
+  isDeleted = false;
 
   fullNameControl = new FormControl('');
   addressControl = new FormControl('');
@@ -30,8 +31,7 @@ export class CustomersComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -68,7 +68,8 @@ export class CustomersComponent implements OnInit {
     const customerFiltersQueryDto = {
       fullName: this.fullNameControl.value,
       address: this.addressControl.value,
-      phoneNumber: this.phoneNumberControl.value
+      phoneNumber: this.phoneNumberControl.value,
+      isDeleted: this.isDeleted
     };
 
     this.http.post<any>(`${BASIC_URL}customers/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -96,5 +97,11 @@ export class CustomersComponent implements OnInit {
     });
 
     this.getCustomers();
+  }
+
+  onToggleChange(event: any): void {
+    this.isDeleted = event.checked;
+    this.currentPage = 0;
+    this.getCustomers(); 
   }
 }

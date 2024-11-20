@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-progress-circle',
   templateUrl: './progress-circle.component.html',
   styleUrls: ['./progress-circle.component.scss'],
-  standalone: true
+  standalone: true,
 })
-export class ProgressCircleComponent implements OnInit {
+export class ProgressCircleComponent {
   @Input() maxValue = 100;
   @Input() targetValue = 0;
   @Input() strokeColor = '#A07855';
@@ -18,10 +18,6 @@ export class ProgressCircleComponent implements OnInit {
   constructor() {
     const radius = 45;
     this.circumference = 2 * Math.PI * radius;
-  }
-
-  ngOnInit() {
-    this.animateProgress(this.targetValue);
   }
 
   animateProgress(targetValue: number) {

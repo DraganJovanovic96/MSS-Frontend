@@ -141,7 +141,7 @@ span {
   background-color: #fff;
   color: #333;
   appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="gray" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg>'); // Custom dropdown arrow
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="gray" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg>'); 
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 12px;
@@ -165,6 +165,6 @@ span {
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
-  height: 42px !important;     
+  height: 42px !important;
   font-size: 16px;
 }

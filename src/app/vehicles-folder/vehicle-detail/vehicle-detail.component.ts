@@ -41,7 +41,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   templateUrl: './vehicle-detail.component.html',
   styleUrls: ['./vehicle-detail.component.scss'],
   imports: [FormsModule, CommonModule, RouterModule,
-    SidebarComponent,NgSelectModule]
+    SidebarComponent, NgSelectModule]
 })
 export class VehicleDetailComponent implements OnInit {
   isDeleted: boolean = true;
@@ -70,7 +70,7 @@ export class VehicleDetailComponent implements OnInit {
   ) {
     this.loadCustomers();
   }
-  
+
   loadCustomers(): void {
     this.http.get<any[]>(`${BASIC_URL}customers`).subscribe({
       next: (data) => {
@@ -105,6 +105,7 @@ export class VehicleDetailComponent implements OnInit {
       error: (error) => console.error(`Error fetching vehicle with ID ${id}:`, error)
     });
   }
+  
   deleteVehicle(id: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe(result => {

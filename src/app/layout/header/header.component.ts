@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogoutService } from '../../services/logout/logout.service';
 import { UserStorageService } from '../../services/storage/user-storage.service';
+import { UserStateService } from '../../services/auth/user.state.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -12,15 +13,26 @@ import { RouterModule } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   vehiclesDropdownOpen = false;
   customerDropdownOpen = false;
+  userImage: string | null = null;
+  readonly fallbackImageUrl: string = 'https://i.imghippo.com/files/hzQF7597pHY.jpg';
 
   constructor(
     private router: Router,
     private logOutService: LogoutService,
-    private userStorageService: UserStorageService
+    private userStorageService: UserStorageService,
+    private userStateService: UserStateService
   ) { }
+
+  ngOnInit(): void {
+    this.userImage = this.userStateService.getUserImage() || this.fallbackImageUrl;
+
+    this.userStateService.userImage$.subscribe((image) => {
+      this.userImage = image || this.fallbackImageUrl;
+    });
+  }
 
   navigateToHome() {
     this.router.navigate(['']);
@@ -32,7 +44,7 @@ export class HeaderComponent {
 
   navigateToVehicles() {
     this.router.navigate(['vehicles']);
-    this.vehiclesDropdownOpen = false; 
+    this.vehiclesDropdownOpen = false;
   }
 
   navigateToCreateVehicle() {
@@ -44,7 +56,6 @@ export class HeaderComponent {
     this.router.navigate(['create-customer']);
     this.customerDropdownOpen = false;
   }
-
 
   navigateToServices() {
     this.router.navigate(['services']);
