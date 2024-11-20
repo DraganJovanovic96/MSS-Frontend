@@ -87,7 +87,7 @@ export class ServiceTypeCreateComponent implements OnInit {
       typeOfService: '',
       description: '',
       price: 0,
-      serviceId: this.serviceType.serviceId // Preserve prefilled serviceId
+      serviceId: this.serviceType.serviceId 
     };
   }
 }
