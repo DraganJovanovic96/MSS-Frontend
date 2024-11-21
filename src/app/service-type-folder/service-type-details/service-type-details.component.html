@@ -36,8 +36,21 @@
                     </div>
                 </div>
                 <div class="column-in-row">
+                    <div *ngIf="serviceType.isDeleted">
+                        <label class="checkbox-label">
+                            <input type="checkbox" [(ngModel)]="serviceType.isDeleted" name="isDeleted"
+                                class="large-checkbox" />
+                            <span class="checkbox-text">{{ serviceType.isDeleted ? 'Deleted' : 'Active' }}</span>
+                        </label>
+                    </div>
+                    <div *ngIf="!serviceType.isDeleted">
+                        <div class="form-group button-container">
+                            <button type="button" class="delete-button"
+                                (click)="deleteServiceType(serviceType.id)">Delete</button>
+                        </div>
+                    </div>
                     <div class="form-group button-container">
-                        <button type="submit" class="save-button">Create Service Type</button>
+                        <button type="submit" class="save-button">Save</button>
                     </div>
                 </div>
             </form>

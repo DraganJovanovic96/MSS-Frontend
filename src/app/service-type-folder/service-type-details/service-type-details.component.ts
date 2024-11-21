@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedDataService } from '../../services/SharedDataService';
+import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -53,7 +54,8 @@ export class ServiceTypeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
   ) {
     this.loadServices();
   }
@@ -114,4 +116,37 @@ export class ServiceTypeDetailsComponent implements OnInit {
       error: (error) => console.error(`Error fetching service type with ID ${id}:`, error)
     });
   }
+
+  deleteServiceType(id: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.http.delete<any>(`${BASIC_URL}service-types/id/${id}`).subscribe({
+          next: () => {
+            this.snackBar.open('Service type deleted successfully!', 'Close', {
+              duration: 3000,
+              verticalPosition: 'bottom'
+            });
+            this.router.navigate(['/service-types']);
+          },
+          error: (error) => {
+            if (error.status === 404) {
+              this.snackBar.open('Service type not found. Redirecting to service type list.', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+              });
+              this.router.navigate(['/service-types']);
+            } else {
+              console.error(`Error deleting service type with ID ${id}:`, error);
+              this.snackBar.open('Error deleting service type. Please try again.', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+              });
+            }
+          }
+        });
+      }
+    });
+  }
+
 }
