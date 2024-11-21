@@ -18,6 +18,7 @@ import { UserDetailsComponent } from './admin/Users/user-details/user-details.co
 import { ServiceTypeCreateComponent } from './service-type-folder/service-type-create/service-type-create.component';
 import { ServiceTypeDetailsComponent } from './service-type-folder/service-type-details/service-type-details.component';
 import { ServiceTypesComponent } from './service-type-folder/service-types/service-types.component';
+import { EmailVerificationComponent } from './login/email-verification-folder/email-verification/email-verification.component';
 
 export const routes: Routes = [
     {
@@ -153,6 +154,11 @@ export const routes: Routes = [
     {
         path: "login",
         component: LoginComponent
+    },
+
+    {
+        path: "verify",
+        component: EmailVerificationComponent
     },
 
     { path: '**', redirectTo: '/' }

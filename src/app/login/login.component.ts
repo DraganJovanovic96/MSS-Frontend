@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
 import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,7 @@ export class LoginComponent implements OnInit {
   capsLockOn = false;
   blurredEmail = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -62,7 +64,15 @@ export class LoginComponent implements OnInit {
       this.authService.login(username, password).subscribe(
         (res: HttpResponse<boolean>) => { },
         (error: any) => {
-          this.errorMessage = 'Login failed. Please check your credentials.';
+          if (error.status === 403) {
+            this.snackBar.open('Account not verified, redirecting to verification page.', 'Close', {
+              duration: 10000,
+              verticalPosition: 'top'
+            });
+            this.router.navigate(['/verify']);
+          } else {
+            this.errorMessage = 'Login failed. Please check your credentials.';
+          }
         }
       );
     }
