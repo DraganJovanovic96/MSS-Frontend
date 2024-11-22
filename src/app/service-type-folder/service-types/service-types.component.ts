@@ -137,7 +137,6 @@ export class ServiceTypesComponent implements OnInit {
         this.services = data.map(service => ({
           ...service
         }));
-        console.log(this.services); 
       },
       error: (error) => console.error('Error fetching services:', error)
     });

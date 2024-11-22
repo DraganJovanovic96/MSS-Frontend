@@ -19,6 +19,8 @@ import { ServiceTypeCreateComponent } from './service-type-folder/service-type-c
 import { ServiceTypeDetailsComponent } from './service-type-folder/service-type-details/service-type-details.component';
 import { ServiceTypesComponent } from './service-type-folder/service-types/service-types.component';
 import { EmailVerificationComponent } from './login/email-verification-folder/email-verification/email-verification.component';
+import { ResetPasswordComponent } from './services/reset-password/reset-password/reset-password.component';
+import { ResendVerificationEmailComponent } from './login/resend-email-verification-folder/resend-verification-email/resend-verification-email.component';
 
 export const routes: Routes = [
     {
@@ -157,8 +159,20 @@ export const routes: Routes = [
     },
 
     {
+        path: "reset-password",
+        component: ResetPasswordComponent,
+        canActivate: [authGuard]
+    },
+
+
+    {
         path: "verify",
         component: EmailVerificationComponent
+    },
+
+    {
+        path: "resend-email",
+        component: ResendVerificationEmailComponent
     },
 
     { path: '**', redirectTo: '/' }
