@@ -17,7 +17,7 @@
                 <li *ngIf="customerId"><a [routerLink]="['/vehicles/customer', customerId]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Customer's Vehicles</a></li>
                 <li class="spaced"><a [routerLink]="['/services']" routerLinkActive="active">Services</a></li>
-                <li><a [routerLink]="['/create-service']" routerLinkActive="active"
+                <li><a [routerLink]="['/create-service/vehicle', vehicleId]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Create Service</a></li>
                 <li *ngIf="serviceId">
                         <a [routerLink]="['/create-service-type']" [queryParams]="{ serviceId: serviceId }"

@@ -156,6 +156,11 @@ export const routes: Routes = [
     },
 
     {
+        path: 'create-service/vehicle/:vehicleId',
+        component: CreateServiceComponent
+    },
+    
+    {
         path: "login",
         component: LoginComponent
     },

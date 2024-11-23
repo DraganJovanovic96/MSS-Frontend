@@ -16,6 +16,8 @@ interface ServiceTypeUpdateDto {
   id: number;
   typeOfService: string;
   description: string;
+  partCode: string;
+  quantity: number,
   price: number;
   serviceId: number;
 }
@@ -43,6 +45,8 @@ export class ServiceTypeDetailsComponent implements OnInit {
   serviceType: any = {
     typeOfService: '',
     description: '',
+    partCode: '',
+    quantity: 1,
     price: 0,
     serviceId: ''
   };
@@ -84,6 +88,8 @@ export class ServiceTypeDetailsComponent implements OnInit {
       typeOfService: this.serviceType.typeOfService,
       description: this.serviceType.description,
       price: this.serviceType.price,
+      quantity: this.serviceType.quantity,
+      partCode: this.serviceType.partCode,
       serviceId: this.serviceType.serviceId
     };
 
@@ -111,7 +117,6 @@ export class ServiceTypeDetailsComponent implements OnInit {
         this.serviceType = { ...this.serviceType, ...data };
         this.serviceType.isDeleted = data.deleted;
         this.serviceType.serviceId = data.serviceDto?.id;
-        // this.sharedDataService.setCustomerId(this.vehicle.customerId);
       },
       error: (error) => console.error(`Error fetching service type with ID ${id}:`, error)
     });

@@ -15,6 +15,7 @@
         <input type="text" [formControl]="descriptionControl" placeholder="Description">
         <input type="number" [formControl]="priceMinControl" placeholder="Price MIN €">
         <input type="number" [formControl]="priceMaxControl" placeholder="Price MAX €">
+        <input type="text" [formControl]="partCodeControl" placeholder="AH843R92">
   
         <div class="form-group">
           <ng-select [formControl]="serviceControl" (change)="onServiceInputChange($event)" [items]="services"
@@ -30,6 +31,8 @@
             <th>Type Of Service</th>
             <th>Description</th>
             <th>Price €</th>
+            <th>Part Identification Code</th>
+            <th>Quantity</th>
             <th>Service</th>
           </tr>
         </thead>
@@ -38,6 +41,8 @@
             <td>{{ serviceType.typeOfService }}</td>
             <td>{{ serviceType.description }}</td>
             <td>{{ serviceType.price }}</td>
+            <td>{{ serviceType.partCode }}</td>
+            <td>{{ serviceType.quantity }}</td>
             <td>{{ serviceType.serviceDto.invoiceCode }}</td>
           </tr>
         </tbody>

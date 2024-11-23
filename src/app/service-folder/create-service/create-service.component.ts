@@ -26,7 +26,8 @@ export class CreateServiceComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) { }
 
   services: any[] = [];
@@ -69,8 +70,26 @@ export class CreateServiceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const vehicleId = params.get('vehicleId');
+      if (vehicleId) {
+        this.service.vehicleId = +vehicleId; 
+      }
+    });
+
     this.loadVehicles();
-    this.loadUsers()
+    this.loadUsers();
+    this.loadAuthenticatedUser();
+  }
+
+  loadAuthenticatedUser(): void {
+    this.http.get<any>(`${BASIC_URL}users/user-details`).subscribe({
+      next: (user) => {
+        this.service.userId = user.id; 
+        console.log('Authenticated user loaded:', user);
+      },
+      error: (error) => console.error('Error fetching authenticated user:', error)
+    });
   }
 
   createService(): void {
@@ -81,12 +100,12 @@ export class CreateServiceComponent implements OnInit {
     };
 
     this.http.post<any>(`${BASIC_URL}services`, createdService).subscribe({
-      next: () => {
+      next: (response) => {
         this.snackBar.open('Service created successfully!', 'Close', {
           duration: 3000,
           verticalPosition: 'bottom'
         });
-        this.router.navigate(['/create-service-type']);
+        this.router.navigate(['/create-service-type'], { queryParams: { serviceId: response.id } });
       },
       error: (error) => console.error('Error creating service:', error)
     });

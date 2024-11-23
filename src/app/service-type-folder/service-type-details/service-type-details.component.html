@@ -36,6 +36,16 @@
                     </div>
                 </div>
                 <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Part Identification Code</label>
+                        <input placeholder="AH843R92" type="text" [(ngModel)]="serviceType.partCode" name="partCode" />
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input placeholder="1" type="number" min="1" [(ngModel)]="serviceType.quantity" name="quantity" />
+                    </div>
+                </div>
+                <div class="column-in-row">
                     <div *ngIf="serviceType.isDeleted">
                         <label class="checkbox-label">
                             <input type="checkbox" [(ngModel)]="serviceType.isDeleted" name="isDeleted"
