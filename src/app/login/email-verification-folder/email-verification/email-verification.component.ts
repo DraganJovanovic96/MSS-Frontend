@@ -1,85 +1,93 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth/auth.service';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { TokenStateService } from '../../../services/auth/token.state.service';
 import { UserStorageService } from '../../../services/storage/user-storage.service';
+import { catchError, map, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
+interface AuthResponse {
+  body: any;
+  access_token: string;
+  refresh_token: string;
+}
+
 @Component({
-  selector: 'app-login',
+  selector: 'app-email-verification',
   standalone: true,
   templateUrl: './email-verification.component.html',
   styleUrls: ['./email-verification.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
 })
-
-export class EmailVerificationComponent {
-  loginForm: FormGroup;
+export class EmailVerificationComponent implements OnInit {
   errorMessage: string | null = null;
-  blurredEmail = false;
+  token: string | null = null;
 
-  constructor(private fb: FormBuilder,
-    private authService: AuthService,
+  constructor(
+    private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
     private userStorageService: UserStorageService,
-    private tokenStateService: TokenStateService) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      verification: ['', [Validators.required, Validators.minLength(6)]],
+    private tokenStateService: TokenStateService
+  ) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.extractTokenFromQueryParams();
     });
   }
 
-  onEmailBlur() {
-    this.blurredEmail = true;
-  }
-
-  onEmailFocus(): void {
-    this.blurredEmail = false;
-  }
-
-  onSubmit(): void {
-    if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')!.value;
-      const verificationCode = this.loginForm.get('verification')!.value;
-
-      const verifyUserDto = {
-        email: email,
-        verificationCode: verificationCode
-      };
-
-      const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', '*/*');
-
-      this.http.post<{ access_token: string; refresh_token: string }>(
-        `${BASIC_URL}auth/verification`,
-        verifyUserDto,
-        { headers, observe: 'response' }
-      ).subscribe({
-        next: (res) => {
-          const accessToken = res.body?.access_token;
-          const refreshToken = res.body?.refresh_token;
-
-          if (accessToken) {
-            this.userStorageService.saveToken(accessToken);
-            this.tokenStateService.reset();
-            this.authService.fetchUser(accessToken).subscribe();
-          }
-
-          if (refreshToken) {
-            this.userStorageService.saveRefreshToken(refreshToken);
-            this.tokenStateService.reset();
-            this.router.navigate(['/']);
-          }
-        },
-        error: (error) => {
-          console.error('Error verifying user:', error);
-          this.errorMessage = 'Failed to verify your account. Please try again.';
-        }
-      });
+  extractTokenFromQueryParams(): void {
+    this.token = this.route.snapshot.queryParamMap.get('token');
+    if (this.token) {
+      this.verifyUser(this.token);
     }
+    this.router.navigate(['/verify']);
+  }
+
+  private verifyUser(token: string): void {
+    if (!this.token) {
+      this.errorMessage = 'Token is required to verify user.';
+      return;
+    }
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*');
+
+    const url = `${BASIC_URL}auth/verification?token=${encodeURIComponent(this.token)}`;
+
+    this.http
+      .post<AuthResponse>(url, {}, { headers, observe: 'response' })
+      .pipe(
+        map((res) => {
+          const token = res.body?.access_token;
+          const refresh_token = res.body?.refresh_token;
+          if (token) {
+            this.userStorageService.saveToken(token);
+            this.tokenStateService.reset();
+            this.authService.fetchUser(token).subscribe();
+          }
+          if (refresh_token) {
+            this.userStorageService.saveRefreshToken(refresh_token);
+            this.tokenStateService.reset();
+            this.router.navigate(['/dashboard']);
+          }
+          return true;
+        }),
+        catchError((err) => {
+          this.errorMessage = 'Failed to verify user. Please try again.';
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.snackBar.open('User verified successfully', 'Close', { duration: 3000 });
+        },
+      });
   }
 }

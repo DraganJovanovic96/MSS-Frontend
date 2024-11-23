@@ -36,6 +36,21 @@
       }
     }
 
+    .resend-link-container {
+      text-align: center; 
+      margin-top: 10px; 
+   }
+
+    .resend-link {
+      text-decoration: underline;
+      color: #007bff;
+      cursor: pointer;
+  
+      &:hover {
+          color: #0056b3;
+      }
+    }
+
     .error {
       color: red;
       font-size: 12px;

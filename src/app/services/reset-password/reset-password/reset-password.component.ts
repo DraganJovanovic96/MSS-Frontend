@@ -23,9 +23,7 @@ export class ResetPasswordComponent implements OnInit {
   capsLockOn = false;
 
   constructor(private fb: FormBuilder,
-    private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute,
     private http: HttpClient,
     private snackBar: MatSnackBar) {
 

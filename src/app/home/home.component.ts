@@ -25,8 +25,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.totalCustomers = data.customers;
         this.totalVehicles = data.vehicles;
         this.totalServices = data.services;
-
-        // Ensure animations are triggered after data is loaded
+        
         this.triggerAnimations();
       },
       error: (err) => {
@@ -36,11 +35,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // ViewChildren are initialized here but we wait for data before triggering animations
   }
 
   private triggerAnimations() {
-    const delayIncrement = 1500; // Adjust delay as needed
+    const delayIncrement = 1500; 
     if (this.progressCircles) {
       this.progressCircles.forEach((circle, index) => {
         setTimeout(() => {
