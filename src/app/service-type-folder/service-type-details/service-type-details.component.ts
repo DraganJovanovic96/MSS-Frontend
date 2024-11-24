@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedDataService } from '../../services/SharedDataService';
+import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -15,6 +16,8 @@ interface ServiceTypeUpdateDto {
   id: number;
   typeOfService: string;
   description: string;
+  partCode: string;
+  quantity: number,
   price: number;
   serviceId: number;
 }
@@ -42,6 +45,8 @@ export class ServiceTypeDetailsComponent implements OnInit {
   serviceType: any = {
     typeOfService: '',
     description: '',
+    partCode: '',
+    quantity: 1,
     price: 0,
     serviceId: ''
   };
@@ -53,7 +58,8 @@ export class ServiceTypeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
   ) {
     this.loadServices();
   }
@@ -82,6 +88,8 @@ export class ServiceTypeDetailsComponent implements OnInit {
       typeOfService: this.serviceType.typeOfService,
       description: this.serviceType.description,
       price: this.serviceType.price,
+      quantity: this.serviceType.quantity,
+      partCode: this.serviceType.partCode,
       serviceId: this.serviceType.serviceId
     };
 
@@ -109,9 +117,41 @@ export class ServiceTypeDetailsComponent implements OnInit {
         this.serviceType = { ...this.serviceType, ...data };
         this.serviceType.isDeleted = data.deleted;
         this.serviceType.serviceId = data.serviceDto?.id;
-        // this.sharedDataService.setCustomerId(this.vehicle.customerId);
       },
       error: (error) => console.error(`Error fetching service type with ID ${id}:`, error)
     });
   }
+
+  deleteServiceType(id: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.http.delete<any>(`${BASIC_URL}service-types/id/${id}`).subscribe({
+          next: () => {
+            this.snackBar.open('Service type deleted successfully!', 'Close', {
+              duration: 3000,
+              verticalPosition: 'bottom'
+            });
+            this.router.navigate(['/service-types']);
+          },
+          error: (error) => {
+            if (error.status === 404) {
+              this.snackBar.open('Service type not found. Redirecting to service type list.', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+              });
+              this.router.navigate(['/service-types']);
+            } else {
+              console.error(`Error deleting service type with ID ${id}:`, error);
+              this.snackBar.open('Error deleting service type. Please try again.', 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom'
+              });
+            }
+          }
+        });
+      }
+    });
+  }
+
 }

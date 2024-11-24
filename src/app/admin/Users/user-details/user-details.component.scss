@@ -61,6 +61,16 @@
 
 .save-button {
   padding: 10px 20px;
+  background-color: #15696F;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.password-button { 
+  padding: 10px 20px;
   background-color: #454442;
   color: white;
   border: none;
@@ -69,9 +79,14 @@
   border-radius: 20px;
 }
 
-.save-button:hover {
+.password-button:hover {
   background-color: #666666;
 }
+
+.save-button:hover {
+  background-color: #1d9199;
+}
+
 
 .column-in-row {
   display: flex;
@@ -168,4 +183,11 @@
   color: red;
   text-align: center;
   margin-top: 10px;
+}
+
+.password-button-container {
+  display: flex;
+  justify-content: flex-start; /* Align the button to the left */
+  margin-top: 20px;
+  flex: 1;
 }

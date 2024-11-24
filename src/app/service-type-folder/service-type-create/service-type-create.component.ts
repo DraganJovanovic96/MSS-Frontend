@@ -21,6 +21,8 @@ export class ServiceTypeCreateComponent implements OnInit {
   serviceType: any = {
     typeOfService: '',
     description: '',
+    partCode: '',
+    quantity: 1,
     price: 0,
     serviceId: null
   };
@@ -61,6 +63,10 @@ export class ServiceTypeCreateComponent implements OnInit {
   }
 
   createServiceType(): void {
+    if (!this.serviceType.quantity || this.serviceType.quantity < 1) {
+      this.serviceType.quantity = 1;
+    }
+
     const createdServiceType = {
       ...this.serviceType
     };
@@ -86,8 +92,9 @@ export class ServiceTypeCreateComponent implements OnInit {
     this.serviceType = {
       typeOfService: '',
       description: '',
+      quantity: 1,
       price: 0,
-      serviceId: this.serviceType.serviceId // Preserve prefilled serviceId
+      serviceId: this.serviceType.serviceId 
     };
   }
 }

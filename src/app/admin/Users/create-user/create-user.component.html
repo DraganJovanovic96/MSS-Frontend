@@ -115,6 +115,9 @@
                   <button type="submit" class="save-button">Create User</button>
                </div>
             </div>
+            <div class="spinner-container" *ngIf="isLoading">
+               <app-spinner></app-spinner>
+           </div>
          </form>
       </div>
    </div>

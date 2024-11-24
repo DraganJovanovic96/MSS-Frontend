@@ -38,6 +38,7 @@ export class ServiceTypesComponent implements OnInit {
   descriptionControl = new FormControl('');
   priceMinControl = new FormControl('');
   priceMaxControl = new FormControl('');
+  partCodeControl = new FormControl('');
   serviceControl = new FormControl(null);
 
   selectedServiceId: number | null = null;
@@ -46,6 +47,8 @@ export class ServiceTypesComponent implements OnInit {
     typeOfService: '',
     description: '',
     price: 0,
+    quantity: 1,
+    partCode: '',
     priceMin: '',
     priceMax: '',
     serviceDto: {
@@ -82,6 +85,7 @@ export class ServiceTypesComponent implements OnInit {
       this.typeOfServiceControl,
       this.descriptionControl,
       this.priceMinControl,
+      this.partCodeControl,
       this.priceMaxControl,
       this.serviceControl
     ];
@@ -112,6 +116,7 @@ export class ServiceTypesComponent implements OnInit {
       typeOfService: this.typeOfServiceControl.value,
       description: this.descriptionControl.value,
       priceMin: this.priceMinControl.value,
+      partCode: this.partCodeControl.value,
       priceMax: this.priceMaxControl.value,
       serviceId: this.selectedServiceId !== null ? this.selectedServiceId : undefined,
       isDeleted: this.isDeleted
@@ -137,7 +142,6 @@ export class ServiceTypesComponent implements OnInit {
         this.services = data.map(service => ({
           ...service
         }));
-        console.log(this.services); 
       },
       error: (error) => console.error('Error fetching services:', error)
     });

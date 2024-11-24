@@ -36,8 +36,31 @@
                     </div>
                 </div>
                 <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Part Identification Code</label>
+                        <input placeholder="AH843R92" type="text" [(ngModel)]="serviceType.partCode" name="partCode" />
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input placeholder="1" type="number" min="1" [(ngModel)]="serviceType.quantity" name="quantity" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div *ngIf="serviceType.isDeleted">
+                        <label class="checkbox-label">
+                            <input type="checkbox" [(ngModel)]="serviceType.isDeleted" name="isDeleted"
+                                class="large-checkbox" />
+                            <span class="checkbox-text">{{ serviceType.isDeleted ? 'Deleted' : 'Active' }}</span>
+                        </label>
+                    </div>
+                    <div *ngIf="!serviceType.isDeleted">
+                        <div class="form-group button-container">
+                            <button type="button" class="delete-button"
+                                (click)="deleteServiceType(serviceType.id)">Delete</button>
+                        </div>
+                    </div>
                     <div class="form-group button-container">
-                        <button type="submit" class="save-button">Create Service Type</button>
+                        <button type="submit" class="save-button">Save</button>
                     </div>
                 </div>
             </form>

@@ -5,13 +5,15 @@
       </div>
       <div class="form-group">
          <label for="email">Email</label>
-         <input id="email" formControlName="email" type="email" required (focus)="onEmailFocus()"
-            (blur)="onEmailBlur()" />
-         <div *ngIf="
-          blurredEmail &&
-          loginForm.get('email')
-          ?.invalid
-          ">
+         <input
+            id="email"
+            formControlName="email"
+            type="email"
+            required
+            (focus)="onEmailFocus()"
+            (blur)="onEmailBlur()"
+         />
+         <div *ngIf="blurredEmail && loginForm.get('email')?.invalid">
             <small class="error" *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
             <small class="error" *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</small>
          </div>
@@ -22,27 +24,22 @@
             <span class="caps-lock-warning" *ngIf="capsLockOn" title="CAPS-LOCK ON">
                <i class="fa-solid fa-eject"></i>
             </span>
-            <input id="password" [type]="
-          passwordVisible
-          ? 'text'
-          : 'password'
-          " formControlName="password" required (keydown)="
-          checkCapsLock(
-          $event
-          )
-          " />
-            <span class="toggle-password" (click)="
-             togglePasswordVisibility()
-             ">
-               <i [class]="
-             passwordVisible
-             ? 'fa fa-eye-slash'
-             : 'fa fa-eye'
-             "></i>
+            <input
+               id="password"
+               [type]="passwordVisible ? 'text' : 'password'"
+               formControlName="password"
+               required
+               (keydown)="checkCapsLock($event)"
+            />
+            <span class="toggle-password" (click)="togglePasswordVisibility()">
+               <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
             </span>
          </div>
       </div>
       <button class="log-in-button">Login</button>
+      <div class="resend-link-container">
+         <a href="send-password-reset" class="resend-link" >Forgotten Password?</a>
+     </div>
    </form>
    <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}

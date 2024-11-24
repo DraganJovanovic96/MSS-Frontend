@@ -18,6 +18,11 @@ import { UserDetailsComponent } from './admin/Users/user-details/user-details.co
 import { ServiceTypeCreateComponent } from './service-type-folder/service-type-create/service-type-create.component';
 import { ServiceTypeDetailsComponent } from './service-type-folder/service-type-details/service-type-details.component';
 import { ServiceTypesComponent } from './service-type-folder/service-types/service-types.component';
+import { EmailVerificationComponent } from './login/email-verification-folder/email-verification/email-verification.component';
+import { ResetPasswordComponent } from './services/reset-password/reset-password/reset-password.component';
+import { ResendVerificationEmailComponent } from './login/resend-email-verification-folder/resend-verification-email/resend-verification-email.component';
+import { ForgottenPasswordComponent } from './services/forgotten-password/forgotten-password/forgotten-password.component';
+import { SendForgottenPasswordEmail } from './login/send-forgotten-password-email/send-forgotten-password-email/send-forgotten-password-email.component';
 
 export const routes: Routes = [
     {
@@ -151,8 +156,39 @@ export const routes: Routes = [
     },
 
     {
+        path: 'create-service/vehicle/:vehicleId',
+        component: CreateServiceComponent
+    },
+    
+    {
         path: "login",
         component: LoginComponent
+    },
+
+    {
+        path: "change-password",
+        component: ResetPasswordComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: "reset-password",
+        component: ForgottenPasswordComponent
+    },
+
+    {
+        path: "send-password-reset",
+        component: SendForgottenPasswordEmail
+    },
+
+    {
+        path: "verify",
+        component: EmailVerificationComponent
+    },
+
+    {
+        path: "resend-email",
+        component: ResendVerificationEmailComponent
     },
 
     { path: '**', redirectTo: '/' }
