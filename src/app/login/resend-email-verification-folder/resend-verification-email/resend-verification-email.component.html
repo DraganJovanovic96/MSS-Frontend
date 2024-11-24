@@ -22,5 +22,8 @@
     <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
     </div>
+    <div class="spinner-container" *ngIf="isLoading">
+        <app-spinner></app-spinner>
+    </div>
   </div>
   

@@ -5,13 +5,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SpinnerComponent } from '../../../spinner/spinner/spinner.component';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, ReactiveFormsModule, SpinnerComponent],
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss']
 })
@@ -19,6 +20,7 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 export class CreateUserComponent implements OnInit {
   @ViewChild('createUserForm', { static: false }) createUserForm!: NgForm;
 
+  isLoading: boolean = false;
   isDeleted: boolean = false;
   passwordVisible = false;
   repeatPasswordVisible = false;
@@ -102,6 +104,7 @@ export class CreateUserComponent implements OnInit {
       return;
     }
 
+
     const createdUser = { ...this.registerRequestDto, deleted: this.isDeleted };
 
     if (this.registerRequestDto.password !== this.registerRequestDto.repeatPassword) {
@@ -112,15 +115,20 @@ export class CreateUserComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     this.http.post<any>(`${BASIC_URL}register`, createdUser).subscribe({
       next: () => {
         this.snackBar.open('User created successfully!', 'Close', {
           duration: 3000,
           verticalPosition: 'bottom',
         });
+        this.isLoading = false;
         this.router.navigate(['/dashboard']);
       },
-      error: (error) => console.error('Error creating user:', error),
+      error: (error) => {
+        console.error('Error creating user:', error);
+        this.isLoading = false;
+      },
     });
   }
 

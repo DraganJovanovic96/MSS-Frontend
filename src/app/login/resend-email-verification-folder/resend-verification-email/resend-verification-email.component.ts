@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SpinnerComponent } from '../../../spinner/spinner/spinner.component';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -12,13 +13,14 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   standalone: true,
   templateUrl: './resend-verification-email.component.html',
   styleUrls: ['./resend-verification-email.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SpinnerComponent],
 })
 
 export class ResendVerificationEmailComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
   blurredEmail = false;
+  isLoading: boolean = false;
 
   constructor(private fb: FormBuilder,
     private http: HttpClient,
@@ -49,6 +51,7 @@ export class ResendVerificationEmailComponent {
         .set('Content-Type', 'application/json')
         .set('Accept', '*/*');
   
+      this.isLoading = true;
       this.http.post(
         `${BASIC_URL}auth/resend-verification`,
         emailRequestDto,
@@ -58,10 +61,12 @@ export class ResendVerificationEmailComponent {
           this.snackBar.open('New verification code has been sent to your email', 'Close', {
             duration: 10000
           });
+          this.isLoading = false;
           this.router.navigate(['/verify']);
         },
         error: (error) => {
           console.error('Error verifying user:', error);
+          this.isLoading = false;
           this.errorMessage = 'Failed to verify your account. Please try again.';
         }
       });
