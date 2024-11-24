@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../services/auth/auth.service';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { TokenStateService } from '../../../services/auth/token.state.service';
-import { UserStorageService } from '../../../services/storage/user-storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-resend-verification-email',
   standalone: true,
   templateUrl: './resend-verification-email.component.html',
   styleUrls: ['./resend-verification-email.component.scss'],
@@ -24,12 +21,9 @@ export class ResendVerificationEmailComponent {
   blurredEmail = false;
 
   constructor(private fb: FormBuilder,
-    private authService: AuthService,
     private http: HttpClient,
     private router: Router,
-    private snackBar: MatSnackBar,
-    private userStorageService: UserStorageService,
-    private tokenStateService: TokenStateService) {
+    private snackBar: MatSnackBar) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });

@@ -86,7 +86,6 @@ export class CreateServiceComponent implements OnInit {
     this.http.get<any>(`${BASIC_URL}users/user-details`).subscribe({
       next: (user) => {
         this.service.userId = user.id; 
-        console.log('Authenticated user loaded:', user);
       },
       error: (error) => console.error('Error fetching authenticated user:', error)
     });
