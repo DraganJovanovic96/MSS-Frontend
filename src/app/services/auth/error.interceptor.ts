@@ -20,10 +20,8 @@ export const errorInterceptor = (req: HttpRequest<any>, next: HttpHandlerFn): Ob
         authService.logout();
 
       } else if (error.status === 403) {
-        tokenStateService.reset();
-        userStorageService.clearTokens();
-        authService.logout();
-        router.navigate(['/login']);
+        router.navigate(['/dashboard']);
+        
       } else {
         tokenStateService.reset();
         console.error(`HTTP error: ${error.status} - ${error.message}`);

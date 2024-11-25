@@ -23,6 +23,7 @@ import { ResetPasswordComponent } from './services/reset-password/reset-password
 import { ResendVerificationEmailComponent } from './login/resend-email-verification-folder/resend-verification-email/resend-verification-email.component';
 import { ForgottenPasswordComponent } from './services/forgotten-password/forgotten-password/forgotten-password.component';
 import { SendForgottenPasswordEmail } from './login/send-forgotten-password-email/send-forgotten-password-email/send-forgotten-password-email.component';
+import { UserAdminViewComponent } from './admin/Users/user-admin-view/user-admin-view/user-admin-view.component';
 
 export const routes: Routes = [
     {
@@ -129,6 +130,12 @@ export const routes: Routes = [
     {
         path: "update-user",
         component: UserDetailsComponent,
+        canActivate: [authGuard]
+    },
+
+    {
+        path: "users/:id",
+        component: UserAdminViewComponent,
         canActivate: [authGuard]
     },
 

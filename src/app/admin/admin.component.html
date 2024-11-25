@@ -1,1 +1,87 @@
-<p>admin works!</p>
+<div class="main-container">
+  <app-sidebar></app-sidebar>
+
+  <div 
+    class="user-list" 
+    [class.expanded]="isExpanded" 
+    #userListContainer
+    (click)="toggleTableView($event)"> 
+
+    <div class="header" (click)="expandOnHeaderClick($event)"> 
+      <h2>Mechanics</h2>
+      <i class="fa fa-user fa-2x"></i>
+      <div class="toggle-container">
+        <mat-slide-toggle 
+          [checked]="isDeleted" 
+          color="primary" 
+          class="user-toggle" 
+          (click)="$event.stopPropagation()" 
+          (change)="onToggleChange($event)">
+          Deleted Users
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="search-fields" *ngIf="isExpanded">
+      <input 
+        type="text" 
+        [formControl]="fullNameControl" 
+        placeholder="Search Name" 
+        (click)="$event.stopPropagation()">
+      <input 
+        type="text" 
+        [formControl]="addressControl" 
+        placeholder="Search Address" 
+        (click)="$event.stopPropagation()">
+      <input 
+        type="text" 
+        [formControl]="emailControl" 
+        placeholder="Search Email" 
+        (click)="$event.stopPropagation()">
+      <input 
+        type="text" 
+        [formControl]="phoneNumberControl" 
+        placeholder="Search Phone Number" 
+        (click)="$event.stopPropagation()">
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th (click)="expandOnHeaderClick($event)">FIRST NAME</th>
+          <th (click)="expandOnHeaderClick($event)">LAST NAME</th>
+          <th (click)="expandOnHeaderClick($event)">ADDRESS</th>
+          <th (click)="expandOnHeaderClick($event)">EMAIL</th>
+          <th (click)="expandOnHeaderClick($event)">PHONE NUMBER</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr 
+          *ngFor="let user of users" 
+          (click)="getUsersById(user.id)">
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.lastname }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.mobileNumber }}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="users.length === 0">
+        <tr>
+          <td colspan="5">No Users found.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <mat-paginator 
+      *ngIf="isExpanded" 
+      [pageSizeOptions]="[5, 10, 25, 100]" 
+      [length]="totalItems" 
+      [pageSize]="pageSize"
+      [pageIndex]="currentPage" 
+      (page)="onPageChange($event)" 
+      (click)="$event.stopPropagation()" 
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>
