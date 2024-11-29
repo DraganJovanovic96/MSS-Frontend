@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -10,6 +10,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerVehicleDialogComponent } from '../../customer-vehicle-dialog/customer-vehicle-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -26,6 +27,9 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
   ],
   templateUrl: './email-customer.component.html',
   styleUrl: './email-customer.component.scss'
+})
+@Injectable({
+  providedIn: 'root',
 })
 export class EmailCustomerComponent implements OnInit {
   services: any[] = [];
@@ -78,6 +82,7 @@ export class EmailCustomerComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) { }
 
@@ -97,6 +102,27 @@ export class EmailCustomerComponent implements OnInit {
     this.setupSearchControls();
   }
 
+  sendEmailService(emailCustomerDto: any): void {
+    this.http.post(`${BASIC_URL}email-customer`, emailCustomerDto, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', '*/*'),
+      observe: 'response',
+      responseType: 'text'
+    }).subscribe({
+      next: () => {
+        this.snackBar.open('Email has been sent successfully!', 'Close', {
+          duration: 5000,
+          verticalPosition: 'bottom'
+        });
+      },
+      error: () => {
+        this.snackBar.open('Failed to send email. Please try again.', 'Close', {
+          duration: 5000,
+          verticalPosition: 'bottom'
+        });
+      }
+    });
+  }
+
   setupSearchControls(): void {
     const controls = [
       this.invoiceCodeControl,
@@ -109,15 +135,15 @@ export class EmailCustomerComponent implements OnInit {
 
     controls.forEach(control => {
       control.valueChanges
-        .pipe(debounceTime(300), distinctUntilChanged())
+        .pipe(debounceTime(350), distinctUntilChanged())
         .subscribe(() => this.onSearchChange());
     });
   }
 
   openCustomerVehicleDialog(service: any): void {
       const dialogRef = this.dialog.open(CustomerVehicleDialogComponent, {
-          width: '300px',
-          panelClass: 'custom-container',  // Add panelClass here
+          width: '350px',
+          panelClass: 'custom-container',  
           data: {
               customer: service.vehicleDto.customerDto, 
               vehicle: service.vehicleDto,

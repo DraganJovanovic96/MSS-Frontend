@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { EmailCustomerComponent } from '../admin/email-customer/email-customer.component';
 
 
 @Component({
@@ -29,11 +30,19 @@ import { MatButtonModule } from '@angular/material/button';
 export class CustomerVehicleDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CustomerVehicleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private emailService: EmailCustomerComponent
   ) {}
 
   sendEmail(): void {
-    console.log('Email sent to:', this.data.customer.email);
+    const emailCustomerDto = {
+      customerName: this.data.customer.firstname + ' ' + this.data.customer.lastname,
+      customerEmail: this.data.customer.email,
+      vehicleManufacturerAndModel: this.data.vehicle.manufacturer + ' ' + this.data.vehicle.model,
+      invoiceCode: this.data.service.invoiceCode,
+    };
+  
+    this.emailService.sendEmailService(emailCustomerDto);
     this.dialogRef.close();
   }
 }
