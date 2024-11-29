@@ -1,0 +1,31 @@
+.circle-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.circle-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-circle {
+  transform: rotate(-90deg);
+}
+
+.progress-text {
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+  color: #A07855;
+}
+
+.circle-label {
+  font-size: 24px;
+  color: #2C2B29;
+}

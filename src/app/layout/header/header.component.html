@@ -1,0 +1,64 @@
+<header class="header">
+  <div class="wrapper">
+    <img src="/assets/images/mss-logo-white-png.png" alt="Logo image" class="logo" (click)="navigateToHome()" />
+    <div class="header-buttons">
+      <div class="dropdown" *ngIf="isLoggedIn()">
+        <a class="header-button-item" [routerLink]="['/dashboard']">Dashboard</a>
+      </div>
+
+      <div class="dropdown" *ngIf="isLoggedIn()">
+        <a class="header-button-item dropdown-toggle" [routerLink]="['/customers']">Customers</a>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/customers']">View Customers</a>
+          <a class="dropdown-item" [routerLink]="['/create-customer']">Create Customer</a>
+        </div>
+      </div>
+
+      <div class="dropdown" *ngIf="isLoggedIn()">
+        <a class="header-button-item dropdown-toggle" [routerLink]="['/vehicles']">Vehicles</a>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/vehicles']">View Vehicles</a>
+          <a class="dropdown-item" [routerLink]="['/create-vehicle']">Create Vehicle</a>
+        </div>
+      </div>
+
+      <div class="dropdown" *ngIf="isLoggedIn()">
+        <a class="header-button-item dropdown-toggle" [routerLink]="['/services']">Services</a>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/services']">View Services</a>
+          <a class="dropdown-item" [routerLink]="['/create-service']">Create Service</a>
+        </div>
+      </div>
+
+      <div class="dropdown" *ngIf="isLoggedIn()">
+        <a class="header-button-item dropdown-toggle" [routerLink]="['/service-types']">Type Of Service</a>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/service-types']">View Service Types</a>
+          <a class="dropdown-item" [routerLink]="['/create-service-type']">Create Service Types</a>
+        </div>
+      </div>
+
+      <div class="dropdown" *ngIf="isLoggedIn() && isAdmin()">
+        <a class="header-button-item dropdown-toggle" [routerLink]="['/admin-options']">Admin</a>
+        <div class="dropdown-content">
+          <a class="dropdown-item" [routerLink]="['/admin-options']">Admin</a>
+          <a class="dropdown-item" [routerLink]="['/create-user']">Create Mechanic</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="dropdown user-dropdown" *ngIf="isLoggedIn() && userImage">
+      <div class="user-container">
+        <img [src]="userImage" alt="User profile picture" class="user-image" />
+      </div>
+      <div class="dropdown-content">
+        <a class="logo-drop-container dropdown-item" [routerLink]="['/update-user']">
+          <img src="/assets/images/settings.png" alt="Settings icon" class="logo-drop" />
+          <span class="settings-text">Settings</span>
+        </a>
+        <button class="dropdown-item" (click)="LogOut()">Log Out</button>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,193 @@
+.create-user-container {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  padding-right: 300px;
+  background-color: #f3f6f9;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.form-container {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.column-in-row {
+  flex-wrap: wrap;
+}
+
+.form-container {
+  margin-top: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-button {
+  padding: 10px 20px;
+  background-color: #15696F;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.password-button { 
+  padding: 10px 20px;
+  background-color: #454442;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.password-button:hover {
+  background-color: #666666;
+}
+
+.save-button:hover {
+  background-color: #1d9199;
+}
+
+
+.column-in-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+.large-year-input {
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+}
+
+.large-year-input::-webkit-inner-spin-button,
+.large-year-input::-webkit-outer-spin-button {
+  height: 40px;
+  width: 25px;
+}
+
+.span {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+}
+
+.header .fa {
+  color: #15696F;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.image-container img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.toggle-repeatPassword {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.password-group {
+  position: relative;
+}
+
+.password-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.caps-lock-warning {
+  position: absolute;
+  left: -17px;
+  color: #000000;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.fas {
+  color: #15696F;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.password-button-container {
+  display: flex;
+  justify-content: flex-start; /* Align the button to the left */
+  margin-top: 20px;
+  flex: 1;
+}

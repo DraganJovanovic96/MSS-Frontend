@@ -1,0 +1,62 @@
+<div class="edit-service-type-container">
+    <div class="layout">
+        <app-sidebar></app-sidebar>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h2>Create Service Type</h2>
+            <i class="fa fa-wrench fa-2x"></i>
+        </div>
+        <div class="form-container">
+            <form (ngSubmit)="createServiceType()">
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Type Of Service</label>
+                        <input placeholder="Part" type="text" [(ngModel)]="serviceType.typeOfService" name="serviceType" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input placeholder="Price of part" type="text" [(ngModel)]="serviceType.description" name="description" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Select Service</label>
+                        <ng-select
+                            [(ngModel)]="serviceType.serviceId"
+                            name="serviceId"
+                            [items]="services"
+                            bindLabel="invoiceCode"
+                            bindValue="id"
+                            placeholder="Select Service"
+                            [searchable]="true"
+                            [clearable]="true">
+                        </ng-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price €</label>
+                        <input type="number" min="0" oninput="validity.valid||(value='');" [(ngModel)]="serviceType.price" name="price" />
+                    </div>
+                </div>
+            <div class="column-in-row">
+                <div class="form-group">
+                    <label>Part Identification Code</label>
+                    <input placeholder="AH843R92" type="text" [(ngModel)]="serviceType.partCode" name="partCode" />
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" min="1" oninput="validity.valid||(value='');" [(ngModel)]="serviceType.quantity" name="quantity" />
+                </div>
+            </div>
+                <div class="column-in-row">
+                    <div class="form-group button-container">
+                        <button type="submit" class="save-button">Create Service Type</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

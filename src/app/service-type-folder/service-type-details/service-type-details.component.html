@@ -1,0 +1,69 @@
+<div class="edit-service-type-container">
+    <div class="layout">
+        <app-sidebar></app-sidebar>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h2>Edit Service Type</h2>
+            <i class="fa fa-wrench fa-2x"></i>
+        </div>
+        <div class="form-container">
+            <form (ngSubmit)="updateServiceType()">
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Type Of Service</label>
+                        <input type="text" [(ngModel)]="serviceType.typeOfService" name="serviceType" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" [(ngModel)]="serviceType.description" name="description" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Select Service</label>
+                        <ng-select [(ngModel)]="serviceType.serviceId" name="serviceId" [items]="services"
+                            bindLabel="invoiceCode" bindValue="id" placeholder="Select Service" [searchable]="true"
+                            [clearable]="true">
+                        </ng-select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price €</label>
+                        <input type="number" min="0" oninput="validity.valid||(value='');" [(ngModel)]="serviceType.price" name="price" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Part Identification Code</label>
+                        <input placeholder="AH843R92" type="text" [(ngModel)]="serviceType.partCode" name="partCode" />
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input placeholder="1" type="number" min="1" [(ngModel)]="serviceType.quantity" name="quantity" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div *ngIf="serviceType.isDeleted">
+                        <label class="checkbox-label">
+                            <input type="checkbox" [(ngModel)]="serviceType.isDeleted" name="isDeleted"
+                                class="large-checkbox" />
+                            <span class="checkbox-text">{{ serviceType.isDeleted ? 'Deleted' : 'Active' }}</span>
+                        </label>
+                    </div>
+                    <div *ngIf="!serviceType.isDeleted">
+                        <div class="form-group button-container">
+                            <button type="button" class="delete-button"
+                                (click)="deleteServiceType(serviceType.id)">Delete</button>
+                        </div>
+                    </div>
+                    <div class="form-group button-container">
+                        <button type="submit" class="save-button">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 

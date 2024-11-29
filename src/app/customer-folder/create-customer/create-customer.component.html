@@ -1,0 +1,52 @@
+<div class="edit-customer-container">
+    <div class="layout">
+        <app-sidebar></app-sidebar>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h2>Create Customer</h2>
+            <i class="fa fa-user fa-2x"></i>
+        </div>
+        <div class="form-container">
+            <form (ngSubmit)="createCustomer()" #customerForm="ngForm">
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Firstname</label>
+                        <input placeholder="David" type="text" [(ngModel)]="customer.firstname" name="firstname" />
+                    </div>
+                    <div class="form-group">
+                        <label>Lastname</label>
+                        <input placeholder="Simic" type="text" [(ngModel)]="customer.lastname" name="lastname" />
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input placeholder="Kralja Petra 1" type="text" [(ngModel)]="customer.address" name="address" />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input placeholder="031-434-702" type="text" [(ngModel)]="customer.phoneNumber" name="phoneNumber" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input required type="email" [(ngModel)]="customer.email" name="email" #email="ngModel"
+                       (focus)="onEmailFocus()" (blur)="onEmailBlur()" [pattern]="emailPattern"
+                       placeholder="mss@gmail.com">
+                    <div *ngIf="(email.touched || customerForm.submitted) && email.invalid" class="error-message">
+                       <small *ngIf="email.errors?.['pattern']">Please enter a valid email address.</small>
+                    </div>
+                 </div>
+                <div class="column-in-row">
+                    <div class="form-group button-container">
+                        <button type="submit" class="save-button">Create Customer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
