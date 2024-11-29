@@ -5,8 +5,9 @@ import { UserStorageService } from '../storage/user-storage.service';
 import { Router } from '@angular/router';
 import { TokenStateService } from './token.state.service';
 import { UserStateService } from './user.state.service';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = "http://localhost:8080/api/v1/";
+const BASIC_URL = environment.apiUrl;
 
 interface AuthResponse {
   access_token: string;

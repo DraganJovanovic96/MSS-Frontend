@@ -6,8 +6,10 @@ import { TokenStateService } from '../../../services/auth/token.state.service';
 import { UserStorageService } from '../../../services/storage/user-storage.service';
 import { catchError, map, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
+
 
 interface AuthResponse {
   body: any;

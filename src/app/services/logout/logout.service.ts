@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { TokenStateService } from '../auth/token.state.service';
 import { AuthService } from '../auth/auth.service';
 import { UserStateService } from '../auth/user.state.service';
-import { HeaderComponent } from '../../layout/header/header.component';
 
 @Injectable({
   providedIn: 'root'

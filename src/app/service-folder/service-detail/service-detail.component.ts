@@ -7,11 +7,11 @@ import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirma
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '../../services/auth/auth.service';
 import { SharedDataService } from '../../services/SharedDataService';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
 
 interface ServiceUpdateDto {
   id: number;
