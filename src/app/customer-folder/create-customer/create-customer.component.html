@@ -11,7 +11,7 @@
             <i class="fa fa-user fa-2x"></i>
         </div>
         <div class="form-container">
-            <form (ngSubmit)="createCustomer()">
+            <form (ngSubmit)="createCustomer()" #customerForm="ngForm">
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Firstname</label>
@@ -32,6 +32,15 @@
                         <input placeholder="031-434-702" type="text" [(ngModel)]="customer.phoneNumber" name="phoneNumber" />
                     </div>
                 </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input required type="email" [(ngModel)]="customer.email" name="email" #email="ngModel"
+                       (focus)="onEmailFocus()" (blur)="onEmailBlur()" [pattern]="emailPattern"
+                       placeholder="mss@gmail.com">
+                    <div *ngIf="(email.touched || customerForm.submitted) && email.invalid" class="error-message">
+                       <small *ngIf="email.errors?.['pattern']">Please enter a valid email address.</small>
+                    </div>
+                 </div>
                 <div class="column-in-row">
                     <div class="form-group button-container">
                         <button type="submit" class="save-button">Create Customer</button>

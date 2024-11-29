@@ -1,0 +1,38 @@
+.fa {
+  color: #15696F;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+.send-button {
+  padding: 10px 20px;
+  background-color: #454442;
+  color: white !important; 
+  border: none;
+  border-radius: 20px; 
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.send-button:hover {
+  background-color: #666666;
+  color: white;
+}
+
+.cancel-button{
+  border-radius: 20px;
+  margin-right: auto;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.cancel-button:hover {
+  background-color: #d1cfc7 !important; 
+}
+
+.cancel-button:focus {
+  outline: none; 
+}

@@ -1,0 +1,38 @@
+.app-layout {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+app-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.app-layout {
+    display: flex;
+}
+
+app-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.card-title-container {
+    display: flex;
+    align-items: flex-start;  
+    padding: 0;  
+    margin-left: 60px;  
+    margin-right:110px;
+    margin-top: 100px;
+}
+
+.card {
+    width: 150px;
+    height: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}

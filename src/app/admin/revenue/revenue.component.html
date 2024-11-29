@@ -1,0 +1,124 @@
+<div class="main-layout">
+  <div class="circle-grid">
+
+
+    <div class="circle-container">
+      <app-progress-circle [maxValue]="totalRevenue" [targetValue]="totalRevenue" [strokeColor]="'#105459'">
+      </app-progress-circle>
+      <div class="text-icon-container">
+        <h1>Revenue <i class="fa fa-eur fa-5x large-icon"></i></h1>
+      </div>
+    </div>
+
+
+    <div class="circle-container">
+      <app-progress-circle [maxValue]="totalServices" [targetValue]="totalServices" [strokeColor]="'#1da394'">
+      </app-progress-circle>
+      <div class="text-icon-container">
+        <h1>Services <i class="fa fa-wrench fa-5x large-icon"></i></h1>
+      </div>
+    </div>
+     
+    <div class="circle-container">
+      <app-progress-circle [maxValue]="totalParts" [targetValue]="totalParts" [strokeColor]="'#188076'">
+      </app-progress-circle>
+      <div class="text-icon-container">
+        <h1>Parts <i class="fa fa-cogs fa-5x large-icon"></i></h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-list">
+    <div class="header">
+      <h2>Services</h2>
+      <i class="fa fa-wrench fa-2x"></i>
+      <div class="sidebar">
+        <div class="filter">
+          <button [class.active]="activeFilter === 'monthly'" (click)="setActiveFilter('monthly')">Monthly</button>
+        </div>
+        <div class="filter">
+          <button [class.active]="activeFilter === 'quarterly'" (click)="setActiveFilter('quarterly')">Quarterly</button>
+        </div>
+        <div class="filter">
+          <button [class.active]="activeFilter === 'halfYear'" (click)="setActiveFilter('halfYear')">Half-Yearly</button>
+        </div>
+        <div class="filter">
+          <button [class.active]="activeFilter === 'yearly'" (click)="setActiveFilter('yearly')">Yearly</button>
+        </div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        
+        <tr>
+          <th>Invoice Code</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Current Mileage</th>
+          <th>Vehicle</th>
+          <th>Mechanic</th>
+          <th>Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of services" (click)="getServiceById(service.id)" style="cursor: pointer;">
+          <td>{{ service.invoiceCode }}</td>
+          <td>{{ service.startDate | date: 'dd.MM.yyyy' }}</td>
+          <td>{{ service.endDate | date: 'dd.MM.yyyy' }}</td>
+          <td>{{ service.currentMileage }}</td>
+          <td>{{ service.vehicleDto.manufacturer }} {{ service.vehicleDto.model }}</td>
+          <td>{{ service.userDto.firstname}} {{service.userDto.lastname }}</td>
+          <td>{{ service.revenuePerService }}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="services.length === 0">
+        <tr>
+          <td colspan="8" style="text-align: center;">No services found.</td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="totalItems" [pageSize]="pageSize"
+      [pageIndex]="currentPage" (page)="onPageChange($event)" aria-label="Select page">
+    </mat-paginator>
+    <div class="column-in-row">
+    <div class="pie-chart-container">
+      <div class="pie-chart-wrapper">
+        <ngx-charts-pie-chart 
+          [view]="pieChartView"
+          [results]="pieChartData"
+          [labels]="pieChartOptions.labels"
+          [doughnut]="true"
+          [explodeSlices]="pieChartOptions.explodeSlices">
+        </ngx-charts-pie-chart>
+        <h1 class="pie-chart-title">Revenue by service</h1>
+      </div>
+    </div>
+    <div class="pie-chart-container">
+      <div class="pie-chart-wrapper">
+        <ngx-charts-pie-chart 
+          [view]="pieChartView"
+          [results]="pieChartMechanicData"
+          [labels]="pieChartOptions.labels"
+          [doughnut]="true"
+          [explodeSlices]="pieChartOptions.explodeSlices">
+        </ngx-charts-pie-chart>
+        <h1 class="pie-chart-title">Revenue by mechanic</h1>
+      </div>
+    </div>
+    <div class="pie-chart-container">
+      <div class="pie-chart-wrapper">
+        <ngx-charts-pie-chart 
+          [view]="pieChartView"
+          [results]="pieChartCustomerData"
+          [labels]="pieChartOptions.labels"
+          [doughnut]="true"
+          [explodeSlices]="pieChartOptions.explodeSlices">
+        </ngx-charts-pie-chart>
+        <h1 class="pie-chart-title">Revenue by customer</h1>
+      </div>
+    </div>
+    </div>
+ 
+</div>
+
+

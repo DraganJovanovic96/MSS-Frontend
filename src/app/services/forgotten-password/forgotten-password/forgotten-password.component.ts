@@ -7,8 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserStorageService } from '../../storage/user-storage.service';
 import { TokenStateService } from '../../auth/token.state.service';
-import { UserStateService } from '../../auth/user.state.service';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 
 const BASIC_URL = 'http://localhost:8080/api/v1/';
 
@@ -30,6 +29,7 @@ export class ForgottenPasswordComponent implements OnInit {
   passwordVisible = false;
   capsLockOn = false;
   token: string | null = null;
+  email: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +50,7 @@ export class ForgottenPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.checkCapsLockStatusOnInit();
     this.extractTokenFromQueryParams();
+    this.extractEmailFromQueryParams();
   }
 
   togglePasswordVisibility(): void {
@@ -73,9 +74,22 @@ export class ForgottenPasswordComponent implements OnInit {
     }
   }
 
+  extractEmailFromQueryParams(): void {
+    this.email = this.route.snapshot.queryParamMap.get('email');
+    if (!this.email) {
+      this.router.navigate(['/home']);
+    }
+  }
+
+
   onSubmit(): void {
     if (!this.token) {
       this.errorMessage = 'Token is required to reset your password.';
+      return;
+    }
+
+    if (!this.email) {
+      this.errorMessage = 'Email is required to reset your password.';
       return;
     }
 
@@ -91,7 +105,7 @@ export class ForgottenPasswordComponent implements OnInit {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       const body = { newPassword, repeatNewPassword };
 
-      const url = `${BASIC_URL}auth/reset-password?token=${encodeURIComponent(this.token)}`;
+      const url = `${BASIC_URL}auth/reset-password?token=${encodeURIComponent(this.token)}&email=${encodeURIComponent(this.email)}`;
 
       this.http
         .post<AuthResponse>(url, body, { headers, observe: 'response' })

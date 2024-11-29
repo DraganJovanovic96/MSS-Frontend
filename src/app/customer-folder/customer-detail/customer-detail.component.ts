@@ -21,6 +21,8 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 })
 export class CustomerDetailComponent implements OnInit {
   isDeleted: boolean = true;
+  blurredEmail = false;
+  emailPattern: string = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
   customer: any = {
     id: null,
@@ -30,6 +32,7 @@ export class CustomerDetailComponent implements OnInit {
     firstname: '',
     lastname: '',
     address: '',
+    email: '',
     phoneNumber: '',
     vehicleDtos: {
       manufacturer: '',
@@ -112,6 +115,15 @@ export class CustomerDetailComponent implements OnInit {
       },
       error: (error) => console.error(`Error fetching customer with ID ${id}:`, error)
     });
+  }
+
+  
+  onEmailBlur() {
+    this.blurredEmail = true;
+  }
+
+  onEmailFocus(): void {
+    this.blurredEmail = false;
   }
 
 }

@@ -24,6 +24,7 @@ interface AuthResponse {
 export class EmailVerificationComponent implements OnInit {
   errorMessage: string | null = null;
   token: string | null = null;
+  email: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,16 +38,20 @@ export class EmailVerificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.extractTokenFromQueryParams();
-    });
-  }
+      this.token = params['token'] || null;
+      this.email = params['email'] || null;
 
-  extractTokenFromQueryParams(): void {
-    this.token = this.route.snapshot.queryParamMap.get('token');
-    if (this.token) {
-      this.verifyUser(this.token);
-    }
-    this.router.navigate(['/verify']);
+      if (this.token) {
+        this.verifyUser(this.token);
+      } else {
+        this.errorMessage = 'Token is required to verify user.';
+      }
+
+      if (!this.email) {
+        console.log('Email is missing in the query parameters.');
+        this.errorMessage = 'Email is required to verify user.';
+      }
+    });
   }
 
   private verifyUser(token: string): void {
@@ -55,11 +60,16 @@ export class EmailVerificationComponent implements OnInit {
       return;
     }
 
+    if (!this.email) {
+      this.errorMessage = 'Email is required to verify user.';
+      return;
+    }
+
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Accept', '*/*');
 
-    const url = `${BASIC_URL}auth/verification?token=${encodeURIComponent(this.token)}`;
+    const url = `${BASIC_URL}auth/verification?token=${encodeURIComponent(this.token)}&email=${encodeURIComponent(this.email)}`;
 
     this.http
       .post<AuthResponse>(url, {}, { headers, observe: 'response' })

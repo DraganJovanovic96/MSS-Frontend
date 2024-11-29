@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './spinner.component.scss'
 })
 export class SpinnerComponent {
-  @Input() imageUrl: string = 'assets/images/mss-logo-black-png.png';
+  @Input() imageUrl: string = 'assets/images/mss-logo-white-png.png';
   @Input() altText: string = 'Loading...';
 }
