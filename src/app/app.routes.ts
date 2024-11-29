@@ -24,6 +24,9 @@ import { ResendVerificationEmailComponent } from './login/resend-email-verificat
 import { ForgottenPasswordComponent } from './services/forgotten-password/forgotten-password/forgotten-password.component';
 import { SendForgottenPasswordEmail } from './login/send-forgotten-password-email/send-forgotten-password-email/send-forgotten-password-email.component';
 import { UserAdminViewComponent } from './admin/Users/user-admin-view/user-admin-view/user-admin-view.component';
+import { AdminOptionsComponent } from './admin/admin-options/admin-options.component';
+import { RevenueComponent } from './admin/revenue/revenue.component';
+import { EmailCustomerComponent } from './admin/email-customer/email-customer.component';
 
 export const routes: Routes = [
     {
@@ -116,7 +119,7 @@ export const routes: Routes = [
 
 
     {
-        path: "admin",
+        path: "admin-users",
         component: AdminComponent,
         canActivate: [authGuard]
     },
@@ -158,6 +161,11 @@ export const routes: Routes = [
     },
 
     {
+        path: "revenue",
+        component: RevenueComponent
+    },
+
+    {
         path: 'service-types/service/:serviceId',
         component: ServiceTypesComponent
     },
@@ -178,6 +186,13 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
 
+    
+    {
+        path: "admin-options",
+        component: AdminOptionsComponent,
+        canActivate: [authGuard]
+    },
+
     {
         path: "reset-password",
         component: ForgottenPasswordComponent
@@ -186,6 +201,11 @@ export const routes: Routes = [
     {
         path: "send-password-reset",
         component: SendForgottenPasswordEmail
+    },
+
+    {
+        path: "email",
+        component: EmailCustomerComponent
     },
 
     {

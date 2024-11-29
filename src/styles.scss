@@ -115,3 +115,7 @@ body {
     background-position: center; 
     background-attachment: fixed
 }
+
+.mat-mdc-dialog-container {
+    --mdc-dialog-container-shape: 30px;
+  }

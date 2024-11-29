@@ -13,6 +13,7 @@
     <div class="search-fields">
       <input type="text" [formControl]="fullNameControl" placeholder="Search Name">
       <input type="text" [formControl]="addressControl" placeholder="Search Address">
+      <input type="text" [formControl]="emailControl" placeholder="Search Email">
       <input type="text" [formControl]="phoneNumberControl" placeholder="Search Phone Number">
     </div>
     <table>
@@ -21,6 +22,7 @@
           <th>FIRST NAME</th>
           <th>LAST NAME</th>
           <th>ADDRESS</th>
+          <th>EMAIL</th>
           <th>PHONE NUMBER</th>
         </tr>
       </thead>
@@ -29,6 +31,7 @@
           <td>{{ customer.firstname }}</td>
           <td>{{ customer.lastname }}</td>
           <td>{{ customer.address }}</td>
+          <td>{{ customer.email }}</td>
           <td>{{ customer.phoneNumber }}</td>
         </tr>
       </tbody>

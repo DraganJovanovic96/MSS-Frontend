@@ -24,8 +24,6 @@ export class AdminComponent {
   pageSize = 5;
   totalItems = 0;
   isDeleted = false;
-  isExpanded = true;
-  private preventCollapse = false;
 
   fullNameControl = new FormControl('');
   emailControl = new FormControl('');
@@ -67,16 +65,6 @@ export class AdminComponent {
     this.getUsers();
   }
 
-  toggleTableView(event: Event): void {
-    event.stopPropagation();
-    this.isExpanded = true;
-  }
-
-  expandOnHeaderClick(event: Event): void {
-    event.stopPropagation();
-    this.isExpanded = true;
-  }
-
   getUsersById(id: number): void {
     this.router.navigate([`/users`, id]);
   }
@@ -106,35 +94,17 @@ export class AdminComponent {
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.preventCollapse = true;
-    this.isExpanded = true;
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { page: this.currentPage, pageSize: this.pageSize },
       queryParamsHandling: 'merge',
     });
-
-    this.getUsers();
-    setTimeout(() => {
-      this.preventCollapse = false;
-    }, 100);
   }
 
   onToggleChange(event: any): void {
     this.isDeleted = event.checked;
     this.currentPage = 0;
     this.getUsers();
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (this.preventCollapse) {
-      this.preventCollapse = false;
-      return;
-    }
-    if (this.userListContainer && !this.userListContainer.nativeElement.contains(event.target)) {
-      this.isExpanded = false;
-    }
   }
 }

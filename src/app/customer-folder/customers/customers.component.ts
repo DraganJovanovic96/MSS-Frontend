@@ -26,6 +26,7 @@ export class CustomersComponent implements OnInit {
 
   fullNameControl = new FormControl('');
   addressControl = new FormControl('');
+  emailControl = new FormControl('');
   phoneNumberControl = new FormControl('');
 
   constructor(
@@ -50,6 +51,11 @@ export class CustomersComponent implements OnInit {
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(() => this.onSearchChange());
 
+      this.emailControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => this.onSearchChange());
+
+
     this.phoneNumberControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(() => this.onSearchChange());
@@ -68,6 +74,7 @@ export class CustomersComponent implements OnInit {
     const customerFiltersQueryDto = {
       fullName: this.fullNameControl.value,
       address: this.addressControl.value,
+      email: this.emailControl.value,
       phoneNumber: this.phoneNumberControl.value,
       isDeleted: this.isDeleted
     };

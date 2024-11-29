@@ -67,7 +67,7 @@ export class ResendVerificationEmailComponent {
         error: (error) => {
           console.error('Error verifying user:', error);
           this.isLoading = false;
-          this.errorMessage = 'Failed to verify your account. Please try again.';
+          this.errorMessage = 'Failed to send new verification code.';
         }
       });
     }

@@ -18,6 +18,8 @@ const BASIC_URL = 'http://localhost:8080/api/v1/';
 })
 export class CreateCustomerComponent {
   isDeleted: boolean = false;
+  blurredEmail = false;
+  emailPattern: string = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
   customer: any = {
     id: null,
@@ -27,6 +29,7 @@ export class CreateCustomerComponent {
     firstname: '',
     lastname: '',
     address: '',
+    email: '',
     phoneNumber: '',
     vehicleDtos: {
       manufacturer: '',
@@ -55,5 +58,13 @@ export class CreateCustomerComponent {
       },
       error: (error) => console.error('Error creating customer:', error)
     });
+  }
+
+  onEmailBlur() {
+    this.blurredEmail = true;
+  }
+
+  onEmailFocus(): void {
+    this.blurredEmail = false;
   }
 }
