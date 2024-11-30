@@ -7,10 +7,10 @@ import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SharedDataService } from '../../services/SharedDataService';
 import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
 
 interface ServiceTypeUpdateDto {
   id: number;

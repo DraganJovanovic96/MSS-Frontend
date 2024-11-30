@@ -12,6 +12,9 @@ import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirma
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { SharedDataService } from '../../services/SharedDataService';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { environment } from '../../../environments/environment';
+
+const BASIC_URL = environment.apiUrl;
 
 interface VehicleUpdateDto {
   id: number;
@@ -32,8 +35,6 @@ interface VehicleDto {
   yearOfManufacture: number;
   customerId: number;
 }
-
-const BASIC_URL = 'http://localhost:8080/api/v1/';
 
 @Component({
   selector: 'app-vehicle-detail',

@@ -7,8 +7,9 @@ import { SidebarComponent } from '../layout/sidebar/sidebar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-admin',

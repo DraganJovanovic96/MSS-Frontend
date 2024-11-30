@@ -9,8 +9,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
 import { SharedDataService } from '../../services/SharedDataService';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-customer-detail',

@@ -11,8 +11,9 @@ import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerVehicleDialogComponent } from '../../customer-vehicle-dialog/customer-vehicle-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-email-customer',

@@ -8,8 +8,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-service-types',

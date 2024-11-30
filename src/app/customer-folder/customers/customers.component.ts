@@ -7,8 +7,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
+
 
 @Component({
   selector: 'app-customers',

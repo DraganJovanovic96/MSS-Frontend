@@ -8,8 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserStorageService } from '../../storage/user-storage.service';
 import { TokenStateService } from '../../auth/token.state.service';
 import { catchError, map, throwError } from 'rxjs';
-
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+import { environment } from '../../../../environments/environment';
+const BASIC_URL = environment.apiUrl;
 
 interface AuthResponse {
   access_token: string;
