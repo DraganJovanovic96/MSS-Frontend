@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { EmailCustomerComponent } from '../admin/email-customer/email-customer.component';
 
-
 @Component({
   selector: 'app-customer-vehicle-dialog',
   standalone: true, 

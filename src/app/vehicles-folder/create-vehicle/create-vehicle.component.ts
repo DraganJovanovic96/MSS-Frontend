@@ -7,8 +7,9 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { environment } from '../../../environments/environment';
 
-const BASIC_URL = 'http://localhost:8080/api/v1/';
+const BASIC_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-create-vehicle',
