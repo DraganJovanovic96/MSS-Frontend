@@ -96,6 +96,7 @@ export class RevenueComponent implements OnInit, AfterViewInit {
       next: (data) => {
         this.totalRevenue = data.revenue;
         this.totalParts = data.parts;
+        this.totalServices = data.services;
         this.triggerAnimations();
       },
       error: (err) => {
@@ -268,7 +269,7 @@ export class RevenueComponent implements OnInit, AfterViewInit {
         next: (data) => {
           this.totalRevenue = data.revenue;
           this.totalParts = data.parts;
-          this.totalServices = this.totalItems; 
+          this.totalServices = data.services;
           this.triggerImmediateAnimations(); 
         },
         error: (err) => {
@@ -293,7 +294,6 @@ export class RevenueComponent implements OnInit, AfterViewInit {
       next: (response: HttpResponse<any>) => {
         this.services = response.body;
         this.totalItems = parseInt(response.headers.get('x-total-items') || '0', 10);
-        this.totalServices = this.totalItems;
       },
       error: (error) => console.error('Error fetching services:', error)
     });
