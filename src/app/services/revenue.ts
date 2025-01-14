@@ -12,7 +12,7 @@ export class RevenueService {
 
   getCounts(startDate: string, endDate: string) {
     const body = { startDate, endDate };
-    return this.http.post<{revenue:number, parts: number }>(
+     return this.http.post<{revenue:number, parts: number, services: number }>(
       `${BASIC_URL}revenue/counts`,
       body
     );
