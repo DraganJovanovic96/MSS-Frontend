@@ -1,6 +1,7 @@
 .create-user-container {
   display: flex;
-  overflow-y: hidden;
+  overflow-y: hidden; /* Keep this for header */
+  position: relative;
 }
 
 .main-content {
@@ -188,7 +189,30 @@
 
 .password-button-container {
   display: flex;
-  justify-content: flex-start; /* Align the button to the left */
+  justify-content: flex-start; 
   margin-top: 20px;
   flex: 1;
+}
+
+@media (max-width: 768px) {
+  .create-user-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth mobile scrolling */
+  }
+
+  .main-content {
+    padding: 20px;
+    min-width: min(100%, 600px); /* Ensure content maintains minimum width */
+    padding-right: 20px !important; /* Override large right padding */
+  }
+
+  /* Keep other mobile adjustments from previous answer */
+  .column-in-row {
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
 }
