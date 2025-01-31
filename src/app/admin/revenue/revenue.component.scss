@@ -2,6 +2,7 @@
     display: flex;
     align-items: flex-start; 
     gap: 20px; 
+    overflow-y: hidden;
 }
 
 body {
@@ -260,6 +261,32 @@ table {
     font-weight: bold;
     color: #0c383b;
     text-decoration: underline;
-    transform: scale(1.1); /* Slightly increase the size for emphasis */
-    transition: all 0.3s ease; /* Smooth transition for all effects */
+    transform: scale(1.1); 
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    app-progress-circle::ng-deep .progress-text {
+        text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.7),
+        -1px -1px 2px rgba(0, 0, 0, 0.7),
+        1px -1px 2px rgba(0, 0, 0, 0.7),
+        -1px 1px 2px rgba(0, 0, 0, 0.7);
+        font-size: 24px !important;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    .fa {
+        font-size: 1.5rem;
+        color: #ffffff;
+    }
+
+    .text-icon-container h1 {
+        color: #ffffff !important;
+        background: rgba(0, 0, 0, 0.35);
+    }
+    
 }

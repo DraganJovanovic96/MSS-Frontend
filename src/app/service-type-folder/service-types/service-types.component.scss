@@ -1,6 +1,7 @@
 .main-container {
     display: flex;
     gap: 20px;
+    overflow-y: hidden;
   }
   
   app-sidebar {

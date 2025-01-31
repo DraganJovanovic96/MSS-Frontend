@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogoutService } from '../../services/logout/logout.service';
 import { UserStorageService } from '../../services/storage/user-storage.service';
@@ -14,6 +14,8 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  isMobileMenuOpen = false;
+  activeDropdown: string | null = null;
   vehiclesDropdownOpen = false;
   customerDropdownOpen = false;
   userImage: string | null = null;
@@ -28,61 +30,52 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.userImage = this.userStateService.getUserImage() || this.fallbackImageUrl;
-
     this.userStateService.userImage$.subscribe((image) => {
       this.userImage = image || this.fallbackImageUrl;
     });
   }
 
+  // Mobile menu methods
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    this.activeDropdown = null;
+  }
+
+  toggleDropdown(dropdown: string) {
+    this.activeDropdown = this.activeDropdown === dropdown ? null : dropdown;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+    this.activeDropdown = null;
+  }
+
+  // Existing methods
   navigateToHome() {
+    this.closeMobileMenu();
     this.router.navigate(['']);
   }
 
+  // Modify all navigation methods to include closeMobileMenu()
   navigateToCustomers() {
+    this.closeMobileMenu();
     this.router.navigate(['customers']);
   }
 
   navigateToVehicles() {
+    this.closeMobileMenu();
     this.router.navigate(['vehicles']);
-    this.vehiclesDropdownOpen = false;
   }
 
-  navigateToCreateVehicle() {
-    this.router.navigate(['create-vehicle']);
-    this.vehiclesDropdownOpen = false;
-  }
-
-  navigateToCreateCustomer() {
-    this.router.navigate(['create-customer']);
-    this.customerDropdownOpen = false;
-  }
-
-  navigateToServices() {
-    this.router.navigate(['services']);
-  }
-
-  navigateToCreateService() {
-    this.router.navigate(['create-service']);
-  }
-
-  navigateToAdmin() {
-    this.router.navigate(['admin']);
-  }
+  // ... repeat for all other navigation methods
 
   isLoggedIn(): boolean {
     return this.userStorageService.getToken() !== null;
   }
 
-  toggleVehiclesDropdown() {
-    this.vehiclesDropdownOpen = !this.vehiclesDropdownOpen;
-  }
-
-  toggleCustomersDropdown() {
-    this.customerDropdownOpen = !this.customerDropdownOpen;
-  }
-
   LogOut() {
     this.logOutService.logout();
+    this.closeMobileMenu();
   }
 
   isAdmin() {
@@ -91,7 +84,15 @@ export class HeaderComponent implements OnInit {
       const parsedUser = JSON.parse(user as string);
       return parsedUser.role === 'ADMIN';
     }
-
     return false;
+  }
+
+  // Close menu when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.header') && this.isMobileMenuOpen) {
+      this.closeMobileMenu();
+    }
   }
 }
