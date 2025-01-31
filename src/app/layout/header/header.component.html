@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <button class="hamburger" (click)="toggleMobileMenu()">☰</button>
+    <button class="hamburger" (click)="toggleMobileMenu()" *ngIf="isLoggedIn()">☰</button>
 
     <div class="dropdown user-dropdown" *ngIf="isLoggedIn() && userImage">
       <div class="user-container">
