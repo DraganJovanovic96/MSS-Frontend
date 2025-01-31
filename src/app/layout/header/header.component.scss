@@ -114,6 +114,17 @@
   object-fit: contain;
 }
 
+.logo-drop-container {
+  display: flex;
+  align-items: left;
+  gap: 10px;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: whitesmoke;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
 .hamburger {
   display: none;
   background: none;

@@ -290,3 +290,84 @@ table {
     }
     
 }
+
+
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .main-layout {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow-y: visible !important;
+    }
+
+    .circle-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        padding: 15px 0;
+        gap: 20px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 90vw !important;
+    }
+
+    .circle-container {
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: center !important; 
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .text-icon-container {
+        margin-top: 10px !important; 
+    
+        h1 {
+            font-size: 1.2rem !important;
+            white-space: nowrap;
+            margin-top: 5px !important; 
+        }
+    }
+
+    .services-list {
+        transform: none !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 20px 0 !important;
+        padding: 15px !important;
+    }
+
+    .large-icon {
+        font-size: 1.5rem !important;
+    }
+
+    .circle-container:nth-child(n) {
+        animation-delay: 0s !important;
+    }
+
+    app-progress-circle::ng-deep .progress-text {
+        text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.7),
+        -1px -1px 2px rgba(0, 0, 0, 0.7),
+        1px -1px 2px rgba(0, 0, 0, 0.7),
+        -1px 1px 2px rgba(0, 0, 0, 0.7);
+        font-size: 24px !important;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    .fa {
+        font-size: 1.5rem;
+        color: #ffffff;
+    }
+
+    .text-icon-container h1 {
+        color: #ffffff !important;
+        background: rgba(0, 0, 0, 0.35);
+    }
+}
+
+
