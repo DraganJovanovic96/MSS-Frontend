@@ -29,3 +29,19 @@
   font-size: 24px;
   color: #2C2B29;
 }
+
+
+@media (max-width: 768px) {
+  .progress-text {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    color: #9f5514;
+  }
+
+  .circle-label {
+    font-size: 24px;
+    color: #2C2B29;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.3);
+  }
+}

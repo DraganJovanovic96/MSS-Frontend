@@ -19,20 +19,59 @@ app-sidebar {
 
 .card-title-container {
     display: flex;
-    align-items: flex-start;  
-    padding: 0;  
-    margin-left: 60px;  
-    margin-right:110px;
-    margin-top: 100px;
+    align-items: flex-start;
+    padding: 0;
+    margin: 10vh 5% 0 5%; 
+    gap: 2%; 
+    flex-wrap: wrap; 
 }
 
 .card {
-    width: 150px;
-    height: auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    width: clamp(150px, 20vw, 200px); 
+    flex: 1 1 auto; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+
+@media (max-width: 768px) {
+    app-sidebar {
+        display: none;
+    }
+
+    .app-layout {
+        height: 100vh; 
+    }
+    
+    .card-title-container {
+        margin: 0 0 0 0; 
+        flex-direction: column; 
+        align-items: center; 
+        width: 100%; 
+    }
+    
+    .card {
+        margin: 15px 0; 
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    app-sidebar {
+        display: none;
+    }
+
+    .card-title-container {
+        margin: 5vh center 2% 0 2%; 
+        display: flex;
+        justify-content: center; 
+        width: fit-content;
+    }
+    
+    .card {
+        width: clamp(120px, 40vw, 200px); 
+    }
 }
