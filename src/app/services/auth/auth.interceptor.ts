@@ -1,5 +1,5 @@
 import { HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpEvent } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { ApplicationRef, inject } from '@angular/core';
 import { Observable, switchMap, catchError, throwError } from 'rxjs';
 import { UserStorageService } from '../storage/user-storage.service';
 import { AuthService } from './auth.service';
@@ -9,8 +9,10 @@ import { TokenStateService } from './token.state.service';
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const userStorage = inject(UserStorageService);
   const authService = inject(AuthService);
-  const tokenStateService = inject(TokenStateService)
+  const tokenStateService = inject(TokenStateService);
   const router = inject(Router);
+  const appRef = inject(ApplicationRef); 
+
   const authToken = userStorage.getToken();
   const refreshToken = userStorage.getRefreshToken();
 
@@ -23,13 +25,9 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
 
   return next(authReq).pipe(
     catchError((error) => {
-
-
       if (error.status === 401) {
-
         tokenStateService.setRefreshAttempted(true);
         if (refreshToken) {
-
           return authService.refreshToken().pipe(
             switchMap((newAccessToken) => {
               if (newAccessToken) {
@@ -43,18 +41,23 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
               } else {
                 tokenStateService.reset();
                 authService.logout();
+                appRef.tick(); 
+                router.navigate(['/login']);
                 return throwError(() => new Error('Unable to refresh token'));
               }
             }),
             catchError((refreshError) => {
               tokenStateService.reset();
               authService.logout();
+              appRef.tick();
+              router.navigate(['/login']);
               return throwError(() => refreshError);
             })
           );
         } else {
           tokenStateService.reset();
           authService.logout();
+          appRef.tick(); 
           router.navigate(['/login']);
         }
       }

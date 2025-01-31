@@ -1,52 +1,55 @@
 <header class="header">
   <div class="wrapper">
-    <img src="/assets/images/mss-logo-white-png.png" alt="Logo image" class="logo" (click)="navigateToHome()" />
-    <div class="header-buttons">
-      <div class="dropdown" *ngIf="isLoggedIn()">
-        <a class="header-button-item" [routerLink]="['/dashboard']">Dashboard</a>
-      </div>
-
-      <div class="dropdown" *ngIf="isLoggedIn()">
-        <a class="header-button-item dropdown-toggle" [routerLink]="['/customers']">Customers</a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" [routerLink]="['/customers']">View Customers</a>
-          <a class="dropdown-item" [routerLink]="['/create-customer']">Create Customer</a>
+    <div class="left-section">
+      <img src="/assets/images/mss-logo-white-png.png" alt="Logo image" class="logo" (click)="navigateToHome()" />
+      <div class="header-buttons">
+        <div class="dropdown" *ngIf="isLoggedIn()">
+          <a class="header-button-item" [routerLink]="['/dashboard']">Dashboard</a>
         </div>
-      </div>
 
-      <div class="dropdown" *ngIf="isLoggedIn()">
-        <a class="header-button-item dropdown-toggle" [routerLink]="['/vehicles']">Vehicles</a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" [routerLink]="['/vehicles']">View Vehicles</a>
-          <a class="dropdown-item" [routerLink]="['/create-vehicle']">Create Vehicle</a>
+        <div class="dropdown" *ngIf="isLoggedIn()">
+          <a class="header-button-item dropdown-toggle" [routerLink]="['/customers']">Customers</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" [routerLink]="['/customers']">View Customers</a>
+            <a class="dropdown-item" [routerLink]="['/create-customer']">Create Customer</a>
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown" *ngIf="isLoggedIn()">
-        <a class="header-button-item dropdown-toggle" [routerLink]="['/services']">Services</a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" [routerLink]="['/services']">View Services</a>
-          <a class="dropdown-item" [routerLink]="['/create-service']">Create Service</a>
+        <div class="dropdown" *ngIf="isLoggedIn()">
+          <a class="header-button-item dropdown-toggle" [routerLink]="['/vehicles']">Vehicles</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" [routerLink]="['/vehicles']">View Vehicles</a>
+            <a class="dropdown-item" [routerLink]="['/create-vehicle']">Create Vehicle</a>
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown" *ngIf="isLoggedIn()">
-        <a class="header-button-item dropdown-toggle" [routerLink]="['/service-types']">Type Of Service</a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" [routerLink]="['/service-types']">View Service Types</a>
-          <a class="dropdown-item" [routerLink]="['/create-service-type']">Create Service Types</a>
+        <div class="dropdown" *ngIf="isLoggedIn()">
+          <a class="header-button-item dropdown-toggle" [routerLink]="['/services']">Services</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" [routerLink]="['/services']">View Services</a>
+            <a class="dropdown-item" [routerLink]="['/create-service']">Create Service</a>
+          </div>
         </div>
-      </div>
 
-      <div class="dropdown" *ngIf="isLoggedIn() && isAdmin()">
-        <a class="header-button-item dropdown-toggle" [routerLink]="['/admin-options']">Admin</a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" [routerLink]="['/admin-options']">Admin</a>
-          <a class="dropdown-item" [routerLink]="['/create-user']">Create Mechanic</a>
+        <div class="dropdown" *ngIf="isLoggedIn()">
+          <a class="header-button-item dropdown-toggle" [routerLink]="['/service-types']">Type Of Service</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" [routerLink]="['/service-types']">View Service Types</a>
+            <a class="dropdown-item" [routerLink]="['/create-service-type']">Create Service Types</a>
+          </div>
+        </div>
+
+        <div class="dropdown" *ngIf="isLoggedIn() && isAdmin()">
+          <a class="header-button-item dropdown-toggle" [routerLink]="['/admin-options']">Admin</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" [routerLink]="['/admin-options']">Admin</a>
+            <a class="dropdown-item" [routerLink]="['/create-user']">Create Mechanic</a>
+          </div>
         </div>
       </div>
     </div>
 
+    <button class="hamburger" (click)="toggleMobileMenu()">☰</button>
 
     <div class="dropdown user-dropdown" *ngIf="isLoggedIn() && userImage">
       <div class="user-container">
@@ -58,6 +61,73 @@
           <span class="settings-text">Settings</span>
         </a>
         <button class="dropdown-item" (click)="LogOut()">Log Out</button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu (same as previous version) -->
+    <div class="mobile-menu" *ngIf="isMobileMenuOpen">
+      <!-- Customers -->
+      <div class="mobile-dropdown" *ngIf="isLoggedIn()">
+        <div class="mobile-menu-item" (click)="toggleDropdown('customers')">
+          Customers {{ activeDropdown === 'customers' ? '▲' : '▼' }}
+        </div>
+        <div class="dropdown-content" [class.active]="activeDropdown === 'customers'">
+          <a class="dropdown-item" [routerLink]="['/customers']" (click)="closeMobileMenu()">View Customers</a>
+          <a class="dropdown-item" [routerLink]="['/create-customer']" (click)="closeMobileMenu()">Create Customer</a>
+        </div>
+      </div>
+
+      <!-- Vehicles -->
+      <div class="mobile-dropdown" *ngIf="isLoggedIn()">
+        <div class="mobile-menu-item" (click)="toggleDropdown('vehicles')">
+          Vehicles {{ activeDropdown === 'vehicles' ? '▲' : '▼' }}
+        </div>
+        <div class="dropdown-content" [class.active]="activeDropdown === 'vehicles'">
+          <a class="dropdown-item" [routerLink]="['/vehicles']" (click)="closeMobileMenu()">View Vehicles</a>
+          <a class="dropdown-item" [routerLink]="['/create-vehicle']" (click)="closeMobileMenu()">Create Vehicle</a>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="mobile-dropdown" *ngIf="isLoggedIn()">
+        <div class="mobile-menu-item" (click)="toggleDropdown('services')">
+          Services {{ activeDropdown === 'services' ? '▲' : '▼' }}
+        </div>
+        <div class="dropdown-content" [class.active]="activeDropdown === 'services'">
+          <a class="dropdown-item" [routerLink]="['/services']" (click)="closeMobileMenu()">View Services</a>
+          <a class="dropdown-item" [routerLink]="['/create-service']" (click)="closeMobileMenu()">Create Service</a>
+        </div>
+      </div>
+
+      <!-- Service Types -->
+      <div class="mobile-dropdown" *ngIf="isLoggedIn()">
+        <div class="mobile-menu-item" (click)="toggleDropdown('service-types')">
+          Type Of Service {{ activeDropdown === 'service-types' ? '▲' : '▼' }}
+        </div>
+        <div class="dropdown-content" [class.active]="activeDropdown === 'service-types'">
+          <a class="dropdown-item" [routerLink]="['/service-types']" (click)="closeMobileMenu()">View Service Types</a>
+          <a class="dropdown-item" [routerLink]="['/create-service-type']" (click)="closeMobileMenu()">Create Service Types</a>
+        </div>
+      </div>
+
+      <!-- Admin -->
+      <div class="mobile-dropdown" *ngIf="isLoggedIn() && isAdmin()">
+        <div class="mobile-menu-item" (click)="toggleDropdown('admin')">
+          Admin {{ activeDropdown === 'admin' ? '▲' : '▼' }}
+        </div>
+        <div class="dropdown-content" [class.active]="activeDropdown === 'admin'">
+          <a class="dropdown-item" [routerLink]="['/admin-options']" (click)="closeMobileMenu()">Admin</a>
+          <a class="dropdown-item" [routerLink]="['/create-user']" (click)="closeMobileMenu()">Create Mechanic</a>
+        </div>
+      </div>
+
+      <!-- Mobile User Section -->
+      <div class="mobile-user-section">
+        <a class="dropdown-item" [routerLink]="['/update-user']" (click)="closeMobileMenu()">
+          <img src="/assets/images/settings.png" alt="Settings icon" class="logo-drop" />
+          Settings
+        </a>
+        <button class="dropdown-item" (click)="LogOut(); closeMobileMenu()">Log Out</button>
       </div>
     </div>
   </div>
