@@ -56,16 +56,14 @@
                             <span class="checkbox-text">{{ vehicle.isDeleted ? 'Deleted' : 'Active' }}</span>
                         </label>
                     </div>
-                    <div *ngIf="!vehicle.isDeleted">
-                        <div class="form-group button-container">
-                            <button type="button" class="delete-button"
-                                (click)="deleteVehicle(vehicle.id)">Delete</button>
+                    <div class="form-group" style="flex: none;">
+                        <div class="button-container">
+                          <button *ngIf="!vehicle.isDeleted" type="button" class="delete-button"
+                                  (click)="deleteVehicle(vehicle.id)">Delete</button>
+                          <button type="submit" class="save-button">Save</button>
                         </div>
+                      </div>
                     </div>
-                    <div class="form-group button-container">
-                        <button type="submit" class="save-button">Save</button>
-                    </div>
-                </div>
             </form>
         </div>
     </div>

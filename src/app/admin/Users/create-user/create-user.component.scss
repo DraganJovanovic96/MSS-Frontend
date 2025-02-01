@@ -1,6 +1,7 @@
 .create-user-container {
   display: flex;
   overflow-y: hidden;
+  position: relative;
 }
 
 .main-content {
@@ -198,3 +199,46 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .create-user-container {
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+  }
+
+  .main-content {
+    padding: 20px !important;
+    min-width: min(100%, 600px); 
+    padding-right: 20px !important; 
+  }
+
+  .column-in-row {
+    flex-direction: column; 
+  }
+
+  .form-group {
+    margin-right: 0 !important;
+    width: 100%;
+  }
+
+  .image-container img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .password-container {
+    width: 100%;
+  }
+
+  .error-message {
+    text-align: left;
+    margin-top: 5px;
+  }
+}
+
