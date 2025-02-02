@@ -1,6 +1,6 @@
 .create-user-container {
   display: flex;
-  overflow-y: hidden; /* Keep this for header */
+  overflow-y: hidden;
   position: relative;
 }
 
@@ -79,6 +79,7 @@
   border-radius: 5px;
   cursor: pointer;
   border-radius: 20px;
+  margin-right: 25vw;
 }
 
 .password-button:hover {
@@ -196,17 +197,16 @@
 
 @media (max-width: 768px) {
   .create-user-container {
-    overflow-x: auto; /* Enable horizontal scrolling */
-    -webkit-overflow-scrolling: touch; /* Smooth mobile scrolling */
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
   }
 
   .main-content {
-    padding: 20px;
-    min-width: min(100%, 600px); /* Ensure content maintains minimum width */
-    padding-right: 20px !important; /* Override large right padding */
+    padding: 25px;
+    min-width: min(100%, 600px); 
+    padding-right: 25px !important; 
   }
 
-  /* Keep other mobile adjustments from previous answer */
   .column-in-row {
     flex-direction: column;
   }
@@ -215,4 +215,21 @@
     margin-right: 0;
     margin-bottom: 15px;
   }
+
+  .button-row {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: flex-end; 
+    gap: 10px; 
+    margin-top: 20px;
+  }
+  
+  .password-button{
+    margin-right: auto;
+    z-index: 1;
+  }
+  
 }
+
+

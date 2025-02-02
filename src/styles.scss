@@ -143,3 +143,13 @@ body {
 .mat-mdc-dialog-container {
     --mdc-dialog-container-shape: 30px;
   }
+
+
+  .imgContainer {
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: url('/assets/images/background.jpg') center/cover no-repeat;
+  }

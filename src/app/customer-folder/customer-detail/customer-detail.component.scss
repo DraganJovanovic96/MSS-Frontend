@@ -1,6 +1,7 @@
 .edit-customer-container {
   display: flex;
   overflow-y: hidden;
+  position: relative;
 }
 
 .main-content {
@@ -28,7 +29,8 @@
 }
 
 .form-group {
-  margin-bottom: 20px;
+  flex: 1;
+  margin-right: 10px;
 }
 
 .form-group label {
@@ -55,6 +57,8 @@
 
 .button-container {
   display: flex;
+  flex-direction: row; 
+  gap: 10px;         
   justify-content: flex-end;
   margin-top: 20px;
 }
@@ -127,6 +131,7 @@ span {
   border-radius: 5px;
   cursor: pointer;
   border-radius: 20px;
+  margin-right: 52vw;
 }
 
 .delete-button:hover {
@@ -146,4 +151,39 @@ span {
   color: red;
   text-align: center;
   margin-top: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .edit-customer-container {
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+  }
+
+  .main-content {
+    padding: 20px !important;
+    min-width: min(100%, 600px); 
+  }
+
+  .column-in-row {
+    flex-direction: column; 
+    gap: 15px; 
+  }
+
+  .form-group {
+    margin-right: 0 !important;
+    width: 100%;
+    flex: none; 
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .delete-button{
+    margin-right: auto;
+    z-index: 1;
+  }
 }

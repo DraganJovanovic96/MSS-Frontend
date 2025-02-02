@@ -33,33 +33,22 @@
                         <input type="text" [(ngModel)]="customer.phoneNumber" name="phoneNumber" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input required type="email" [(ngModel)]="customer.email" name="email" #email="ngModel"
-                       (focus)="onEmailFocus()" (blur)="onEmailBlur()" [pattern]="emailPattern"
-                       placeholder="mss@gmail.com">
-                    <div *ngIf="(email.touched || customerForm.submitted) && email.invalid" class="error-message">
-                       <small *ngIf="email.errors?.['pattern']">Please enter a valid email address.</small>
-                    </div>
-                 </div>
                 <div class="column-in-row">
-                    <div *ngIf="customer.isDeleted">
-                        <label class="checkbox-label">
-                            <input type="checkbox" [(ngModel)]="customer.isDeleted" name="isDeleted"
-                                class="large-checkbox" />
-                            <span class="checkbox-text">{{ customer.isDeleted ? 'Deleted' : 'Active' }}</span>
-                        </label>
+                    <div *ngIf="customer.isDeleted" class="deleted-checkbox">
+                      <label class="checkbox-label">
+                        <input type="checkbox" [(ngModel)]="customer.isDeleted" name="isDeleted"
+                               class="large-checkbox" />
+                        <span class="checkbox-text">{{ customer.isDeleted ? 'Deleted' : 'Active' }}</span>
+                      </label>
                     </div>
-                    <div *ngIf="!customer.isDeleted">
-                        <div class="form-group button-container">
-                            <button type="button" class="delete-button"
+                    <div class="form-group" style="flex: none;">
+                      <div class="button-container">
+                        <button *ngIf="!customer.isDeleted" type="button" class="delete-button"
                                 (click)="deleteCustomer(customer.id)">Delete</button>
-                        </div>
-                    </div>
-                    <div class="form-group button-container">
                         <button type="submit" class="save-button">Save</button>
+                      </div>
                     </div>
-                </div>
+                  </div>
             </form>
         </div>
     </div>
