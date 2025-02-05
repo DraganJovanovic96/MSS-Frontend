@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
@@ -36,8 +36,10 @@ export class CreateVehicleComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {
+    this.prefillServiceId();
     this.loadCustomers();
   }
 
@@ -52,6 +54,14 @@ export class CreateVehicleComponent {
       error: (error) => console.error('Error fetching customers:', error)
     });
   }
+
+  prefillServiceId(): void {
+    const customerId = this.route.snapshot.queryParamMap.get('customerId');
+    if (customerId) {
+      this.vehicle.customerId = +customerId;
+    }
+  }
+
 
   createVehicle(): void {
     const vinWithoutSpecialChars = this.vehicle.vin.replace(/[^a-zA-Z0-9]/g, '');
