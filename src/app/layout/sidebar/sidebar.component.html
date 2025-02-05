@@ -2,9 +2,17 @@
         <ul>
                 <li><a class="side-bar-text-change" [routerLink]="['/dashboard']" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
-                <li class="spaced"><a [routerLink]="['/vehicles']" routerLinkActive="active">Vehicles</a></li>
+
+
+                <!-- <li class="spaced"><a [routerLink]="['/vehicles']" routerLinkActive="active">Vehicles</a></li>
                 <li><a [routerLink]="['/create-vehicle']" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Create Vehicle</a></li>
+                                [routerLinkActiveOptions]="{exact: true}">Create Vehicle</a></li> -->
+
+                <li *ngIf="customerId">
+                        <a [routerLink]="['/create-vehicle']" [queryParams]="{ customerId: customerId }"
+                                routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Vehicle</a>
+                        </li>
+
                 <li *ngIf="vehicleId"><a [routerLink]="['/vehicles', vehicleId]" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{exact: true}">Last Selected Vehicle</a></li>
                 <li *ngIf="customerId"><a [routerLink]="['/customers', customerId]" routerLinkActive="active"
