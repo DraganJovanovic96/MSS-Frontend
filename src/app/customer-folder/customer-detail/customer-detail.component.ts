@@ -127,4 +127,15 @@ export class CustomerDetailComponent implements OnInit {
     this.blurredEmail = false;
   }
 
+  validatePhoneNumber(event: KeyboardEvent): void {
+    const allowedCharacters = /^[0-9+\-()s]*$/;
+    const inputCharacter = event.key;
+    if (!allowedCharacters.test(inputCharacter)) {
+      event.preventDefault();
+    }
+  }
+
+  sanitizePhoneNumber(): void {
+    this.customer.phoneNumber = this.customer.phoneNumber.replace(/[^0-9+\-()\s]/g, '');
+  }
 }
