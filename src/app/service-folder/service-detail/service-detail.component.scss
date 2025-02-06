@@ -17,10 +17,6 @@
   margin-bottom: 20px;
 }
 
-.header h2 {
-  margin: 0;
-}
-
 .form-container {
   background: white;
   padding: 30px;
@@ -151,6 +147,18 @@ span {
   font-size: 16px;
 }
 
+.header-icons {
+  display: flex;
+  justify-content: space-between; 
+  width: 100%; 
+}
+
+.header h2 {
+  margin: 0;
+  white-space: nowrap; 
+  flex: 1; 
+}
+
 @media (max-width: 768px) {
   .edit-service-container {
     overflow-x: auto; 
@@ -193,11 +201,5 @@ span {
   .delete-button{
     margin-right: auto;
     z-index: 1;
-  }
-
-  .header-icons{ 
-    display: flex;
-    align-items: center;
-    gap: 48vw; 
   }
 }
