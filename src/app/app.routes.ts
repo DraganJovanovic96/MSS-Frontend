@@ -32,19 +32,19 @@ export const routes: Routes = [
     {
         path: "",
         component: HomeComponent,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
 
     {
         path: 'dashboard',
         component: HomeComponent,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
 
     {
         path: "vehicles",
         component: VehiclesComponent,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
 
     {
@@ -71,13 +71,13 @@ export const routes: Routes = [
     {
         path: "customers",
         component: CustomersComponent,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
 
     {
         path: 'customers/:id',
         component: CustomerDetailComponent,
-        // canActivate: [authGuard]
+        canActivate: [authGuard]
     },
 
     {
