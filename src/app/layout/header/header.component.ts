@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  // Mobile menu methods
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     this.activeDropdown = null;
@@ -50,13 +49,11 @@ export class HeaderComponent implements OnInit {
     this.activeDropdown = null;
   }
 
-  // Existing methods
   navigateToHome() {
     this.closeMobileMenu();
     this.router.navigate(['']);
   }
 
-  // Modify all navigation methods to include closeMobileMenu()
   navigateToCustomers() {
     this.closeMobileMenu();
     this.router.navigate(['customers']);
@@ -66,8 +63,6 @@ export class HeaderComponent implements OnInit {
     this.closeMobileMenu();
     this.router.navigate(['vehicles']);
   }
-
-  // ... repeat for all other navigation methods
 
   isLoggedIn(): boolean {
     return this.userStorageService.getToken() !== null;
@@ -87,7 +82,6 @@ export class HeaderComponent implements OnInit {
     return false;
   }
 
-  // Close menu when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
