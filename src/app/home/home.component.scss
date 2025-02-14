@@ -98,16 +98,18 @@ app-progress-circle {
         font-size: 1.5rem;
         color: #ffffff;
     }
+
+    .circle-container {
+        display: flex;
+        flex-direction: row; 
+        align-items: center; 
+        gap: 15dvw; 
+        padding: 5dvh;
+        transform: translateX(-100%); 
+        animation: slide-in 1s ease-out forwards; 
+    }
 }
 
-.circle-container {
-    display: flex;
-    flex-direction: row; 
-    align-items: center; 
-    gap: 15dvw; 
-    padding: 5dvh;
-    transform: translateX(-100%); 
-    animation: slide-in 1s ease-out forwards; 
-}
+
 
 
