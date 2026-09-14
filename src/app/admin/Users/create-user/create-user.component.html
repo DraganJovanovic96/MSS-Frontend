@@ -1,24 +1,13 @@
 <div class="create-user-container">
-   <div class="layout">
-      <app-sidebar></app-sidebar>
-      <div class="content">
-         <router-outlet></router-outlet>
-      </div>
-   </div>
-   <div class="main-content">
+   <div class="main-content glass-form">
       <div class="header">
-         <h2>Create Mechanic</h2>
-         <i class="fas fa-car-mechanic"></i>
+         <h2>Create Employee</h2>
+         <i class="fas fa-user"></i>
       </div>
       <div class="form-container">
          <div class="image-container">
-            <img [src]="registerRequestDto.imageUrl || 'https://i.ibb.co/tpytj2f8/JMYv1992-YQ-1.jpg'"
-               alt="Mechanic Image" />
-            <i class="fas fa-pencil-alt edit-icon" (click)="toggleImageEdit()"></i>
-
-            <div *ngIf="isEditingImage" class="image-url-input">
-               <input type="text" [(ngModel)]="registerRequestDto.imageUrl" placeholder="Enter image URL" />
-            </div>
+            <img [src]="registerRequestDto.imageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22:37/blank-profile-picture-973460_960_720.png'"
+               alt="Employee Image" />
          </div>
          <form (ngSubmit)="createUser()" #createUserForm="ngForm">
             <div class="column-in-row">
@@ -47,8 +36,17 @@
             </div>
             <div class="column-in-row">
                <div class="form-group">
+                  <label>Role</label>
+                  <ng-select required [(ngModel)]="registerRequestDto.role" name="role" [items]="roles"
+                      bindLabel="name" bindValue="value" placeholder="Select Role" [searchable]="false"
+                      [clearable]="false">
+                  </ng-select>
+               </div>
+            </div>
+            <div class="column-in-row">
+               <div class="form-group">
                   <label>Phone number</label>
-                  <input required type="text" placeholder="031-752-970 / +386-31-752-970"
+                  <input required type="text" placeholder="0617351943"
                      [(ngModel)]="registerRequestDto.mobileNumber" name="mobileNumber" #mobileNumber="ngModel"
                      pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$" (keypress)="validatePhoneNumber($event)"
                      (input)="sanitizePhoneNumber()" (focus)="onMobileNumberFocus()" (blur)="onMobileNumberBlur()" />
@@ -69,46 +67,11 @@
                   <input type="date" [(ngModel)]="registerRequestDto.dateOfBirth" name="dateOfBirth" />
                </div>
             </div>
-            <div class="form-group password-group">
-               <label for="password">Password</label>
-               <div class="password-container">
-                  <span class="caps-lock-warning" *ngIf="capsLockOn" title="CAPS-LOCK ON">
-                     <i class="fa-solid fa-eject"></i>
-                  </span>
-                  <input required [type]="passwordVisible ? 'text' : 'password'"
-                     [(ngModel)]="registerRequestDto.password" name="password" #password="ngModel"
-                     (focus)="onPasswordFocus()" (blur)="onPasswordBlur()" [pattern]="passwordPattern"
-                     placeholder="Password">
-                  <span class="toggle-password" (click)="togglePasswordVisibility()">
-                     <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-                  </span>
+            <div class="column-in-row">
+               <div class="form-group">
+                  <label>Number of Children</label>
+                  <input type="number" min="0" placeholder="0" [(ngModel)]="registerRequestDto.numberOfChildren" name="numberOfChildren" />
                </div>
-            </div>
-            <div *ngIf="blurredPassword && password.invalid" class="error-message">
-               <small *ngIf="password.errors?.['required']">Password is required.</small>
-               <small *ngIf="password.errors?.['pattern']">Password must be at least 6 characters long and contain at
-                  least one letter and one number.</small>
-            </div>
-            <div class="form-group password-group">
-               <label for="repeatPassword">Repeat Password</label>
-               <div class="password-container">
-                  <input required [type]="repeatPasswordVisible ? 'text' : 'password'"
-                     [(ngModel)]="registerRequestDto.repeatPassword" name="repeatPassword" #repeatPassword="ngModel"
-                     (focus)="onRepeatPasswordFocus()" (blur)="onRepeatPasswordBlur()" [pattern]="passwordPattern"
-                     placeholder="Repeat Password">
-                  <span class="toggle-repeatPassword" (click)="toggleRepeatPasswordVisibility()">
-                     <i [class]="repeatPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-                  </span>
-               </div>
-            </div>
-            <div *ngIf="blurredRepeatPassword && repeatPassword.invalid" class="error-message">
-               <small *ngIf="repeatPassword.errors?.['required']">Repeat password is required.</small>
-               <small *ngIf="repeatPassword.errors?.['pattern']">Password must be at least 6 characters long and contain
-                  at least one letter and one number.</small>
-            </div>
-            <div *ngIf="blurredRepeatPassword && registerRequestDto.password !== registerRequestDto.repeatPassword"
-               class="error-message">
-               <small>Passwords do not match.</small>
             </div>
             <div class="column-in-row">
                <div class="form-group button-container">

@@ -1,11 +1,11 @@
 import { Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { SidebarComponent } from '../../../layout/sidebar/sidebar.component';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SpinnerComponent } from '../../../spinner/spinner/spinner.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { environment } from '../../../../environments/environment';
 
 const BASIC_URL = environment.apiUrl;
@@ -13,7 +13,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-create-user',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, ReactiveFormsModule, SpinnerComponent],
+  imports: [FormsModule, CommonModule, RouterModule, ReactiveFormsModule, SpinnerComponent, NgSelectModule],
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss']
 })
@@ -23,16 +23,10 @@ export class CreateUserComponent implements OnInit {
 
   isLoading: boolean = false;
   isDeleted: boolean = false;
-  passwordVisible = false;
-  repeatPasswordVisible = false;
   capsLockOn = false;
-  isEditingImage = false;
   blurredEmail = false;
   blurredMobileNumber = false;
-  blurredPassword = false;
-  blurredRepeatPassword = false;
   emailPattern: string = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-  passwordPattern: string = "^(?=(.*[a-zA-Z]))(?=(.*[0-9]))[a-zA-Z0-9]{6,}$";
 
   registerRequestDto: any = {
     createdAt: '',
@@ -43,11 +37,17 @@ export class CreateUserComponent implements OnInit {
     email: '',
     address: '',
     mobileNumber: '',
-    password: '',
-    repeatPassword: '',
-    imageUrl: '',
-    dateOfBirth: null
+    imageUrl: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+    dateOfBirth: null,
+    numberOfChildren: 0,
+    role: 'MECHANIC'
   };
+
+  roles = [
+    { name: 'ADMIN', value: 'ADMIN' },
+    { name: 'MECHANIC', value: 'MECHANIC' },
+    { name: 'RECEPTIONIST', value: 'RECEPTIONIST' }
+  ];
 
   constructor(
     private http: HttpClient,
@@ -59,14 +59,6 @@ export class CreateUserComponent implements OnInit {
     this.checkCapsLockStatusOnInit();
   }
 
-  togglePasswordVisibility(): void {
-    this.passwordVisible = !this.passwordVisible;
-  }
-
-  toggleRepeatPasswordVisibility(): void {
-    this.repeatPasswordVisible = !this.repeatPasswordVisible;
-  }
-
   checkCapsLockStatusOnInit(): void {
     document.addEventListener('keydown', (event) => {
       this.capsLockOn = event.getModifierState && event.getModifierState('CapsLock');
@@ -75,20 +67,6 @@ export class CreateUserComponent implements OnInit {
 
   checkCapsLock(event: KeyboardEvent): void {
     this.capsLockOn = event.getModifierState && event.getModifierState('CapsLock');
-  }
-
-  toggleImageEdit(): void {
-    this.isEditingImage = !this.isEditingImage;
-  }
-
-  @HostListener('document:click', ['$event.target'])
-  onClickOutside(targetElement: HTMLElement): void {
-    const clickedInsideInput = targetElement.matches('.image-url-input input');
-    const clickedInsideIcon = targetElement.closest('.edit-icon');
-
-    if (!clickedInsideInput && !clickedInsideIcon && this.isEditingImage) {
-      this.isEditingImage = false;
-    }
   }
 
   createUser(): void {
@@ -105,21 +83,12 @@ export class CreateUserComponent implements OnInit {
       return;
     }
 
-
     const createdUser = { ...this.registerRequestDto, deleted: this.isDeleted };
-
-    if (this.registerRequestDto.password !== this.registerRequestDto.repeatPassword) {
-      this.snackBar.open('Passwords do not match!', 'Close', {
-        duration: 3000,
-        verticalPosition: 'bottom',
-      });
-      return;
-    }
 
     this.isLoading = true;
     this.http.post<any>(`${BASIC_URL}register`, createdUser).subscribe({
       next: () => {
-        this.snackBar.open('User created successfully!', 'Close', {
+        this.snackBar.open('User created successfully! The user can now log in via Google.', 'Close', {
           duration: 3000,
           verticalPosition: 'bottom',
         });
@@ -159,21 +128,5 @@ export class CreateUserComponent implements OnInit {
 
   sanitizePhoneNumber(): void {
     this.registerRequestDto.mobileNumber = this.registerRequestDto.mobileNumber.replace(/[^0-9+\-()\s]/g, '');
-  }
-
-  onPasswordBlur() {
-    this.blurredPassword = true;
-  }
-
-  onPasswordFocus(): void {
-    this.blurredPassword = false;
-  }
-
-  onRepeatPasswordBlur() {
-    this.blurredRepeatPassword = true;
-  }
-
-  onRepeatPasswordFocus(): void {
-    this.blurredRepeatPassword = false;
   }
 }

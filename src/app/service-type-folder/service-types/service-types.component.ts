@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,11 +16,13 @@ const BASIC_URL = environment.apiUrl;
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
     ReactiveFormsModule,
     MatPaginatorModule,
     NgSelectModule,
-    FormsModule, CommonModule, RouterModule, MatSlideToggleModule],
+    FormsModule,
+    RouterModule,
+    MatSlideToggleModule
+  ],
   templateUrl: './service-types.component.html',
   styleUrl: './service-types.component.scss'
 })
@@ -34,6 +35,9 @@ export class ServiceTypesComponent implements OnInit {
   isDeleted = false;
   serviceTypes: any[] = [];
   services: any[] = [];
+  sortBy: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  isMobileSearchOpen = false;
 
   typeOfServiceControl = new FormControl('');
   descriptionControl = new FormControl('');
@@ -108,7 +112,6 @@ export class ServiceTypesComponent implements OnInit {
       queryParams: { page: this.currentPage, pageSize: this.pageSize },
       queryParamsHandling: 'merge'
     });
-
     this.getServiceTypes();
   }
 
@@ -120,7 +123,9 @@ export class ServiceTypesComponent implements OnInit {
       partCode: this.partCodeControl.value,
       priceMax: this.priceMaxControl.value,
       serviceId: this.selectedServiceId !== null ? this.selectedServiceId : undefined,
-      isDeleted: this.isDeleted
+      isDeleted: this.isDeleted,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection
     };
 
     this.http.post<any>(`${BASIC_URL}service-types/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -170,6 +175,21 @@ export class ServiceTypesComponent implements OnInit {
   onToggleChange(event: any): void {
     this.isDeleted = event.checked;
     this.currentPage = 0;
-    this.getServiceTypes(); 
+    this.getServiceTypes();
+  }
+
+  sort(column: string): void {
+    if (this.sortBy === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortBy = column;
+      this.sortDirection = 'asc';
+    }
+    this.currentPage = 0;
+    this.getServiceTypes();
+  }
+
+  toggleMobileSearch(): void {
+    this.isMobileSearchOpen = !this.isMobileSearchOpen;
   }
 }

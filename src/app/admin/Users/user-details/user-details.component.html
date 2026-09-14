@@ -1,23 +1,12 @@
 <div class="create-user-container">
-   <div class="layout">
-      <app-sidebar></app-sidebar>
-      <div class="content">
-         <router-outlet></router-outlet>
-      </div>
-   </div>
-   <div class="main-content">
+   <div class="main-content glass-form">
       <div class="header">
-         <h2>Mechanic Details</h2>
-         <i class="fas fa-car-mechanic"></i>
+         <h2>Employee Details</h2>
+         <i class="fas fa-user"></i>
       </div>
       <div class="form-container">
          <div class="image-container">
-            <img [src]="user.imageUrl || 'https://i.ibb.co/tpytj2f8/JMYv1992-YQ-1.jpg'" alt="Mechanic Image" />
-            <i class="fas fa-pencil-alt edit-icon" (click)="toggleImageEdit()"></i>
-
-            <div *ngIf="isEditingImage" class="image-url-input">
-               <input type="text" [(ngModel)]="user.imageUrl" placeholder="Enter image URL" />
-            </div>
+            <img [src]="user.imageUrl || 'https://i.ibb.co/tpytj2f8/JMYv1992-YQ-1.jpg'" alt="Employee Image" />
          </div>
          <form (ngSubmit)="updateUser()" #createUserForm="ngForm">
             <div class="column-in-row">
@@ -45,7 +34,7 @@
             <div class="column-in-row">
                <div class="form-group">
                   <label>Phone number</label>
-                  <input required type="text" placeholder="031-752-970 / +386-31-752-970"
+                  <input required type="text" placeholder="0617351943"
                      [(ngModel)]="user.mobileNumber" name="mobileNumber" #mobileNumber="ngModel"
                      pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$" (keypress)="validatePhoneNumber($event)"
                      (input)="sanitizePhoneNumber()" (focus)="onMobileNumberFocus()" (blur)="onMobileNumberBlur()" />
@@ -66,8 +55,14 @@
                   <input type="date" [(ngModel)]="user.dateOfBirth" name="dateOfBirth" />
                </div>
             </div>
+            <div class="column-in-row">
+               <div class="form-group">
+                  <label>Number of Children</label>
+                  <input type="number" min="0" placeholder="0" [(ngModel)]="user.numberOfChildren" name="numberOfChildren" />
+               </div>
+            </div>
             <div class="button-row">
-               <button [routerLink]="['/change-password']" class="password-button">Reset Password</button>
+               <button [routerLink]="['/change-password']" class="password-button" type="button">Reset Password</button>
                <button type="submit" class="save-button">Update User</button>
              </div>
          </form>

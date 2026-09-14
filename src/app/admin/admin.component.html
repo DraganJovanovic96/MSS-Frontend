@@ -1,16 +1,23 @@
 <div class="main-container">
-  <app-sidebar></app-sidebar>
-  <div class="customer-list">
+  <div class="customer-list glass-list">
     <div class="header">
-      <h2>Mechanics</h2>
-      <i class="fa fa-user fa-2x"></i>
-      <div class="toggle-container">
-        <mat-slide-toggle [checked]="isDeleted" color="primary" class="customer-toggle" (change)="onToggleChange($event)">
-           Deleted Mechanics
-        </mat-slide-toggle>
+      <div class="header-title">
+        <h2>Employees</h2>
+        <i class="fa fa-user fa-2x"></i>
+      </div>
+      <div class="header-actions">
+        <div class="toggle-container">
+          <mat-slide-toggle [checked]="isDeleted" color="primary" class="customer-toggle" (change)="onToggleChange($event)">
+             Deleted Employees
+          </mat-slide-toggle>
+        </div>
       </div>
     </div>
-    <div class="search-fields">
+    <button class="mobile-search-toggle" (click)="toggleMobileSearch()">
+      <i class="fa fa-search"></i>
+      <span>Search</span>
+    </button>
+    <div class="search-fields" [class.mobile-open]="isMobileSearchOpen">
       <input type="text" [formControl]="fullNameControl" placeholder="Search Name">
       <input type="text" [formControl]="addressControl" placeholder="Search Address">
       <input type="text" [formControl]="emailControl" placeholder="Search Email">
@@ -19,28 +26,78 @@
     <table>
       <thead>
         <tr>
-          <th>FIRST NAME</th>
-          <th>LAST NAME</th>
-          <th>ADDRESS</th>
-          <th>EMAIl</th>
-          <th>PHONE NUMBER</th>
+          <th (click)="sort('firstname')" class="sortable">
+            NAME
+            <span class="sort-indicator" *ngIf="sortBy === 'firstname'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('address')" class="sortable">
+            ADDRESS
+            <span class="sort-indicator" *ngIf="sortBy === 'address'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('email')" class="sortable">
+            EMAIl
+            <span class="sort-indicator" *ngIf="sortBy === 'email'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('mobileNumber')" class="sortable">
+            PHONE NUMBER
+            <span class="sort-indicator" *ngIf="sortBy === 'mobileNumber'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let customer of users" (click)="getUsersById(customer.id)">
-          <td>{{ customer.firstname }}</td>
-          <td>{{ customer.lastname }}</td>
+          <td class="name-cell">
+            <img [src]="customer.imageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+                 alt="User image"
+                 class="user-table-image"
+                 (error)="onImageError($event)" />
+            <span class="user-name">{{ customer.firstname }} {{ customer.lastname }}</span>
+          </td>
           <td>{{ customer.address }}</td>
           <td>{{ customer.email }}</td>
           <td>{{ customer.mobileNumber }}</td>
         </tr>
       </tbody>
       <tbody *ngIf="users.length === 0">
-        <tr>
-          <td colspan="5">No customers found.</td>
+        <tr class="empty-state">
+          <td colspan="4">No employees found.</td>
         </tr>
       </tbody>
     </table>
+
+    <div class="mobile-cards" *ngIf="users.length > 0">
+      <div class="employee-card" *ngFor="let customer of users" (click)="getUsersById(customer.id)">
+        <div class="card-header">
+          <div class="employee-name">{{ customer.firstname }} {{ customer.lastname }}</div>
+          <i class="fa fa-user card-icon"></i>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Address:</span>
+          <span class="field-value">{{ customer.address }}</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Email:</span>
+          <span class="field-value">{{ customer.email }}</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Phone:</span>
+          <span class="field-value">{{ customer.mobileNumber }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state-mobile" *ngIf="users.length === 0">
+      <i class="fa fa-user"></i>
+      <span>No employees found.</span>
+    </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="totalItems" [pageSize]="pageSize"
       [pageIndex]="currentPage" (page)="onPageChange($event)" aria-label="Select page">

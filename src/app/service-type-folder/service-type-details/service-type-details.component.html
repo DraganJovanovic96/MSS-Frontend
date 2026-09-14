@@ -1,11 +1,5 @@
 <div class="edit-service-type-container">
-    <div class="layout">
-        <app-sidebar></app-sidebar>
-        <div class="content">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
-    <div class="main-content">
+    <div class="main-content glass-form">
         <div class="header">
             <h2>Edit Service Type</h2>
             <i class="fa fa-wrench fa-2x"></i>
@@ -15,11 +9,17 @@
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Type Of Service</label>
-                        <input type="text" [(ngModel)]="serviceType.typeOfService" name="serviceType" />
+                        <div class="input-with-icon">
+                            <input type="text" [(ngModel)]="serviceType.typeOfService" name="serviceType" />
+                            <i class="fa fa-wrench"></i>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <input type="text" [(ngModel)]="serviceType.description" name="description" />
+                        <div class="input-with-icon">
+                            <input type="text" [(ngModel)]="serviceType.description" name="description" />
+                            <i class="fa fa-info-circle"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="column-in-row">
@@ -32,21 +32,30 @@
                     </div>
                     <div class="form-group">
                         <label>Price €</label>
-                        <input type="number" min="0" oninput="validity.valid||(value='');" [(ngModel)]="serviceType.price" name="price" />
+                        <div class="input-with-icon">
+                            <input type="number" min="0" oninput="validity.valid||(value='');" [(ngModel)]="serviceType.price" name="price" />
+                            <i class="fa fa-euro-sign"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Part Identification Code</label>
-                        <input placeholder="AH843R92" type="text" [(ngModel)]="serviceType.partCode" name="partCode" />
+                        <div class="input-with-icon">
+                            <input placeholder="AH843R92" type="text" [(ngModel)]="serviceType.partCode" name="partCode" />
+                            <i class="fa fa-barcode"></i>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Quantity</label>
-                        <input placeholder="1" type="number" min="1" [(ngModel)]="serviceType.quantity" name="quantity" />
+                        <div class="input-with-icon">
+                            <input placeholder="1" type="number" min="1" [(ngModel)]="serviceType.quantity" name="quantity" />
+                            <i class="fa fa-hashtag"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="column-in-row">
-                    <div *ngIf="serviceType.isDeleted">
+                    <div *ngIf="serviceType.isDeleted" class="deleted-checkbox">
                         <label class="checkbox-label">
                             <input type="checkbox" [(ngModel)]="serviceType.isDeleted" name="isDeleted"
                                 class="large-checkbox" />
@@ -64,4 +73,4 @@
             </form>
         </div>
     </div>
-</div> 
+</div>

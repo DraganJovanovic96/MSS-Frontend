@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { SharedDataService } from '../../services/SharedDataService';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { environment } from '../../../environments/environment';
@@ -42,7 +41,7 @@ interface VehicleDto {
   templateUrl: './vehicle-detail.component.html',
   styleUrls: ['./vehicle-detail.component.scss'],
   imports: [FormsModule, CommonModule, RouterModule,
-    SidebarComponent, NgSelectModule]
+    NgSelectModule]
 })
 export class VehicleDetailComponent implements OnInit {
   isDeleted: boolean = true;

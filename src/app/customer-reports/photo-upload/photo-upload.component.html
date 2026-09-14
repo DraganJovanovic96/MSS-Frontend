@@ -1,0 +1,32 @@
+<div class="photo-upload-container">
+  <div class="photo-count">{{ totalPhotos() }}/{{ maxPhotos }}</div>
+
+  <div *ngIf="isUploading" class="upload-progress">
+    <mat-progress-bar mode="determinate" [value]="uploadProgress['overall'] || 0"></mat-progress-bar>
+    <span>Uploading... {{ uploadProgress['overall'] || 0 }}%</span>
+  </div>
+
+  <div class="photo-preview-grid">
+    <div *ngFor="let url of existingPhotoUrls; let i = index" class="photo-item">
+      <img [src]="url" alt="Damage photo" (click)="viewPhotoFromPreview(url)" />
+      <button class="remove-button" (click)="removeExistingPhoto(i)" [disabled]="isUploading">✕</button>
+    </div>
+
+    <div *ngFor="let url of previewUrls; let i = index" class="photo-item">
+      <img [src]="url" alt="Preview" (click)="viewPhotoFromPreview(url)" />
+      <button class="remove-button" (click)="removePhoto(i)" [disabled]="isUploading">✕</button>
+    </div>
+  </div>
+
+  <div *ngIf="!hasPhotos()" class="empty-state" (click)="triggerFileInput()">
+    <p>No photos added yet</p>
+    <p class="hint">Click here or drag and drop images anywhere</p>
+  </div>
+
+  <div *ngIf="hasPhotos() && totalPhotos() < maxPhotos" class="add-more-state" (click)="triggerFileInput()">
+    <p>Add more photos</p>
+    <p class="hint">Click here or drag and drop images anywhere</p>
+  </div>
+
+  <input type="file" [accept]="'image/*'" [multiple]="true" (change)="onFileSelected($event)" [disabled]="isUploading || totalPhotos() >= maxPhotos" class="hidden-file-input" />
+</div>

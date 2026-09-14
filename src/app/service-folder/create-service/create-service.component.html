@@ -1,11 +1,5 @@
 <div class="edit-service-container">
-    <div class="layout">
-        <app-sidebar></app-sidebar>
-        <div class="content">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
-    <div class="main-content">
+    <div class="main-content glass-form">
         <div class="header">
             <h2>Create Service</h2>
             <i class="fa fa-wrench fa-2x"></i>
@@ -14,37 +8,46 @@
             <form (ngSubmit)="createService()">
                 <div class="column-in-row">
                     <div class="form-group">
-                        <label>Start Date</label>
+                        <label>START DATE</label>
                         <input type="date" [(ngModel)]="service.startDate" name="startDate" />
                     </div>
-                    <div class="form-group">
-                        <label>End Date</label>
+                    <div class="form-group" *ngIf="isServiceCompleted">
+                        <label>END DATE</label>
                         <input type="date" [(ngModel)]="service.endDate" name="endDate" />
                     </div>
                 </div>
                 <div class="column-in-row">
                     <div class="form-group">
-                        <label>Current Mileage</label>
+                        <label>CURRENT MILEAGE</label>
                         <input placeholder="172800" type="number" [(ngModel)]="service.currentMileage" name="currentMileage" />
                     </div>
                     <div class="form-group">
-                        <label>Next Service Mileage</label>
+                        <label>NEXT SERVICE MILEAGE</label>
                         <input placeholder="182800" type="number" [(ngModel)]="service.nextServiceMileage" name="nextServiceMileage" />
                     </div>
                 </div>
                 <div class="column-in-row">
                     <div class="form-group">
-                        <label>Select Vehicle</label>
+                        <label>SELECT VEHICLE</label>
                         <ng-select [(ngModel)]="service.vehicleId" name="vehicleId" [items]="vehicles"
                             bindLabel="fullName" bindValue="id" placeholder="Select Vehicle" [searchable]="true"
                             [clearable]="true">
                         </ng-select>
                     </div>
                     <div class="form-group">
-                        <label>Select User</label>
+                        <label>SELECT USER</label>
                         <ng-select [(ngModel)]="service.userId" name="userId" [items]="users" bindLabel="fullName"
                             bindValue="id" placeholder="Select Mechanic" [searchable]="true" [clearable]="true">
                         </ng-select>
+                    </div>
+                </div>
+                <div class="column-in-row">
+                    <div class="form-group toggle-group">
+                        <div class="toggle-label">
+                            <span (click)="$event.stopPropagation()">SERVICE COMPLETED</span>
+                            <mat-slide-toggle [(ngModel)]="isServiceCompleted" name="isServiceCompleted" color="primary">
+                            </mat-slide-toggle>
+                        </div>
                     </div>
                 </div>
                 <div class="column-in-row">

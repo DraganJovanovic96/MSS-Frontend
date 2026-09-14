@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { DeleteConfirmationDialogComponent } from '../../services/DeleteConfirmationDialogComponent ';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +26,7 @@ interface ServiceUpdateDto {
   selector: 'app-service-detail',
   standalone: true,
   imports: [FormsModule, CommonModule, RouterModule,
-    SidebarComponent, NgSelectModule],
+    NgSelectModule],
   templateUrl: './service-detail.component.html',
   styleUrls: ['./service-detail.component.scss']
 })
@@ -107,7 +106,12 @@ export class ServiceDetailComponent implements OnInit {
         this.service.isDeleted = data.deleted;
         this.service.vehicleId = data.vehicleDto?.id || null;
         this.service.userId = data.userDto?.id || null;
-        this.sharedDataService.serServiceId(this.service.id);
+        this.sharedDataService.setServiceId(this.service.id);
+        this.sharedDataService.setServiceVehicleId(data.vehicleDto?.id || null);
+
+        if (data.customerReportId) {
+          this.sharedDataService.setServiceCustomerReportId(data.customerReportId);
+        }
       },
       error: (error) => console.error(`Error fetching service with ID ${id}:`, error)
     });

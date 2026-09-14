@@ -1,0 +1,116 @@
+<div class="main-container" (dragover)="onDragOver($event)" (drop)="onDrop($event)" (dragleave)="onDragLeave($event)" [class.drag-over]="isDragOver">
+  <div class="customer-report-form-content">
+    <div *ngIf="isDragOver" class="page-drag-overlay">
+    <div class="drag-message">
+      <p>Drop images anywhere</p>
+    </div>
+  </div>
+
+  <div *ngIf="!canCreateReport()" class="access-denied">
+      <i class="fa fa-ban"></i>
+      <h2>Access Denied</h2>
+      <p>You do not have permission to create customer reports.</p>
+      <button mat-button class="back-button" (click)="onCancel()">Go Back</button>
+    </div>
+
+    <div class="form-card" *ngIf="canCreateReport()">
+      <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+        <div class="header">
+          <i class="fa fa-file-alt"></i>
+          <h2>Create Customer Report</h2>
+        </div>
+        <div class="form-row-row">
+          <div class="form-row">
+            <label class="form-label">Customer</label>
+            <ng-select
+              [ngModel]="selectedCustomerId"
+              name="customerId"
+              [items]="customers"
+              bindLabel="fullName"
+              bindValue="id"
+              placeholder="Select Customer"
+              [searchable]="true"
+              [clearable]="true"
+              (change)="onCustomerChange($event)"
+              [ngModelOptions]="{standalone: true}"
+              [compareWith]="compareCustomers"
+            >
+            </ng-select>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Vehicle</label>
+            <ng-select
+              [ngModel]="selectedVehicleId"
+              name="vehicleId"
+              [items]="filteredVehicles"
+              bindLabel="vehicleInfo"
+              bindValue="id"
+              placeholder="Select Vehicle"
+              [searchable]="true"
+              [clearable]="true"
+              [disabled]="!selectedCustomerId"
+              (change)="onVehicleChange($event)"
+              [ngModelOptions]="{standalone: true}"
+              [compareWith]="compareVehicles"
+            >
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Issue Description</label>
+          <textarea
+            matInput
+            formControlName="issueDescription"
+            class="custom-textarea"
+            rows="3"
+            placeholder="Describe the damage or issue in detail..."
+          ></textarea>
+          <div class="char-count">
+            {{ reportForm.get('issueDescription')?.value?.length || 0 }} / 1000
+          </div>
+          <div class="error-message" *ngIf="reportForm.get('issueDescription')?.hasError('required') && reportForm.get('issueDescription')?.touched">
+            Issue description is required
+          </div>
+          <div class="error-message" *ngIf="reportForm.get('issueDescription')?.hasError('minlength') && reportForm.get('issueDescription')?.touched">
+            Description must be at least 10 characters
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Photos</label>
+          <app-photo-upload
+            [existingPhotoUrls]="[]"
+            (photosChange)="onPhotosSelected($event)"
+            [maxPhotos]="10"
+            [maxFileSize]="5 * 1024 * 1024"
+            #photoUploadComponent
+          ></app-photo-upload>
+        </div>
+
+        <div class="form-actions">
+          <button
+            mat-button
+            type="button"
+            class="cancel-button"
+            (click)="onCancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancel
+          </button>
+          <button
+            mat-raised-button
+            class="submit-button"
+            type="submit"
+            [disabled]="isSubmitting || reportForm.invalid"
+          >
+            <i class="fa fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+            <span *ngIf="!isSubmitting">Create Report</span>
+            <span *ngIf="isSubmitting">Creating...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

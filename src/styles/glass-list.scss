@@ -1,0 +1,238 @@
+.glass-list {
+  padding: 28px 32px;
+  border-radius: 24px;
+  background: rgba(22, 24, 28, 0.48);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-bottom: 22px;
+    padding-bottom: 0;
+    border-bottom: none;
+    position: relative;
+
+    h2 {
+      font-family: 'Arial', sans-serif;
+      font-size: 26px;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .toggle-container {
+      margin-left: auto;
+    }
+
+    > .fa {
+      color: #2bb5a8;
+    }
+  }
+
+  .create-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #2bb5a8;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+
+    i,
+    .fa {
+      font-size: 16px;
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+
+    &:hover {
+      background: #249e93;
+      color: #ffffff;
+
+      i,
+      .fa {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .search-fields {
+    gap: 10px;
+    margin-bottom: 12px;
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(12, 14, 18, 0.55);
+      color: #ffffff;
+      box-shadow: none;
+      color-scheme: dark;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &.italic-input {
+        color: rgba(255, 255, 255, 0.45);
+      }
+
+      &:focus {
+        border-color: rgba(43, 181, 168, 0.7);
+        box-shadow: none;
+        outline: none;
+      }
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.45);
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+
+    th {
+      padding: 10px 20px 6px;
+      border: none;
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      background-color: transparent;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 16px 20px;
+      border: none;
+      text-align: center;
+      font-size: 15px;
+      color: #ffffff;
+      background-color: transparent;
+      transition: background-color 0.2s ease;
+    }
+
+    tbody tr {
+      cursor: pointer;
+
+      td:first-child {
+        border-radius: 12px 0 0 12px;
+      }
+
+      td:last-child {
+        border-radius: 0 12px 12px 0;
+      }
+
+      &:hover {
+        transform: none;
+        background-color: transparent;
+
+        td {
+          background-color: rgba(255, 255, 255, 0.08) !important;
+        }
+      }
+    }
+
+    tbody tr.empty-state {
+      cursor: default;
+
+      td {
+        color: rgba(255, 255, 255, 0.55);
+        border-radius: 12px;
+      }
+
+      &:hover td {
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  .ng-select {
+    .ng-select-container {
+      min-height: 44px;
+      background: rgba(12, 14, 18, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      box-shadow: none;
+      color: #ffffff;
+    }
+
+    .ng-value-container {
+      padding-left: 12px;
+    }
+
+    .ng-placeholder,
+    .ng-value,
+    .ng-input > input {
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+
+    .ng-placeholder {
+      color: rgba(255, 255, 255, 0.45) !important;
+    }
+
+    .ng-arrow-wrapper .ng-arrow {
+      border-color: rgba(255, 255, 255, 0.55) transparent transparent;
+    }
+
+    .ng-clear-wrapper {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    &.ng-select-focused .ng-select-container {
+      border-color: rgba(43, 181, 168, 0.7);
+      box-shadow: none;
+    }
+  }
+
+  .mat-mdc-slide-toggle {
+    --mdc-switch-unselected-handle-color: #d0d0d0;
+    --mdc-switch-unselected-track-color: rgba(255, 255, 255, 0.25);
+    --mdc-switch-selected-track-color: #2bb5a8;
+    --mdc-switch-selected-handle-color: #ffffff;
+    --mdc-form-field-label-text-color: #ffffff;
+    --mat-slide-toggle-label-text-color: #ffffff;
+    color: #ffffff;
+
+    .mdc-label,
+    .mdc-form-field > label,
+    .mat-internal-form-field > label {
+      color: #ffffff !important;
+    }
+  }
+
+  .mat-mdc-paginator {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8);
+
+    .mat-mdc-paginator-container {
+      padding: 8px 0 0;
+    }
+
+    .mat-mdc-icon-button {
+      color: #ffffff !important;
+      
+      svg {
+        fill: #ffffff !important;
+      }
+    }
+
+    .mat-mdc-select-value,
+    .mat-mdc-select-arrow,
+    .mat-mdc-paginator-range-label {
+      color: rgba(255, 255, 255, 0.95) !important;
+    }
+  }
+}

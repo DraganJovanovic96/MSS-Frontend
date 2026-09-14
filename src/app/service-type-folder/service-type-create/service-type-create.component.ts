@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,7 +12,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-service-type-create',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, NgSelectModule],
+  imports: [FormsModule, CommonModule, RouterModule, NgSelectModule],
   templateUrl: './service-type-create.component.html',
   styleUrl: './service-type-create.component.scss'
 })

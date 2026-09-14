@@ -1,33 +1,100 @@
-<div class="sidebar">
-        <ul>
-                <li><a class="side-bar-text-change" [routerLink]="['/dashboard']" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Dashboard</a></li>
+<div class="sidebar" [class.mobile-open]="isMobileSidebarOpen">
+  <button class="mobile-close-btn" (click)="closeMobileSidebar()">
+    <i class="fa fa-times"></i>
+  </button>
+  <nav class="primary-nav" *ngIf="hasCompletedFirstTimeSetup()">
+    <a [routerLink]="['/dashboard']" [class.active]="isDashboardActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-th-large"></i>
+      <span>Dashboard</span>
+    </a>
+    <a [routerLink]="['/customers']" [class.active]="isCustomersActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-user"></i>
+      <span>Customers</span>
+    </a>
+    <a [routerLink]="['/vehicles']" [class.active]="isVehiclesActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-car"></i>
+      <span>Vehicles</span>
+    </a>
+    <a [routerLink]="['/services']" [class.active]="isServicesActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-wrench"></i>
+      <span>Services</span>
+    </a>
+    <a [routerLink]="['/service-types']" [class.active]="isServiceTypesActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-list"></i>
+      <span>Type Of Service</span>
+    </a>
+    <a [routerLink]="['/vacation-requests']" [class.active]="isVacationRequestsActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-calendar-check"></i>
+      <span>Time Off Requests</span>
+    </a>
+    <a [routerLink]="['/customer-reports']" [class.active]="isCustomerReportsActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-file-alt"></i>
+      <span>Customer Reports</span>
+    </a>
+    <a *ngIf="isAdmin()" [routerLink]="['/admin-options']" [class.active]="isAdminActive()" (click)="closeMobileSidebar()">
+      <i class="fa fa-cog"></i>
+      <span>Admin</span>
+    </a>
+  </nav>
 
-                <li *ngIf="customerId">
-                        <a [routerLink]="['/create-vehicle']" [queryParams]="{ customerId: customerId }"
-                                routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Vehicle</a>
-                        </li>
-
-                <li *ngIf="vehicleId"><a [routerLink]="['/vehicles', vehicleId]" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Last Selected Vehicle</a></li>
-                <li *ngIf="customerId"><a [routerLink]="['/customers', customerId]" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Vehicle's Customer</a></li>
-                <li *ngIf="vehicleId"><a [routerLink]="['/services/vehicle', vehicleId]" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Vehicle's Services</a></li>
-                <li class="spaced"><a [routerLink]="['/customers']" routerLinkActive="active">Customers</a></li>
-                <li><a [routerLink]="['/create-customer']" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Create Customer</a></li>
-                <li *ngIf="customerId"><a [routerLink]="['/vehicles/customer', customerId]" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Customer's Vehicles</a></li>
-                <li class="spaced"><a [routerLink]="['/services']" routerLinkActive="active">Services</a></li>
-                <li><a [routerLink]="['/create-service/vehicle', vehicleId]" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{exact: true}">Create Service</a></li>
-                <li *ngIf="serviceId">
-                        <a [routerLink]="['/create-service-type']" [queryParams]="{ serviceId: serviceId }"
-                                routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Service
-                                Type</a>
-                </li>
-                <li *ngIf="serviceId"><a [routerLink]="['/service-types/service', serviceId]" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">Service's Type Of Service</a></li>
-        </ul>
+  <ul class="context-nav" *ngIf="hasCompletedFirstTimeSetup()">
+    <li *ngIf="getCurrentContext() === 'customer'">
+      <a [routerLink]="['/create-customer']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Create Customer</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'customer-reports' && canCreateReport()">
+      <a [routerLink]="['/customer-reports/new']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Create Customer Report</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'customer-reports' && customerReportServiceId">
+      <a [routerLink]="['/services', customerReportServiceId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Associated Service</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'vehicle'">
+      <a [routerLink]="['/create-vehicle']" [queryParams]="customerId ? { customerId: customerId } : {}"
+        routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileSidebar()">Create Vehicle</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'service'">
+      <a [routerLink]="['/create-service']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Create Service</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'service'">
+      <a [routerLink]="['/create-service-type']" [queryParams]="serviceId ? { serviceId: serviceId } : {}"
+        routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileSidebar()">Create Type Of Service</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'service' && serviceId">
+      <a [routerLink]="['/services', serviceId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Last Selected Service</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'service' && serviceCustomerReportId">
+      <a [routerLink]="['/customer-reports', serviceCustomerReportId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Associated Customer Report</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'service' && serviceVehicleId">
+      <a [routerLink]="['/vehicles', serviceVehicleId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Service's Vehicle</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'vehicle' && vehicleId">
+      <a [routerLink]="['/vehicles', vehicleId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Last Selected Vehicle</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'vehicle' && customerId">
+      <a [routerLink]="['/customers', customerId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Vehicle's Customer</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'vehicle' && vehicleId">
+      <a [routerLink]="['/services/vehicle', vehicleId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Vehicle's Services</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'customer'">
+      <a [routerLink]="['/vehicles/customer', customerId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Customer's Vehicles</a>
+    </li>
+    <li *ngIf="getCurrentContext() === 'service'">
+      <a [routerLink]="['/service-types/service', serviceId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileSidebar()">Service's Type Of Service</a>
+    </li>
+  </ul>
 </div>
+
+<div class="sidebar-overlay" [class.active]="isMobileSidebarOpen" (click)="closeMobileSidebar()"></div>

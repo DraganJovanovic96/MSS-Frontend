@@ -1,0 +1,167 @@
+.glass-form {
+  flex: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 40px 36px;
+  border-radius: 24px;
+  background: rgba(22, 24, 28, 0.48);
+  border: 1px solid rgba(0, 205, 176, 0.4);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+
+    h2 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .fa,
+    .fas {
+      color: #2bb5a8;
+    }
+  }
+
+  .form-container {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #2bb5a8;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: rgba(12, 14, 18, 0.55);
+      color: #ffffff;
+      font-size: 16px;
+      color-scheme: dark;
+      box-shadow: none;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.35);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: rgba(0, 205, 176, 0.7);
+      }
+    }
+  }
+
+  .input-with-icon {
+    position: relative;
+
+    input {
+      padding-right: 42px;
+    }
+
+    .fa,
+    .fas {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.38);
+      pointer-events: none;
+    }
+  }
+
+  .column-in-row {
+    display: flex;
+    gap: 20px;
+
+    .form-group {
+      flex: 1;
+      margin-right: 0;
+    }
+  }
+
+  .button-container {
+    display: flex;
+    width: 100%;
+    margin-top: 8px;
+    margin-right: 0;
+  }
+
+  .save-button {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 14px;
+    background: #00cdb0;
+    color: #0f1717;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .save-button:hover {
+    background: #00b89e;
+  }
+
+  .error-message,
+  .error {
+    color: #ff8a8a;
+    text-align: left;
+    margin-top: 8px;
+  }
+
+  .ng-select .ng-select-container {
+    min-height: 48px;
+    background: rgba(12, 14, 18, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    box-shadow: none;
+    color: #ffffff;
+  }
+
+  .ng-select .ng-placeholder,
+  .ng-select .ng-value,
+  .ng-select .ng-input > input {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  .ng-select .ng-placeholder {
+    color: rgba(255, 255, 255, 0.35) !important;
+  }
+
+  .ng-select.ng-select-focused .ng-select-container {
+    border-color: rgba(0, 205, 176, 0.7);
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .glass-form {
+    padding: 20px;
+
+    .column-in-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+}

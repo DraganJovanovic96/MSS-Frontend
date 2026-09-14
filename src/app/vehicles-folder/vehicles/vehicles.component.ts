@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { environment } from '../../../environments/environment';
+import { YearSpinnerDirective } from '../create-vehicle/year-spinner.directive';
 
 const BASIC_URL = environment.apiUrl;
 
@@ -17,11 +17,12 @@ const BASIC_URL = environment.apiUrl;
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
     ReactiveFormsModule,
     MatPaginatorModule,
     NgSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    YearSpinnerDirective,
+    RouterModule
   ],
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.scss']
@@ -35,6 +36,9 @@ export class VehiclesComponent implements OnInit {
   isDeleted = false;
   vehicles: any[] = [];
   customers: any[] = [];
+  sortBy: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  isMobileSearchOpen = false;
 
   manufacturerControl = new FormControl('');
   modelControl = new FormControl('');
@@ -103,7 +107,9 @@ export class VehiclesComponent implements OnInit {
       vin: this.vinControl.value,
       yearOfManufacture: this.yearControl.value,
       customerId: this.selectedCustomerId !== null ? this.selectedCustomerId : undefined,
-      isDeleted: this.isDeleted
+      isDeleted: this.isDeleted,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection
     };
 
     this.http.post<any>(`${BASIC_URL}vehicles/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -173,6 +179,21 @@ export class VehiclesComponent implements OnInit {
   onToggleChange(event: any): void {
     this.isDeleted = event.checked;
     this.currentPage = 0;
-    this.getVehicles(); 
+    this.getVehicles();
+  }
+
+  sort(column: string): void {
+    if (this.sortBy === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortBy = column;
+      this.sortDirection = 'asc';
+    }
+    this.currentPage = 0;
+    this.getVehicles();
+  }
+
+  toggleMobileSearch(): void {
+    this.isMobileSearchOpen = !this.isMobileSearchOpen;
   }
 }

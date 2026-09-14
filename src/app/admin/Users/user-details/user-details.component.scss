@@ -1,85 +1,43 @@
 .create-user-container {
   display: flex;
+  gap: 20px;
   overflow-y: hidden;
   position: relative;
 }
 
 .main-content {
   flex: 1;
-  padding: 40px;
-  padding-right: 300px;
-  background-color: #f3f6f9;
 }
 
-.header {
+.button-row {
   display: flex;
-  align-items: center;
+  flex-direction: row; 
+  gap: 10px;         
   justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.header h2 {
-  margin: 0;
-}
-
-.form-container {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #666;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-.column-in-row {
-  flex-wrap: wrap;
-}
-
-.form-container {
   margin-top: 20px;
 }
 
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+.save-button,
+.password-button {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 150px;
+  max-width: 200px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
 }
 
 .save-button {
-  padding: 10px 20px;
   background-color: #15696F;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  border-radius: 20px;
 }
 
 .password-button { 
-  padding: 10px 20px;
   background-color: #454442;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  border-radius: 20px;
-  margin-right: 25vw;
 }
 
 .password-button:hover {
@@ -90,47 +48,11 @@
   background-color: #1d9199;
 }
 
-
-.column-in-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.form-group {
-  flex: 1;
-  margin-right: 10px;
-}
-
-.form-group:last-child {
-  margin-right: 0;
-}
-
-.large-year-input {
-  font-size: 16px;
-  padding: 10px;
-  width: 100%;
-}
-
-.large-year-input::-webkit-inner-spin-button,
-.large-year-input::-webkit-outer-spin-button {
-  height: 40px;
-  width: 25px;
-}
-
-.span {
-  display: inline-flex;
-  align-items: center;
-  height: 30px;
-}
-
-.header .fa {
-  color: #15696F;
-}
-
 .image-container {
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .image-container img {
@@ -138,98 +60,112 @@
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
-.toggle-password {
+.edit-icon {
   position: absolute;
-  right: 10px;
+  bottom: 5px;
+  right: 50%;
+  transform: translateX(50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 8px;
+  border-radius: 50%;
   cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
 }
 
-.toggle-repeatPassword {
+.edit-icon:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.image-url-input {
   position: absolute;
-  right: 10px;
-  cursor: pointer;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 10;
 }
 
-.password-group {
-  position: relative;
+.image-url-input input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  outline: none;
+  min-width: 200px;
 }
 
-.password-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.caps-lock-warning {
-  position: absolute;
-  left: -17px;
-  color: #000000;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
-}
-
-.fas {
-  color: #15696F;
-  cursor: pointer;
-}
-
-.error {
-  color: red;
-  font-size: 12px;
+.image-url-input input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .error-message {
-  color: red;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.password-button-container {
-  display: flex;
-  justify-content: flex-start; 
-  margin-top: 20px;
-  flex: 1;
+  color: #ff8a8a;
+  text-align: left;
+  margin-top: 8px;
 }
 
 @media (max-width: 768px) {
   .create-user-container {
-    overflow-x: auto; 
-    -webkit-overflow-scrolling: touch; 
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    min-width: 0;
   }
 
   .main-content {
-    padding: 25px;
-    min-width: min(100%, 600px); 
-    padding-right: 25px !important; 
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
   }
 
   .column-in-row {
     flex-direction: column;
+    gap: 0.75rem;
   }
-  
+
   .form-group {
-    margin-right: 0;
-    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-group input {
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .button-row {
-    display: flex;
-    flex-direction: row; 
-    align-items: center;
-    justify-content: flex-end; 
-    gap: 10px; 
-    margin-top: 20px;
+    flex-direction: column;
+    gap: 0.75rem;
   }
-  
-  .password-button{
-    margin-right: auto;
-    z-index: 1;
+
+  .save-button,
+  .password-button {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .create-user-container {
+    padding: 0.5rem;
+  }
+
+  .column-in-row {
+    gap: 0.5rem;
+  }
+
+  .button-row {
+    gap: 0.5rem;
+  }
 }
 
 

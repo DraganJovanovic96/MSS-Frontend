@@ -6,8 +6,8 @@ import { DashboardService } from '../services/dashboard';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [ProgressCircleComponent],
   standalone: true,
+  imports: [ProgressCircleComponent],
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   totalCustomers = 0;

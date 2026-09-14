@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,7 +15,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-customer-detail',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './customer-detail.component.html',
   styleUrl: './customer-detail.component.scss'
 })
