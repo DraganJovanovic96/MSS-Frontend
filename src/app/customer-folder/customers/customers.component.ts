@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { environment } from '../../../environments/environment';
 
@@ -15,7 +14,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule, ReactiveFormsModule, SidebarComponent, MatSlideToggleModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, MatPaginatorModule, MatSlideToggleModule],
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
 })
@@ -25,6 +24,9 @@ export class CustomersComponent implements OnInit {
   pageSize = 5;
   totalItems = 0;
   isDeleted = false;
+  sortBy: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  isMobileSearchOpen = false;
 
   fullNameControl = new FormControl('');
   addressControl = new FormControl('');
@@ -78,7 +80,9 @@ export class CustomersComponent implements OnInit {
       address: this.addressControl.value,
       email: this.emailControl.value,
       phoneNumber: this.phoneNumberControl.value,
-      isDeleted: this.isDeleted
+      isDeleted: this.isDeleted,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection
     };
 
     this.http.post<any>(`${BASIC_URL}customers/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -111,6 +115,21 @@ export class CustomersComponent implements OnInit {
   onToggleChange(event: any): void {
     this.isDeleted = event.checked;
     this.currentPage = 0;
-    this.getCustomers(); 
+    this.getCustomers();
+  }
+
+  sort(column: string): void {
+    if (this.sortBy === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortBy = column;
+      this.sortDirection = 'asc';
+    }
+    this.currentPage = 0;
+    this.getCustomers();
+  }
+
+  toggleMobileSearch(): void {
+    this.isMobileSearchOpen = !this.isMobileSearchOpen;
   }
 }

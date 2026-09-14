@@ -4,6 +4,15 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.main-container {
+    display: flex;
+    gap: 20px;
+}
+
+.dashboard-content {
+    flex: 1;
+}
+
 .circle-container {
     display: flex;
     flex-direction: row; 
@@ -50,15 +59,21 @@ app-progress-circle {
     margin-top: 55px;
 }
 
+.text-icon-container h1 {
+    color: #B0C4C7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .fa {
     font-size: 1.5rem;
-    color: #333;
+    color: #B0C4C7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .circle-label {
     margin: 0; 
     font-size: 1rem;
-    color: #444;
+    color: #e8e8e8;
 }
 
 @media (max-width: 768px) {

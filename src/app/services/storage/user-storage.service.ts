@@ -4,13 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserStorageService {
-  private tokenKey = 'auth-token';
-  private refreshTokenKey = 'refresh-token';
   private USER = 'mss-user';
-
-  saveToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-  }
 
   public saveUser(user: Object): void {
     this.clearUser();
@@ -22,20 +16,6 @@ export class UserStorageService {
     return user;
   }
 
-  getToken(): string | null {
-    const token = localStorage.getItem(this.tokenKey);
-    return token;
-  }
-
-  saveRefreshToken(token: string): void {
-    localStorage.setItem(this.refreshTokenKey, token);
-  }
-
-  getRefreshToken(): string | null {
-    const refreshToken = localStorage.getItem(this.refreshTokenKey);
-    return refreshToken;
-  }
-
   getUserImage(): string | null {
     const user = this.getUser();
     if (user) {
@@ -45,9 +25,43 @@ export class UserStorageService {
     return null;
   }
 
-  clearTokens(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.refreshTokenKey);
+  isFirstTimeSetupCompleted(): boolean {
+    const user = this.getUser();
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.firstTimeSetupCompleted || false;
+    }
+    return false;
+  }
+
+  getNumberOfChildren(): number {
+    const user = this.getUser();
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.numberOfChildren || 0;
+    }
+    return 0;
+  }
+
+  getRole(): string {
+    const user = this.getUser();
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.role || 'USER';
+    }
+    return 'USER';
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN';
+  }
+
+  isReceptionist(): boolean {
+    return this.getRole() === 'RECEPTIONIST';
+  }
+
+  isMechanic(): boolean {
+    return this.getRole() === 'MECHANIC';
   }
 
   clearUser(): void {

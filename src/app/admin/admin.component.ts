@@ -3,7 +3,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { SidebarComponent } from '../layout/sidebar/sidebar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
@@ -14,7 +13,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, MatPaginatorModule, MatSlideToggleModule, SidebarComponent, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSlideToggleModule, MatPaginatorModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
@@ -25,6 +24,9 @@ export class AdminComponent {
   pageSize = 5;
   totalItems = 0;
   isDeleted = false;
+  sortBy: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  isMobileSearchOpen = false;
 
   fullNameControl = new FormControl('');
   emailControl = new FormControl('');
@@ -66,6 +68,10 @@ export class AdminComponent {
     this.getUsers();
   }
 
+  toggleMobileSearch(): void {
+    this.isMobileSearchOpen = !this.isMobileSearchOpen;
+  }
+
   getUsersById(id: number): void {
     this.router.navigate([`/users`, id]);
   }
@@ -77,6 +83,8 @@ export class AdminComponent {
       email: this.emailControl.value,
       phoneNumber: this.phoneNumberControl.value,
       isDeleted: this.isDeleted,
+      sortBy: this.sortBy === 'firstname' ? 'firstname' : this.sortBy,
+      sortDirection: this.sortDirection
     };
 
     this.http
@@ -101,11 +109,32 @@ export class AdminComponent {
       queryParams: { page: this.currentPage, pageSize: this.pageSize },
       queryParamsHandling: 'merge',
     });
+    this.getUsers();
   }
 
   onToggleChange(event: any): void {
     this.isDeleted = event.checked;
     this.currentPage = 0;
     this.getUsers();
+  }
+
+  sort(column: string): void {
+    if (this.sortBy === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortBy = column;
+      this.sortDirection = 'asc';
+    }
+    this.currentPage = 0;
+    this.getUsers();
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+  }
+
+  getFullName(user: any): string {
+    return `${user.firstname} ${user.lastname}`.trim();
   }
 }

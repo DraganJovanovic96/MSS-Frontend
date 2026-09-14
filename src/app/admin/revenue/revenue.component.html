@@ -1,4 +1,9 @@
 <div class="main-layout">
+  <div class="mobile-only-message">
+    <i class="fa fa-desktop fa-3x"></i>
+    <h2>Desktop Only</h2>
+    <p>This page is designed for desktop use only. Please access it from a larger screen.</p>
+  </div>
   <div class="circle-grid">
 
 
@@ -28,7 +33,7 @@
     </div>
   </div>
 
-  <div class="services-list">
+  <div class="services-list glass-list">
     <div class="header">
       <h2>Services</h2>
       <i class="fa fa-wrench fa-2x"></i>
@@ -72,8 +77,8 @@
         </tr>
       </tbody>
       <tbody *ngIf="services.length === 0">
-        <tr>
-          <td colspan="8" style="text-align: center;">No services found.</td>
+        <tr class="empty-state">
+          <td colspan="8">No services found.</td>
         </tr>
       </tbody>
     </table>

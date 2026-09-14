@@ -1,0 +1,200 @@
+<div class="main-container">
+  <div class="report-detail-content glass-list">
+    <div *ngIf="isLoading; else contentTemplate">
+      <div class="loading-container">
+        <mat-spinner [diameter]="50"></mat-spinner>
+        <p>Loading report details...</p>
+      </div>
+    </div>
+
+    <ng-template #contentTemplate>
+      <div class="form-container" *ngIf="report">
+        <div class="header">
+          <h2>Customer Report Details</h2>
+          <i class="fa fa-file-alt fa-2x"></i>
+        </div>
+
+        <mat-tab-group [(selectedIndex)]="selectedTab" (selectedIndexChange)="onTabChange($event)" mat-stretch-tabs="false">
+          <mat-tab label="Details">
+            <div class="tab-content">
+              <div class="tab-mobile-container">
+                <div class="info-section">
+                <div class="info-row">
+                  <div class="info-group">
+                    <label>Customer</label>
+                    <div class="info-value" *ngIf="!canUpdateStatus()">{{ report.customerName }}</div>
+                    <ng-select
+                      *ngIf="canUpdateStatus()"
+                      [(ngModel)]="reportForm.customerId"
+                      [items]="customers"
+                      bindLabel="fullName"
+                      bindValue="id"
+                      placeholder="Select Customer"
+                      [searchable]="true"
+                      [clearable]="true"
+                      name="customerId"
+                      (change)="onCustomerChange()"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="info-group">
+                    <label>Customer Email</label>
+                    <div class="info-value">{{ report.customerEmail }}</div>
+                  </div>
+                </div>
+
+                <div class="info-row">
+                  <div class="info-group">
+                    <label>Vehicle</label>
+                    <div class="info-value" *ngIf="!canUpdateStatus()">{{ report.vehicleInfo }}</div>
+                    <ng-select
+                      *ngIf="canUpdateStatus()"
+                      [(ngModel)]="reportForm.vehicleId"
+                      [items]="vehicles"
+                      bindLabel="vehicleInfo"
+                      bindValue="id"
+                      placeholder="Select Vehicle"
+                      [searchable]="true"
+                      [clearable]="true"
+                      name="vehicleId"
+                    >
+                    </ng-select>
+                  </div>
+                  <div class="info-group">
+                    <label>Created By</label>
+                    <div class="info-value">{{ report.createdBy }}</div>
+                  </div>
+                </div>
+
+                <div class="info-row">
+                  <div class="info-group">
+                    <label>Status</label>
+                    <div class="info-value status-badge" [ngClass]="getStatusColor(report.status)">
+                      {{ report.status }}
+                    </div>
+                  </div>
+                  <div class="info-group">
+                    <label>Created At</label>
+                    <div class="info-value">{{ formatDate(report.createdAt) }}</div>
+                  </div>
+                </div>
+
+                <div class="info-row full-width">
+                  <div class="info-group full-width">
+                    <label>Issue Description</label>
+                    <div class="info-value description" *ngIf="!canUpdateStatus()">{{ report.issueDescription }}</div>
+                    <textarea
+                      *ngIf="canUpdateStatus()"
+                      [(ngModel)]="reportForm.issueDescription"
+                      name="issueDescription"
+                      class="editable-textarea"
+                      rows="4"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="info-row" *ngIf="report.assignedAt || (report.assignedToName && canUpdateStatus())">
+                  <div class="info-group" *ngIf="report.assignedAt">
+                    <label>Assigned At</label>
+                    <div class="info-value">{{ formatDate(report.assignedAt) }}</div>
+                  </div>
+                  <div class="info-group" *ngIf="report.assignedToName && canUpdateStatus()">
+                    <label>Assign To</label>
+                    <ng-select
+                      [(ngModel)]="reportForm.userId"
+                      [items]="mechanics"
+                      bindLabel="fullName"
+                      bindValue="id"
+                      placeholder="Select User"
+                      [searchable]="true"
+                      [clearable]="true"
+                      [dropdownPosition]="'auto'"
+                      name="userId"
+                    >
+                    </ng-select>
+                  </div>
+                </div>
+
+                <div class="info-row" *ngIf="report.assignedServiceRequestId">
+                  <div class="info-group">
+                    <label>Service Request ID</label>
+                    <div class="info-value">{{ report.assignedServiceRequestId }}</div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Status" *ngIf="canUpdateStatus()">
+            <div class="tab-content card-based-status">
+              <div class="tab-mobile-container">
+                <div class="status-workspace" *ngIf="report">
+                <div class="workspace-header">
+                  <div class="header-content">
+                    <h1>Status Workflow</h1>
+                    <p class="subtitle">Select the next status for this report</p>
+                  </div>
+                  <div class="current-status-badge" [ngClass]="getStatusColor(report.status || '')">
+                    <span class="status-label">Current</span>
+                    <span class="status-value">{{ report.status }}</span>
+                  </div>
+                </div>
+
+                <div class="status-cards-grid" *ngIf="report">
+                  <div
+                    class="status-card"
+                    *ngFor="let option of statusOptions"
+                    [class.selected]="reportForm.status === option.value"
+                    [class.disabled]="isStatusTransitionInvalid(report.status, option.value)"
+                    (click)="selectStatus(option.value)"
+                  >
+                    <div class="card-icon">
+                      <i class="fa" [ngClass]="getStatusIcon(option.value)"></i>
+                    </div>
+                    <div class="card-content">
+                      <h3>{{ option.label }}</h3>
+                      <p>{{ getStatusDescription(option.value) }}</p>
+                    </div>
+                    <div class="card-indicator" *ngIf="reportForm.status === option.value">
+                      <i class="fa fa-check-circle"></i>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Photos" *ngIf="hasPhotos()">
+            <div class="tab-content">
+              <div class="tab-mobile-container">
+                <app-photo-gallery [photoUrls]="getPhotoUrls()"></app-photo-gallery>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+
+        <div class="action-buttons">
+          <button type="button" class="back-button" (click)="goBack()">
+            <i class="fa fa-arrow-left"></i> Back
+          </button>
+          <button type="button" class="delete-button" (click)="deleteReport()" *ngIf="canDeleteReport()">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+          <button
+            type="button"
+            class="update-button"
+            (click)="updateReport()"
+            [disabled]="isUpdating"
+            *ngIf="canUpdateStatus()"
+          >
+            <span *ngIf="!isUpdating">Update Report</span>
+            <span *ngIf="isUpdating">Updating...</span>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

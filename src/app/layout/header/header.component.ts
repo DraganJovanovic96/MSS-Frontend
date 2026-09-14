@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LogoutService } from '../../services/logout/logout.service';
 import { UserStorageService } from '../../services/storage/user-storage.service';
 import { UserStateService } from '../../services/auth/user.state.service';
+import { SharedDataService } from '../../services/SharedDataService';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -15,29 +16,53 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isMobileMenuOpen = false;
+  isMobileSidebarOpen = false;
   activeDropdown: string | null = null;
   vehiclesDropdownOpen = false;
   customerDropdownOpen = false;
   userImage: string | null = null;
+  userName = '';
   readonly fallbackImageUrl: string = 'https://i.imghippo.com/files/hzQF7597pHY.jpg';
 
   constructor(
     private router: Router,
     private logOutService: LogoutService,
     private userStorageService: UserStorageService,
-    private userStateService: UserStateService
+    private userStateService: UserStateService,
+    private sharedDataService: SharedDataService
   ) { }
 
   ngOnInit(): void {
     this.userImage = this.userStateService.getUserImage() || this.fallbackImageUrl;
+    this.userName = this.getUserDisplayName();
     this.userStateService.userImage$.subscribe((image) => {
       this.userImage = image || this.fallbackImageUrl;
+      this.userName = this.getUserDisplayName();
     });
+  }
+
+  private getUserDisplayName(): string {
+    const user = this.userStorageService.getUser();
+    if (!user) {
+      return '';
+    }
+
+    try {
+      const parsedUser = JSON.parse(user as string);
+      return [parsedUser.firstname, parsedUser.lastname].filter(Boolean).join(' ');
+    } catch {
+      return '';
+    }
   }
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     this.activeDropdown = null;
+  }
+
+  toggleMobileSidebar() {
+    this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
+    this.sharedDataService.setMobileSidebarOpen(this.isMobileSidebarOpen);
   }
 
   toggleDropdown(dropdown: string) {
@@ -65,7 +90,8 @@ export class HeaderComponent implements OnInit {
   }
 
   isLoggedIn(): boolean {
-    return this.userStorageService.getToken() !== null;
+    const user = this.userStorageService.getUser();
+    return user !== null;
   }
 
   LogOut() {
@@ -82,11 +108,22 @@ export class HeaderComponent implements OnInit {
     return false;
   }
 
+  hasCompletedFirstTimeSetup(): boolean {
+    return this.userStorageService.isFirstTimeSetupCompleted();
+  }
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (!target.closest('.header') && this.isMobileMenuOpen) {
       this.closeMobileMenu();
+    }
+  }
+
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    if (this.userImage !== this.fallbackImageUrl) {
+      img.src = this.fallbackImageUrl;
     }
   }
 }

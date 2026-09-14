@@ -1,11 +1,16 @@
 <div class="main-container">
-    <app-sidebar></app-sidebar>
-    <div class="services-list">
+    <div class="services-list glass-list">
       <div class="header">
-        <h2>Email Service</h2>
-        <i class="fa fa-envelope fa-2x"></i>
+        <div class="header-title">
+          <h2>Email Service</h2>
+          <i class="fa fa-envelope fa-2x"></i>
+        </div>
       </div>
-      <div class="search-fields">
+      <button class="mobile-search-toggle" (click)="toggleMobileSearch()">
+        <i class="fa fa-search"></i>
+        <span>Search</span>
+      </button>
+      <div class="search-fields" [class.mobile-open]="isMobileSearchOpen">
         <input type="text" [formControl]="invoiceCodeControl" [ngClass]="{'highlight': invoiceCodeControl.value}"
           placeholder="Invoice code">
   
@@ -32,7 +37,7 @@
             bindValue="id" [placeholder]="customerControl.value ? '' : 'Select Customer'" [searchable]="true"
             [clearable]="true">
           </ng-select>
-      </div>
+        </div>
       </div>
       <table>
         <thead>
@@ -55,11 +60,42 @@
           </tr>
         </tbody>
         <tbody *ngIf="services.length === 0">
-          <tr>
-            <td colspan="8" style="text-align: center;">No services found.</td>
+          <tr class="empty-state">
+            <td colspan="8">No services found.</td>
           </tr>
         </tbody>
       </table>
+
+      <div class="mobile-cards" *ngIf="services.length > 0">
+        <div class="service-card" *ngFor="let service of services" (click)="openCustomerVehicleDialog(service)">
+          <div class="card-header">
+            <div class="invoice-code">{{ service.invoiceCode }}</div>
+            <i class="fa fa-envelope card-icon"></i>
+          </div>
+          <div class="card-field">
+            <span class="field-label">Date:</span>
+            <span class="field-value">{{ service.startDate | date: 'dd.MM.yyyy' }}</span>
+          </div>
+          <div class="card-field">
+            <span class="field-label">Vehicle:</span>
+            <span class="field-value">{{ service.vehicleDto.manufacturer }} {{ service.vehicleDto.model }}</span>
+          </div>
+          <div class="card-field">
+            <span class="field-label">Mechanic:</span>
+            <span class="field-value">{{ service.userDto.firstname }} {{ service.userDto.lastname }}</span>
+          </div>
+          <div class="card-field">
+            <span class="field-label">Customer:</span>
+            <span class="field-value">{{ service.vehicleDto.customerDto.firstname}} {{service.vehicleDto.customerDto.lastname }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state-mobile" *ngIf="services.length === 0">
+        <i class="fa fa-envelope"></i>
+        <span>No services found.</span>
+      </div>
+
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="totalItems" [pageSize]="pageSize"
         [pageIndex]="currentPage" (page)="onPageChange($event)" aria-label="Select page">
       </mat-paginator>

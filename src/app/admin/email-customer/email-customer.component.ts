@@ -7,7 +7,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerVehicleDialogComponent } from '../../customer-vehicle-dialog/customer-vehicle-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,7 +19,6 @@ const BASIC_URL = environment.apiUrl;
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
     ReactiveFormsModule,
     MatPaginatorModule,
     NgSelectModule,
@@ -39,6 +37,7 @@ export class EmailCustomerComponent implements OnInit {
   users: any[] = [];
   vehicles: any[] = [];
   isDeleted = false;
+  isMobileSearchOpen = false;
 
   invoiceCodeControl = new FormControl('');
   startDateControl = new FormControl(null);
@@ -153,7 +152,6 @@ export class EmailCustomerComponent implements OnInit {
       });
 
     dialogRef.afterClosed().subscribe(result => {
-        console.log('Dialog closed');
     });
 }
 
@@ -283,6 +281,10 @@ export class EmailCustomerComponent implements OnInit {
   onToggleChange(event: any): void {
     this.isDeleted = event.checked;
     this.currentPage = 0;
-    this.getServices(); 
+    this.getServices();
+  }
+
+  toggleMobileSearch(): void {
+    this.isMobileSearchOpen = !this.isMobileSearchOpen;
   }
 }

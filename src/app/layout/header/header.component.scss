@@ -25,6 +25,26 @@
   flex-shrink: 0;
 }
 
+.sidebar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  i {
+    font-size: 1.2rem;
+  }
+}
+
 .logo {
   height: 40px;
   width: auto;
@@ -87,10 +107,11 @@
 
 .user-container {
   height: 50px;
-  width: 130px;
+  min-width: 130px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 10px;
   cursor: pointer;
 }
 
@@ -99,6 +120,18 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.user-name {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.user-caret {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
 }
 
 .user-dropdown .dropdown-content {
@@ -140,8 +173,8 @@
 
 @media (max-width: 768px) {
   .header {
-    position: relative; // Default behavior
-  
+    position: relative; 
+
     &.fixed {
       position: fixed;
       top: 0;
@@ -154,8 +187,16 @@
     gap: 10px;
   }
 
+  .sidebar-toggle {
+    display: block;
+  }
+
   .logo {
     height: 35px;
+  }
+
+  .user-name {
+    display: none;
   }
 
   .header-buttons, 

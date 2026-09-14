@@ -1,11 +1,5 @@
 <div class="edit-service-container">
-    <div class="layout">
-        <app-sidebar></app-sidebar>
-        <div class="content">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
-    <div class="main-content">
+    <div class="main-content glass-form">
         <div class="header">
             <h2>View Service</h2>
             <div class="header-icons">
@@ -35,26 +29,38 @@
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Current Mileage</label>
-                        <input type="number" [(ngModel)]="service.currentMileage" name="currentMileage" />
+                        <div class="input-with-icon">
+                            <input type="number" [(ngModel)]="service.currentMileage" name="currentMileage" />
+                            <i class="fa fa-tachometer"></i>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Next Service Mileage</label>
-                        <input type="number" [(ngModel)]="service.nextServiceMileage" name="nextServiceMileage" />
+                        <div class="input-with-icon">
+                            <input type="number" [(ngModel)]="service.nextServiceMileage" name="nextServiceMileage" />
+                            <i class="fa fa-tachometer"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="column-in-row">
                     <div class="form-group">
                         <label>Start Date</label>
-                        <input type="date" [(ngModel)]="service.startDate" name="startDate" />
+                        <div class="input-with-icon">
+                            <input type="date" [(ngModel)]="service.startDate" name="startDate" />
+                            <i class="fa fa-calendar"></i>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>End Date</label>
-                        <input type="date" [(ngModel)]="service.endDate" name="endDate" />
+                        <div class="input-with-icon">
+                            <input type="date" [(ngModel)]="service.endDate" name="endDate" />
+                            <i class="fa fa-calendar"></i>
+                        </div>
                     </div>
                 </div>
 
                 <div class="column-in-row">
-                    <div *ngIf="service.isDeleted">
+                    <div *ngIf="service.isDeleted" class="deleted-checkbox">
                         <label class="checkbox-label">
                             <input type="checkbox" [(ngModel)]="service.isDeleted" name="isDeleted"
                                 class="large-checkbox" />

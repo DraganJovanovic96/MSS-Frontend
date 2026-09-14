@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../../layout/sidebar/sidebar.component';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,7 +12,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -40,7 +39,8 @@ export class UserDetailsComponent implements OnInit {
     mobileNumber: '',
     dateOfBirth: null,
     address: '',
-    imageUrl: ''
+    imageUrl: '',
+    numberOfChildren: 0
   }
 
   constructor(

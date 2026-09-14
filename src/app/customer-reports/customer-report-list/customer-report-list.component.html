@@ -1,0 +1,263 @@
+<div class="main-container">
+  <div class="customer-reports-content">
+    <div class="header">
+      <div class="header-title">
+        <h2>Customer Reports</h2>
+        <i class="fa fa-file-alt"></i>
+      </div>
+      <div class="header-actions">
+        <button
+          mat-raised-button
+          class="create-button"
+          (click)="createReport()"
+          *ngIf="canCreateReport()"
+        >
+          <i class="fa fa-plus"></i>
+          Create Report
+        </button>
+      </div>
+    </div>
+
+    <mat-tab-group [(selectedIndex)]="selectedTab" (selectedIndexChange)="onTabChange($event)" class="custom-tabs">
+      <mat-tab label="My Reports">
+        <div class="tab-content">
+          <div *ngIf="isLoadingMyReports" class="loading-state">
+            <i class="fa fa-spinner fa-spin"></i>
+            <p>Loading your reports...</p>
+          </div>
+
+          <div *ngIf="!isLoadingMyReports && myReports.length === 0" class="empty-state">
+            <i class="fa fa-folder-open"></i>
+            <h3>No Reports Found</h3>
+            <p>You haven't created any customer reports yet.</p>
+            <button mat-button class="action-button" (click)="createReport()" *ngIf="canCreateReport()">
+              Create Your First Report
+            </button>
+          </div>
+
+          <div class="reports-grid" *ngIf="!isLoadingMyReports && myReports.length > 0">
+            <div
+              *ngFor="let report of myReports"
+              class="report-card"
+              (click)="viewReport(report.id)"
+            >
+              <div class="card-header">
+                <div class="customer-info">
+                  <h3>{{ report.customerName }}</h3>
+                  <span class="customer-email">{{ report.customerEmail }}</span>
+                </div>
+                <div [class]="'status-badge ' + getStatusColor(report.status)">
+                  {{ report.status }}
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="report-details">
+                  <div class="detail-item">
+                    <i class="fa fa-car"></i>
+                    <span>{{ report.vehicleInfo }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fa fa-align-left"></i>
+                    <span>{{ report.issueDescription | slice:0:100 }}{{ report.issueDescription.length > 100 ? '...' : '' }}</span>
+                  </div>
+                  <div class="detail-item" *ngIf="hasPhotos(report)">
+                    <i class="fa fa-camera"></i>
+                    <span>{{ getPhotoUrls(report).length }} photo(s)</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="created-date">{{ formatDate(report.createdAt) }}</span>
+                  <button
+                    class="delete-button"
+                    (click)="$event.stopPropagation(); deleteReport(report)"
+                    *ngIf="canDeleteReport(report)"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination-controls" *ngIf="!isLoadingMyReports && myReportsTotalPages > 1">
+            <div class="pagination-info">
+              Page {{ myReportsPage + 1 }} of {{ myReportsTotalPages }} ({{ myReportsTotalElements }} total)
+            </div>
+            <div class="pagination-buttons">
+              <button mat-button (click)="myReportsFirstPage()" [disabled]="myReportsPage === 0">
+                <i class="fa fa-angle-double-left"></i>
+              </button>
+              <button mat-button (click)="myReportsPreviousPage()" [disabled]="myReportsPage === 0">
+                <i class="fa fa-angle-left"></i>
+              </button>
+              <button mat-button (click)="myReportsNextPage()" [disabled]="myReportsPage === myReportsTotalPages - 1">
+                <i class="fa fa-angle-right"></i>
+              </button>
+              <button mat-button (click)="myReportsLastPage()" [disabled]="myReportsPage === myReportsTotalPages - 1">
+                <i class="fa fa-angle-double-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="All Reports" *ngIf="canViewAllReports()">
+        <div class="tab-content">
+          <div *ngIf="isLoadingAllReports" class="loading-state">
+            <i class="fa fa-spinner fa-spin"></i>
+            <p>Loading all reports...</p>
+          </div>
+
+          <div *ngIf="!isLoadingAllReports && allReports.length === 0" class="empty-state">
+            <i class="fa fa-folder-open"></i>
+            <h3>No Reports Found</h3>
+            <p>There are no customer reports in the system.</p>
+          </div>
+
+          <div class="reports-grid" *ngIf="!isLoadingAllReports && allReports.length > 0">
+            <div
+              *ngFor="let report of allReports"
+              class="report-card"
+              (click)="viewReport(report.id)"
+            >
+              <div class="card-header">
+                <div class="customer-info">
+                  <h3>{{ report.customerName }}</h3>
+                  <span class="customer-email">{{ report.customerEmail }}</span>
+                </div>
+                <div [class]="'status-badge ' + getStatusColor(report.status)">
+                  {{ report.status }}
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="report-details">
+                  <div class="detail-item">
+                    <i class="fa fa-car"></i>
+                    <span>{{ report.vehicleInfo }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fa fa-align-left"></i>
+                    <span>{{ report.issueDescription | slice:0:100 }}{{ report.issueDescription.length > 100 ? '...' : '' }}</span>
+                  </div>
+                  <div class="detail-item" *ngIf="hasPhotos(report)">
+                    <i class="fa fa-camera"></i>
+                    <span>{{ getPhotoUrls(report).length }} photo(s)</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="created-date">{{ formatDate(report.createdAt) }}</span>
+                  <button
+                    class="delete-button"
+                    (click)="$event.stopPropagation(); deleteReport(report)"
+                    *ngIf="canDeleteReport(report)"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination-controls" *ngIf="!isLoadingAllReports && allReportsTotalPages > 1">
+            <div class="pagination-info">
+              Page {{ allReportsPage + 1 }} of {{ allReportsTotalPages }} ({{ allReportsTotalElements }} total)
+            </div>
+            <div class="pagination-buttons">
+              <button mat-button (click)="allReportsFirstPage()" [disabled]="allReportsPage === 0">
+                <i class="fa fa-angle-double-left"></i>
+              </button>
+              <button mat-button (click)="allReportsPreviousPage()" [disabled]="allReportsPage === 0">
+                <i class="fa fa-angle-left"></i>
+              </button>
+              <button mat-button (click)="allReportsNextPage()" [disabled]="allReportsPage === allReportsTotalPages - 1">
+                <i class="fa fa-angle-right"></i>
+              </button>
+              <button mat-button (click)="allReportsLastPage()" [disabled]="allReportsPage === allReportsTotalPages - 1">
+                <i class="fa fa-angle-double-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Pending Reports" *ngIf="canViewPendingReports()">
+        <div class="tab-content">
+          <div *ngIf="isLoadingPendingReports" class="loading-state">
+            <i class="fa fa-spinner fa-spin"></i>
+            <p>Loading pending reports...</p>
+          </div>
+
+          <div *ngIf="!isLoadingPendingReports && pendingReports.length === 0" class="empty-state">
+            <i class="fa fa-check-circle"></i>
+            <h3>No Pending Reports</h3>
+            <p>All reports have been processed.</p>
+          </div>
+
+          <div class="reports-grid" *ngIf="!isLoadingPendingReports && pendingReports.length > 0">
+            <div
+              *ngFor="let report of pendingReports"
+              class="report-card"
+              (click)="viewReport(report.id)"
+            >
+              <div class="card-header">
+                <div class="customer-info">
+                  <h3>{{ report.customerName }}</h3>
+                  <span class="customer-email">{{ report.customerEmail }}</span>
+                </div>
+                <div class="status-badge pending">
+                  {{ report.status }}
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="report-details">
+                  <div class="detail-item">
+                    <i class="fa fa-car"></i>
+                    <span>{{ report.vehicleInfo }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <i class="fa fa-align-left"></i>
+                    <span>{{ report.issueDescription | slice:0:100 }}{{ report.issueDescription.length > 100 ? '...' : '' }}</span>
+                  </div>
+                  <div class="detail-item" *ngIf="hasPhotos(report)">
+                    <i class="fa fa-camera"></i>
+                    <span>{{ getPhotoUrls(report).length }} photo(s)</span>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="created-date">{{ formatDate(report.createdAt) }}</span>
+                  <button
+                    class="delete-button"
+                    (click)="$event.stopPropagation(); deleteReport(report)"
+                    *ngIf="canDeleteReport(report)"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination-controls" *ngIf="!isLoadingPendingReports && pendingReportsTotalPages > 1">
+            <div class="pagination-info">
+              Page {{ pendingReportsPage + 1 }} of {{ pendingReportsTotalPages }} ({{ pendingReportsTotalElements }} total)
+            </div>
+            <div class="pagination-buttons">
+              <button mat-button (click)="pendingReportsFirstPage()" [disabled]="pendingReportsPage === 0">
+                <i class="fa fa-angle-double-left"></i>
+              </button>
+              <button mat-button (click)="pendingReportsPreviousPage()" [disabled]="pendingReportsPage === 0">
+                <i class="fa fa-angle-left"></i>
+              </button>
+              <button mat-button (click)="pendingReportsNextPage()" [disabled]="pendingReportsPage === pendingReportsTotalPages - 1">
+                <i class="fa fa-angle-right"></i>
+              </button>
+              <button mat-button (click)="pendingReportsLastPage()" [disabled]="pendingReportsPage === pendingReportsTotalPages - 1">
+                <i class="fa fa-angle-double-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

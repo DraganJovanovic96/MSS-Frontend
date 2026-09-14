@@ -1,16 +1,27 @@
 <div class="main-container">
-  <app-sidebar></app-sidebar>
-  <div class="vehicle-list">
+  <div class="vehicle-list glass-list">
     <div class="header">
-      <h2>Service Types</h2>
-      <i class="fa fa-wrench fa-2x"></i>
-      <div class="toggle-container">
-        <mat-slide-toggle [checked]="isDeleted" color="primary" (change)="onToggleChange($event)">
-          Deleted Service Types
-        </mat-slide-toggle>
+      <div class="header-title">
+        <h2>Service Types</h2>
+        <i class="fa fa-list"></i>
+      </div>
+      <div class="header-actions">
+        <div class="toggle-container">
+          <mat-slide-toggle [checked]="isDeleted" color="primary" (change)="onToggleChange($event)">
+            Deleted Service Types
+          </mat-slide-toggle>
+        </div>
+        <a class="create-btn" routerLink="/create-service-type">
+          <i class="fa fa-plus"></i>
+          Create Service Type
+        </a>
       </div>
     </div>
-    <div class="search-fields">
+    <button class="mobile-search-toggle" (click)="toggleMobileSearch()">
+      <i class="fa fa-search"></i>
+      <span>Search</span>
+    </button>
+    <div class="search-fields" [class.mobile-open]="isMobileSearchOpen">
       <input type="text" [formControl]="typeOfServiceControl" placeholder="Type of service">
       <input type="text" [formControl]="descriptionControl" placeholder="Description">
       <input type="number" [formControl]="priceMinControl" placeholder="Price MIN €">
@@ -28,12 +39,42 @@
     <table>
       <thead>
         <tr>
-          <th>Type Of Service</th>
-          <th>Description</th>
-          <th>Price €</th>
-          <th>Part Identification Code</th>
-          <th>Quantity</th>
-          <th>Service</th>
+          <th (click)="sort('typeOfService')" class="sortable">
+            Type Of Service
+            <span class="sort-indicator" *ngIf="sortBy === 'typeOfService'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('description')" class="sortable">
+            Description
+            <span class="sort-indicator" *ngIf="sortBy === 'description'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('price')" class="sortable">
+            Price €
+            <span class="sort-indicator" *ngIf="sortBy === 'price'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('partCode')" class="sortable">
+            Part Identification Code
+            <span class="sort-indicator" *ngIf="sortBy === 'partCode'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('quantity')" class="sortable">
+            Quantity
+            <span class="sort-indicator" *ngIf="sortBy === 'quantity'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
+          <th (click)="sort('service.invoiceCode')" class="sortable">
+            Service
+            <span class="sort-indicator" *ngIf="sortBy === 'service.invoiceCode'">
+              {{ sortDirection === 'asc' ? '↑' : '↓' }}
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -48,11 +89,43 @@
         </tr>
       </tbody>
       <tbody *ngIf="serviceTypes.length === 0">
-        <tr>
-          <td colspan="7" style="text-align: center;">No service types found.</td>
+        <tr class="empty-state">
+          <td colspan="7">No service types found.</td>
         </tr>
       </tbody>
     </table>
+
+    <div class="mobile-cards">
+      <div class="service-type-card" *ngFor="let serviceType of serviceTypes" (click)="getServiceTypeById(serviceType.id)">
+        <div class="card-header">
+          <span class="service-type-name">{{ serviceType.typeOfService || 'No Service Type' }}</span>
+          <i class="fa fa-list card-icon"></i>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Description:</span>
+          <span class="field-value">{{ serviceType.description || 'N/A' }}</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Price:</span>
+          <span class="field-value">{{ serviceType.price || 'N/A' }} €</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Part Code:</span>
+          <span class="field-value">{{ serviceType.partCode || 'N/A' }}</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Quantity:</span>
+          <span class="field-value">{{ serviceType.quantity || 'N/A' }}</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">Service:</span>
+          <span class="field-value">{{ serviceType.serviceDto?.invoiceCode || 'N/A' }}</span>
+        </div>
+      </div>
+      <div class="empty-state-mobile" *ngIf="serviceTypes.length === 0">
+        No service types found.
+      </div>
+    </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [length]="totalItems" [pageSize]="pageSize"
       [pageIndex]="currentPage" (page)="onPageChange($event)" aria-label="Select page">

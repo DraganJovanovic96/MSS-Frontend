@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
@@ -10,6 +8,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { environment } from '../../../environments/environment';
+import { SharedDataService } from '../../services/SharedDataService';
 
 const BASIC_URL = environment.apiUrl;
 
@@ -18,11 +17,11 @@ const BASIC_URL = environment.apiUrl;
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
     ReactiveFormsModule,
     MatPaginatorModule,
     NgSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    RouterModule
   ],
   templateUrl: './services-components.component.html',
   styleUrl: './services-components.component.scss'
@@ -33,6 +32,9 @@ export class ServicesComponentsComponent implements OnInit {
   users: any[] = [];
   vehicles: any[] = [];
   isDeleted = false;
+  sortBy: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  isMobileSearchOpen = false;
 
   invoiceCodeControl = new FormControl('');
   startDateControl = new FormControl(null);
@@ -70,7 +72,8 @@ export class ServicesComponentsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sharedDataService: SharedDataService
   ) { }
 
   ngOnInit(): void {
@@ -111,7 +114,9 @@ export class ServicesComponentsComponent implements OnInit {
       endDate: this.endDateControl.value,
       vehicleId: this.selectedVehicleId !== null ? this.selectedVehicleId : undefined,
       userId: this.selectedUserId !== null ? this.selectedUserId : undefined,
-      isDeleted: this.isDeleted
+      isDeleted: this.isDeleted,
+      sortBy: this.sortBy,
+      sortDirection: this.sortDirection
     };
 
     this.http.post<any>(`${BASIC_URL}services/search?page=${this.currentPage}&pageSize=${this.pageSize}`,
@@ -201,12 +206,28 @@ export class ServicesComponentsComponent implements OnInit {
   }
 
   getServiceById(id: number): void {
+    this.sharedDataService.setServiceId(id);
     this.router.navigate([`/services`, id]);
   }
 
   onToggleChange(event: any): void {
     this.isDeleted = event.checked;
     this.currentPage = 0;
-    this.getServices(); 
+    this.getServices();
+  }
+
+  sort(column: string): void {
+    if (this.sortBy === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortBy = column;
+      this.sortDirection = 'asc';
+    }
+    this.currentPage = 0;
+    this.getServices();
+  }
+
+  toggleMobileSearch(): void {
+    this.isMobileSearchOpen = !this.isMobileSearchOpen;
   }
 }

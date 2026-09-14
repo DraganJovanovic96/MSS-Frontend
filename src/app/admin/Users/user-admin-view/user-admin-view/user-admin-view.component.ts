@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component';
 import { ActivatedRoute, Route, Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { DeleteConfirmationDialogComponent } from '../../../../services/DeleteConfirmationDialogComponent ';
 import { environment } from '../../../../../environments/environment';
 
@@ -14,7 +14,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-user-admin-view',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule, NgSelectModule],
   templateUrl: './user-admin-view.component.html',
   styleUrl: './user-admin-view.component.scss'
 })
@@ -41,8 +41,16 @@ export class UserAdminViewComponent implements OnInit {
     mobileNumber: '',
     dateOfBirth: null,
     address: '',
-    imageUrl: ''
+    imageUrl: '',
+    numberOfChildren: 0,
+    role: 'MECHANIC'
   }
+
+  roles = [
+    { name: 'ADMIN', value: 'ADMIN' },
+    { name: 'MECHANIC', value: 'MECHANIC' },
+    { name: 'RECEPTIONIST', value: 'RECEPTIONIST' }
+  ];
 
   constructor(
     private http: HttpClient,
@@ -75,7 +83,6 @@ export class UserAdminViewComponent implements OnInit {
   getUser(): void {
     this.http.get<any>(`${BASIC_URL}users/id/${this.user.id}`).subscribe({
       next: (data) => {
-        console.log(data);
         this.user = { ...this.user, ...data };
         this.user.isDeleted = data.deleted;
       },

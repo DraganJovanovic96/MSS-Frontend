@@ -1,0 +1,514 @@
+.main-container {
+  display: flex;
+  gap: 20px;
+  overflow-y: hidden;
+  position: relative;
+
+  &.drag-over {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 205, 176, 0.1);
+      border: 2px dashed rgba(0, 205, 176, 0.5);
+      z-index: 1000;
+      pointer-events: none;
+    }
+  }
+}
+
+.page-drag-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  border: 3px dashed rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  transition: none;
+
+  .drag-message {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.95);
+
+    .drag-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+}
+
+
+.customer-report-form-content {
+  flex: 1;
+  margin: 24px 24px 24px auto;
+  max-width: 1100px;
+
+  .access-denied {
+    text-align: center;
+    padding: 48px 24px;
+    background: rgba(12, 14, 18, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    margin-top: 32px;
+    backdrop-filter: blur(10px);
+
+    .fa {
+      font-size: 3rem;
+      color: #F44336;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0 0 8px 0;
+      color: #F44336;
+    }
+
+    p {
+      margin: 0 0 24px 0;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .back-button {
+      background: rgba(59, 110, 117, 0.8);
+      color: white;
+      border: 1px solid rgba(0, 205, 176, 0.3);
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background 0.3s, border-color 0.3s;
+      backdrop-filter: blur(10px);
+
+      &:hover {
+        background: rgba(59, 110, 117, 0.95);
+        border-color: rgba(0, 205, 176, 0.5);
+      }
+    }
+  }
+
+  .form-card {
+    background: rgba(12, 14, 18, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+
+      .fa {
+        color: #B0C4C7;
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        color: #B0C4C7;
+        margin: 0;
+      }
+    }
+
+    .form-row-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+
+      .form-row {
+        flex: 1;
+        margin-bottom: 0;
+      }
+    }
+
+    .form-row {
+      margin-bottom: 16px;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .form-label {
+        display: block;
+        color: #B0C4C7;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .custom-select {
+        width: 100%;
+      }
+
+      ::ng-deep .ng-select {
+        .ng-select-container {
+          min-height: 48px !important;
+          background: rgba(12, 14, 18, 0.55) !important;
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
+          border-radius: 12px !important;
+          box-shadow: none !important;
+          color: #ffffff !important;
+          display: flex !important;
+          align-items: center !important;
+        }
+
+        .ng-value-container {
+          padding-left: 12px !important;
+          display: flex !important;
+          align-items: center !important;
+          flex: 1 !important;
+        }
+
+        .ng-placeholder,
+        .ng-value,
+        .ng-input > input {
+          color: rgba(255, 255, 255, 0.85) !important;
+          font-size: 16px !important;
+        }
+
+        .ng-placeholder {
+          color: rgba(255, 255, 255, 0.35) !important;
+        }
+
+        .ng-input {
+          display: flex !important;
+          align-items: center !important;
+          flex: 1 !important;
+        }
+
+        .ng-input > input {
+          padding: 0 !important;
+          margin: 0 !important;
+          height: 100% !important;
+          line-height: 36px !important;
+          vertical-align: middle !important;
+          display: block !important;
+        }
+
+        .ng-arrow-wrapper .ng-arrow {
+          border-color: rgba(255, 255, 255, 0.55) transparent transparent !important;
+        }
+
+        .ng-clear-wrapper {
+          color: rgba(255, 255, 255, 0.55) !important;
+        }
+
+        &.ng-select-focused .ng-select-container {
+          border-color: rgba(0, 205, 176, 0.7) !important;
+          box-shadow: none !important;
+        }
+
+        .ng-dropdown-panel {
+          background: rgba(22, 24, 28, 0.95) !important;
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
+          border-radius: 12px !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .ng-dropdown-panel .ng-dropdown-panel-items {
+          background: rgba(22, 24, 28, 0.95) !important;
+        }
+
+        .ng-option {
+          color: rgba(255, 255, 255, 0.85) !important;
+          padding: 12px 16px !important;
+          background: transparent !important;
+        }
+
+        .ng-option:hover {
+          background: rgba(0, 205, 176, 0.2) !important;
+        }
+
+        .ng-option-selected {
+          background: rgba(0, 205, 176, 0.3) !important;
+        }
+
+        .ng-option.ng-option-marked {
+          background: rgba(0, 205, 176, 0.2) !important;
+        }
+      }
+
+      .custom-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+        box-sizing: border-box;
+        resize: vertical;
+        font-family: inherit;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.35);
+        }
+
+        &:focus {
+          outline: none;
+          border-color: rgba(0, 205, 176, 0.7);
+        }
+      }
+
+      .char-count {
+        text-align: right;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 4px;
+      }
+
+      .error-message {
+        color: #F44336;
+        font-size: 0.85rem;
+        margin-top: 4px;
+      }
+
+      .loading-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 0;
+        color: rgba(255, 255, 255, 0.7);
+
+        .fa {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+      button {
+        min-width: 120px;
+        padding: 10px 24px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &.cancel-button {
+          background: transparent;
+          color: rgba(255, 255, 255, 0.7);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.3s;
+
+          &:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+
+        &.submit-button {
+          background: rgba(59, 110, 117, 0.8);
+          color: white;
+          border: 1px solid rgba(0, 205, 176, 0.3);
+          border-radius: 8px;
+          transition: background 0.3s, border-color 0.3s;
+          backdrop-filter: blur(10px);
+
+          &:hover:not(:disabled) {
+            background: rgba(59, 110, 117, 0.95);
+            border-color: rgba(0, 205, 176, 0.5);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          .fa {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-report-form-content {
+    margin: 1rem;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-x: hidden;
+    min-width: 0;
+
+    .form-card {
+      padding: 1rem;
+      border-radius: 0.75rem;
+
+      .header {
+        gap: 0.938rem;
+        margin-bottom: 1.25rem;
+
+        .fa {
+          font-size: 1.2rem;
+        }
+
+        h2 {
+          font-size: 1.2rem;
+        }
+      }
+
+      .form-row-row {
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        .form-row {
+          margin-bottom: 0;
+        }
+      }
+
+      .form-row {
+        margin-bottom: 1rem;
+
+        .form-label {
+          font-size: 0.85rem;
+          margin-bottom: 0.5rem;
+        }
+
+        ::ng-deep .ng-select {
+          .ng-select-container {
+            border-radius: 0.75rem !important;
+          }
+        }
+
+        .custom-textarea {
+          padding: 0.75rem 1rem;
+          font-size: 0.875rem;
+          border-radius: 0.75rem;
+        }
+
+        .char-count {
+          font-size: 0.75rem;
+          margin-top: 0.25rem;
+        }
+
+        .error-message {
+          font-size: 0.8rem;
+          margin-top: 0.25rem;
+        }
+      }
+
+      .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+
+        button {
+          width: 100%;
+          justify-content: center;
+          min-width: auto;
+          padding: 0.625rem 1.5rem;
+          font-size: 0.9rem;
+          border-radius: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-report-form-content {
+    margin: 0.75rem;
+
+    .form-card {
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+
+      .header {
+        gap: 0.625rem;
+        margin-bottom: 0.8rem;
+
+        .fa {
+          font-size: 1rem;
+        }
+
+        h2 {
+          font-size: 1rem;
+        }
+      }
+
+      .form-row-row {
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .form-row {
+        margin-bottom: 0.75rem;
+
+        .form-label {
+          font-size: 0.8rem;
+        }
+
+        ::ng-deep .ng-select {
+          .ng-select-container {
+            border-radius: 0.5rem !important;
+          }
+        }
+
+        .custom-textarea {
+          padding: 0.5rem 0.75rem;
+          font-size: 0.8rem;
+          border-radius: 0.5rem;
+        }
+
+        .char-count {
+          font-size: 0.7rem;
+        }
+
+        .error-message {
+          font-size: 0.75rem;
+        }
+      }
+
+      .form-actions {
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+
+        button {
+          padding: 0.5rem 1.25rem;
+          font-size: 0.85rem;
+          border-radius: 0.5rem;
+        }
+      }
+    }
+  }
+}

@@ -1,123 +1,510 @@
 .main-container {
+  display: flex;
+  gap: 20px;
+  overflow-y: hidden;
+}
+
+
+.vehicle-list {
+  flex: 1;
+  margin: 24px 24px 24px auto;
+  max-width: 1100px;
+
+  .header {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 20px;
-    overflow-y: hidden;
-  }
-  
-  app-sidebar {
-    width: 250px;
-    flex-shrink: 0;
-  }
-  
-  .vehicle-list {
-    margin: 20px auto;
-    padding: 25px;
-    max-width: 1000px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  
-    .header {
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+
+    .header-title {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #dee2e6;
-  
+
       h2 {
-        font-family: 'Arial', sans-serif;
-        font-size: 26px;
-        color: #495057;
+        color: #B0C4C7;
         margin: 0;
+        font-size: 1.8rem;
       }
 
-      .toggle-container {
-        margin-left: auto;
-      }
-  
-    }
-  
-    .search-fields {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 20px;
-  
-      input,
-      select {
-        width: 100%;
-        padding: 10px 15px;
-        font-size: 13px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-        background: #ffffff;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-  
-        &.italic-input {
-          color: #adb5bd;
-        }
-  
-        &:focus {
-          box-shadow: 0 0 0 4px rgba(255, 165, 38, 0.2);
-          outline: none;
-        }
-  
-        &::placeholder {
-          color: #adb5bd;
-        }
+      .fa {
+        color: #B0C4C7;
+        font-size: 1.8rem;
       }
     }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 8px;
-  
-      th {
-        padding: 13px 18px;
-        border: 1px solid #e9ecef;
-        text-align: center;
-        font-size: 13px;
-        background-color: #f1f3f5;
-        color: #495057;
-        font-weight: 600;
-        text-transform: uppercase;
-      }
-  
-      td {
-        padding: 14px 20px;
-        border: 1px solid #e9ecef;
-        text-align: center;
-        font-size: 13px;
-        background-color: #ffffff;
-        transition: background-color 0.3s;
-      }
-  
-      tbody tr {
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-  
-        &:hover {
-          background-color: #dbe9ff !important;
-          transform: scale(1.03);
-  
-          td {
-            background-color: #dbe9ff !important;
-          }
-        }
-      }
-  
-      .vehicle-plate {
-        padding: 13px 10px;
-      }
-    }
-  
-    .header .fa {
-      color: #15696F;
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
   }
-  
+
+  .create-btn {
+    pointer-events: auto !important;
+    z-index: 10;
+    background: rgba(0, 205, 176, 0.2);
+    border: 1px solid rgba(0, 205, 176, 0.5);
+    color: #00CDB0;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+
+    &:hover {
+      background: rgba(0, 205, 176, 0.3);
+      border-color: rgba(0, 205, 176, 0.7);
+    }
+
+    i {
+      font-size: 0.9rem;
+    }
+  }
+
+  .toggle-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-search-toggle {
+    display: none;
+    background: rgba(0, 205, 176, 0.2);
+    border: 1px solid rgba(0, 205, 176, 0.5);
+    color: #00CDB0;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    margin-bottom: 12px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    &:hover {
+      background: rgba(0, 205, 176, 0.3);
+      border-color: rgba(0, 205, 176, 0.7);
+    }
+
+    i {
+      font-size: 0.9rem;
+    }
+
+    span {
+      font-size: 0.9rem;
+    }
+  }
+
+  table th {
+    color: #B0C4C7;
+  }
+
+  table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
+  .sort-indicator {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+  }
+
+  table td {
+    color: #B0C4C7;
+  }
+
+  .search-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+
+    input {
+      background: rgba(12, 14, 18, 0.55) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 12px !important;
+      color: rgba(255, 255, 255, 0.85) !important;
+      padding: 12px 16px !important;
+      font-size: 14px !important;
+      line-height: 1.5 !important;
+      height: 48px !important;
+      box-sizing: border-box !important;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.35) !important;
+      }
+
+      &:focus {
+        outline: none !important;
+        border-color: rgba(0, 205, 176, 0.7) !important;
+        box-shadow: none !important;
+      }
+    }
+
+    .form-group {
+      ::ng-deep .ng-select {
+        .ng-select-container {
+          min-height: 48px !important;
+          background: rgba(12, 14, 18, 0.55) !important;
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
+          border-radius: 12px !important;
+          box-shadow: none !important;
+          color: #ffffff !important;
+          display: flex !important;
+          align-items: center !important;
+        }
+
+        .ng-value-container {
+          padding-left: 12px !important;
+          display: flex !important;
+          align-items: center !important;
+          flex: 1 !important;
+        }
+
+        .ng-placeholder,
+        .ng-value,
+        .ng-input > input {
+          color: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        .ng-placeholder {
+          color: rgba(255, 255, 255, 0.35) !important;
+        }
+
+        .ng-input {
+          display: flex !important;
+          align-items: center !important;
+          flex: 1 !important;
+        }
+
+        .ng-input > input {
+          padding: 0 !important;
+          margin: 0 !important;
+          height: 100% !important;
+          line-height: 36px !important;
+          vertical-align: middle !important;
+          display: block !important;
+        }
+
+        .ng-arrow-wrapper .ng-arrow {
+          border-color: rgba(255, 255, 255, 0.55) transparent transparent !important;
+        }
+
+        .ng-clear-wrapper {
+          color: rgba(255, 255, 255, 0.55) !important;
+        }
+
+        &.ng-select-focused .ng-select-container {
+          border-color: rgba(0, 205, 176, 0.7) !important;
+          box-shadow: none !important;
+        }
+
+        .ng-dropdown-panel {
+          background: rgba(22, 24, 28, 0.95) !important;
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
+          border-radius: 12px !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .ng-dropdown-panel .ng-dropdown-panel-items {
+          background: rgba(22, 24, 28, 0.95) !important;
+        }
+
+        .ng-option {
+          color: rgba(255, 255, 255, 0.85) !important;
+          padding: 12px 16px !important;
+          background: transparent !important;
+        }
+
+        .ng-option:hover {
+          background: rgba(0, 205, 176, 0.2) !important;
+        }
+
+        .ng-option-selected {
+          background: rgba(0, 205, 176, 0.3) !important;
+        }
+
+        .ng-option.ng-option-marked {
+          background: rgba(0, 205, 176, 0.2) !important;
+        }
+      }
+    }
+  }
+}
+
+.mobile-cards {
+  display: none;
+}
+
+.mat-paginator {
+  margin-top: 40px;
+}
+
+:host ::ng-deep .mat-mdc-paginator {
+  .mat-mdc-icon-button {
+    .mdc-icon-button__icon {
+      color: #ffffff !important;
+    }
+
+    .mat-mdc-button-touch-target {
+      color: #ffffff !important;
+    }
+  }
+
+  .mat-mdc-icon-button svg {
+    fill: #ffffff !important;
+  }
+
+  .mat-mdc-icon-button .mat-icon {
+    color: #ffffff !important;
+  }
+
+  .mat-mdc-select-arrow {
+    color: #ffffff !important;
+    border-top-color: #ffffff !important;
+  }
+
+  .mat-mdc-paginator-range-label {
+    color: rgba(255, 255, 255, 0.95) !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .vehicle-list {
+    margin: 16px;
+
+    .header {
+      flex-wrap: wrap;
+    }
+
+    .search-fields {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .vehicle-list {
+    margin: 0.625rem;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-x: hidden;
+    min-width: 0;
+
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.938rem;
+
+      .header-title {
+        h2 {
+          font-size: 1.5rem;
+        }
+
+        .fa {
+          font-size: 1.5rem;
+        }
+      }
+
+      .header-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+
+        .toggle-container {
+          width: 100%;
+        }
+
+        .create-btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+
+    .mobile-search-toggle {
+      display: flex;
+    }
+
+    .search-fields {
+      display: none;
+      grid-template-columns: 1fr;
+      gap: 0.625rem;
+
+      &.mobile-open {
+        display: grid;
+        margin-bottom: 0.75rem;
+      }
+
+      input {
+        width: 100%;
+      }
+
+      .form-group {
+        width: 100%;
+
+        ::ng-deep .ng-select {
+          width: 100%;
+        }
+      }
+    }
+
+    table {
+      display: none;
+    }
+
+    .mobile-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .service-type-card {
+      background: rgba(12, 14, 18, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(12, 14, 18, 0.7);
+        border-color: rgba(0, 205, 176, 0.5);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .service-type-name {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #ffffff;
+        }
+
+        .card-icon {
+          color: #B0C4C7;
+          font-size: 1.2rem;
+        }
+      }
+
+      .card-field {
+        display: flex;
+        margin-bottom: 0.5rem;
+
+        .field-label {
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 0.85rem;
+          min-width: 5rem;
+          flex-shrink: 0;
+        }
+
+        .field-value {
+          color: #B0C4C7;
+          font-size: 0.95rem;
+          word-break: break-word;
+        }
+      }
+
+      .card-field:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .empty-state-mobile {
+      text-align: center;
+      padding: 2.5rem 1.25rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicle-list {
+    margin: 0.5rem;
+
+    .header {
+      gap: 0.625rem;
+
+      .header-title {
+        h2 {
+          font-size: 1.2rem;
+        }
+
+        .fa {
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .search-fields {
+      gap: 0.5rem;
+
+      &.mobile-open {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .mobile-cards {
+      gap: 0.5rem;
+    }
+
+    .service-type-card {
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+
+      .card-header {
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+
+        .service-type-name {
+          font-size: 1rem;
+        }
+
+        .card-icon {
+          font-size: 1rem;
+        }
+      }
+
+      .card-field {
+        margin-bottom: 0.375rem;
+
+        .field-label {
+          font-size: 0.8rem;
+          min-width: 4rem;
+        }
+
+        .field-value {
+          font-size: 0.9rem;
+        }
+      }
+
+      .empty-state-mobile {
+        padding: 2rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
