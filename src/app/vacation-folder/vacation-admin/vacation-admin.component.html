@@ -1,0 +1,283 @@
+<div class="main-container">
+  <div class="vacation-admin-content glass-list">
+    <div class="header">
+      <h2>Time Off Management</h2>
+      <i class="fa fa-users-cog fa-2x"></i>
+    </div>
+
+    <div class="stats-dashboard">
+      <div class="stat-card">
+        <div class="stat-icon pending">
+          <i class="fa fa-clock"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ totalPending }}</span>
+          <span class="stat-label">Pending Requests</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon approved">
+          <i class="fa fa-check-circle"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ totalApprovedCount }}</span>
+          <span class="stat-label">Total Approved</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon users">
+          <i class="fa fa-plane"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ activeTimeOff }}</span>
+          <span class="stat-label">Active Time Off</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="mobile-filter-toggle" (click)="toggleMobileFilters()">
+      <i class="fa fa-filter"></i>
+      <span>Filters</span>
+    </button>
+    <div class="filters-section" [class.mobile-open]="isMobileFiltersOpen">
+      <div class="filter-group">
+        <label>Status:</label>
+        <ng-select [(ngModel)]="statusFilter" (change)="onStatusFilterChange()" [items]="statusOptions" bindLabel="label" bindValue="value" placeholder="All" [clearable]="false" [searchable]="false">
+        </ng-select>
+      </div>
+
+      <div class="filter-group">
+        <label>Employee:</label>
+        <input type="text" [(ngModel)]="employeeFilter" placeholder="Search employee..." class="filter-input">
+      </div>
+    </div>
+
+    <div class="requests-table-section">
+      <h3>Time Off Requests</h3>
+
+      <div *ngIf="!isLoading && filteredRequests.length === 0" class="empty-state">
+        <i class="fa fa-calendar-times"></i>
+        <span>No time off requests found</span>
+      </div>
+
+      <div class="empty-state-mobile" *ngIf="!isLoading && filteredRequests.length === 0">
+        <i class="fa fa-calendar-times"></i>
+        <span>No time off requests found</span>
+      </div>
+
+      <div class="table-container" *ngIf="filteredRequests.length > 0">
+        <div *ngIf="isLoading" class="table-loading-overlay">
+          <i class="fa fa-spinner fa-spin"></i>
+          <span>Loading...</span>
+        </div>
+        <table class="requests-table">
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Date Range</th>
+              <th>Days</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let request of filteredRequests" [class.clickable-row]="request.rejectionReason" (click)="request.rejectionReason && showRequestDetails(request)">
+              <td>
+                <div class="employee-info">
+                  <img [src]="request.employee?.imageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" 
+                       alt="Employee image" 
+                       class="employee-table-image" 
+                       (error)="onImageError($event)" />
+                  <div class="employee-details">
+                    <span class="employee-name">{{ request.employee?.firstname }} {{ request.employee?.lastname }}</span>
+                    <span class="employee-email">{{ request.employee?.email }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>{{ formatDate(request.startDate) }} - {{ formatDate(request.endDate) }}</td>
+              <td>{{ request.daysUsed }} days</td>
+              <td>
+                <span class="status-badge {{ getStatusClass(request.status) }}">
+                  {{ request.status }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons" *ngIf="request.status === 'PENDING'">
+                  <button
+                    type="button"
+                    class="action-button approve"
+                    (click)="$event.stopPropagation(); approveRequestDirectly(request)">
+                    <i class="fa fa-check"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="action-button reject"
+                    (click)="$event.stopPropagation(); openApprovalModal(request)">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mobile-cards" *ngIf="filteredRequests.length > 0">
+        <div class="request-card" *ngFor="let request of filteredRequests">
+          <div class="card-header">
+            <div class="employee-info">
+              <img [src]="request.employee?.imageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+                   alt="Employee image"
+                   class="employee-table-image"
+                   (error)="onImageError($event)" />
+              <div class="employee-details">
+                <span class="employee-name">{{ request.employee?.firstname }} {{ request.employee?.lastname }}</span>
+                <span class="employee-email">{{ request.employee?.email }}</span>
+              </div>
+            </div>
+            <span class="status-badge {{ getStatusClass(request.status) }}">
+              {{ request.status }}
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="card-row">
+              <div class="card-field">
+                <span class="field-label">From:</span>
+                <span class="field-value">{{ formatDate(request.startDate) }}</span>
+              </div>
+              <div class="card-field">
+                <span class="field-label">To:</span>
+                <span class="field-value">{{ formatDate(request.endDate) }}</span>
+              </div>
+            </div>
+            <div class="card-field full-width">
+              <span class="field-label">Duration:</span>
+              <span class="field-value">{{ request.daysUsed }} days</span>
+            </div>
+          </div>
+          <div class="card-actions" *ngIf="request.status === 'PENDING'">
+            <button
+              type="button"
+              class="action-button approve"
+              (click)="approveRequestDirectly(request)">
+              <i class="fa fa-check"></i>
+              Approve
+            </button>
+            <button
+              type="button"
+              class="action-button reject"
+              (click)="openApprovalModal(request)">
+              <i class="fa fa-times"></i>
+              Reject
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="showApprovalModal" (click)="closeApprovalModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Review Time Off Request</h3>
+          <button type="button" class="close-button" (click)="closeApprovalModal()">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="modal-body" *ngIf="selectedRequest">
+          <div class="request-summary">
+            <div class="summary-item employee-summary">
+              <span class="summary-label">Employee:</span>
+              <div class="employee-modal-info">
+                <img [src]="selectedRequest.employee?.imageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" 
+                     alt="Employee image" 
+                     class="employee-modal-image" 
+                     (error)="onImageError($event)" />
+                <span class="summary-value">{{ selectedRequest.employee?.firstname }} {{ selectedRequest.employee?.lastname }}</span>
+              </div>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Date Range:</span>
+              <span class="summary-value">{{ formatDate(selectedRequest.startDate) }} - {{ formatDate(selectedRequest.endDate) }}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Days Requested:</span>
+              <span class="summary-value">{{ selectedRequest.daysUsed }} business days</span>
+            </div>
+          </div>
+
+          <div class="rejection-section" *ngIf="selectedRequest.status === 'PENDING'">
+            <label>Rejection Reason <span class="required">*</span></label>
+            <textarea
+              [(ngModel)]="rejectionReason"
+              placeholder="Enter rejection reason..."
+              class="rejection-textarea"
+              rows="3"
+              required></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer" *ngIf="selectedRequest?.status === 'PENDING'">
+          <button 
+            type="button" 
+            class="modal-button reject" 
+            (click)="rejectRequest()"
+            [disabled]="!rejectionReason || rejectionReason.trim().length === 0"
+            [class.disabled]="!rejectionReason || rejectionReason.trim().length === 0">
+            Reject
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="showDetailsModal" (click)="closeDetailsModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Time Off Request Details</h3>
+          <button type="button" class="close-button" (click)="closeDetailsModal()">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedRequest">
+          <div class="request-summary">
+            <div class="summary-item employee-summary">
+              <span class="summary-label">Employee:</span>
+              <div class="employee-modal-info">
+                <img [src]="selectedRequest.employee?.imageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'" 
+                     alt="Employee image" 
+                     class="employee-modal-image" 
+                     (error)="onImageError($event)" />
+                <span class="summary-value">{{ selectedRequest.employee?.firstname }} {{ selectedRequest.employee?.lastname }}</span>
+              </div>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Date Range:</span>
+              <span class="summary-value">{{ formatDate(selectedRequest.startDate) }} - {{ formatDate(selectedRequest.endDate) }}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Days Requested:</span>
+              <span class="summary-value">{{ selectedRequest.daysUsed }} business days</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Status:</span>
+              <span class="summary-value status-badge {{ getStatusClass(selectedRequest.status) }}">
+                {{ selectedRequest.status }}
+              </span>
+            </div>
+            <div class="summary-item rejection-reason-section" *ngIf="selectedRequest.rejectionReason">
+              <span class="summary-label">Rejection Reason:</span>
+              <span class="summary-value rejection-text">{{ selectedRequest.rejectionReason }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="modal-button" (click)="closeDetailsModal()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

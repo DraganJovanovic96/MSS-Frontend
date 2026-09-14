@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -35,7 +34,7 @@ interface ServiceTypeDto {
   selector: 'app-service-type-details',
   standalone: true,
   imports: [FormsModule, CommonModule, RouterModule,
-    SidebarComponent, NgSelectModule],
+    NgSelectModule],
   templateUrl: './service-type-details.component.html',
   styleUrl: './service-type-details.component.scss'
 })

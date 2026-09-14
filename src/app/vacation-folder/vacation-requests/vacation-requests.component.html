@@ -1,0 +1,142 @@
+<div class="main-container">
+  <div class="vacation-content glass-list">
+    <div class="header">
+      <h2>My Time Off Requests</h2>
+      <i class="fa fa-calendar-check fa-2x"></i>
+    </div>
+
+    <div class="balance-card">
+      <h3>Time Off Balance</h3>
+      <div class="balance-stats">
+        <div class="stat-item">
+          <span class="stat-label">Total Allowed</span>
+          <span class="stat-value">{{ totalAllowedDays }} days</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Used</span>
+          <span class="stat-value">{{ usedDays }} days</span>
+        </div>
+        <div class="stat-item highlight">
+          <span class="stat-label">Remaining</span>
+          <span class="stat-value">{{ remainingDays }} days</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="request-form">
+      <h3>Request Time Off</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" [(ngModel)]="newRequest.startDate" (change)="calculateDays()" class="date-input">
+        </div>
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="date" [(ngModel)]="newRequest.endDate" (change)="calculateDays()" class="date-input">
+        </div>
+      </div>
+      
+      <div class="calculated-days" *ngIf="calculatedDays > 0">
+        <i class="fa fa-calculator"></i>
+        <span>{{ calculatedDays }} business days</span>
+      </div>
+
+      <button
+        type="button"
+        class="submit-button"
+        (click)="onSubmitRequest()"
+        [disabled]="isSubmitting || !newRequest.startDate || !newRequest.endDate || calculatedDays === 0">
+        {{ isSubmitting ? 'Submitting...' : 'Submit Time Off Request' }}
+      </button>
+    </div>
+
+    <div class="requests-list">
+      <h3>My Requests</h3>
+      
+      <div *ngIf="isLoading" class="loading-state">
+        <i class="fa fa-spinner fa-spin"></i>
+        <span>Loading...</span>
+      </div>
+
+      <div *ngIf="!isLoading && vacationRequests.length === 0" class="empty-state">
+        <i class="fa fa-calendar-times"></i>
+        <span>No time off requests found</span>
+      </div>
+
+      <div class="requests-grid" *ngIf="!isLoading && vacationRequests.length > 0">
+        <div class="request-card" [class.rejected-clickable]="request.rejectionReason" (click)="request.rejectionReason && showRejectionReason(request)" *ngFor="let request of vacationRequests">
+          <div class="card-header">
+            <div class="date-range">
+              <i class="fa fa-calendar"></i>
+              <span>{{ formatDate(request.startDate) }} - {{ formatDate(request.endDate) }}</span>
+            </div>
+            <span class="status-badge {{ getStatusClass(request.status) }}">
+              {{ request.status }}
+            </span>
+          </div>
+          
+          <div class="card-body">
+            <div class="request-details">
+              <div class="detail-item">
+                <span class="detail-label">Days Used:</span>
+                <span class="detail-value">{{ request.daysUsed }} days</span>
+              </div>
+              <div class="detail-item" *ngIf="request.rejectionReason">
+                <span class="detail-label">Rejection Reason:</span>
+                <span class="detail-value rejection-reason">{{ request.rejectionReason }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer" *ngIf="canDeleteRequest(request)">
+            <button 
+              type="button" 
+              class="delete-button" 
+              (click)="$event.stopPropagation(); deleteRequest(request.id!)">
+              <i class="fa fa-trash"></i>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="showRejectionModal" (click)="closeRejectionModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Time Off Request Details</h3>
+          <button type="button" class="close-button" (click)="closeRejectionModal()">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedRequest">
+          <div class="request-summary">
+            <div class="summary-item">
+              <span class="summary-label">Date Range:</span>
+              <span class="summary-value">{{ formatDate(selectedRequest.startDate) }} - {{ formatDate(selectedRequest.endDate) }}</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Days Requested:</span>
+              <span class="summary-value">{{ selectedRequest.daysUsed }} business days</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Status:</span>
+              <span class="summary-value status-badge {{ getStatusClass(selectedRequest.status) }}">
+                {{ selectedRequest.status }}
+              </span>
+            </div>
+            <div class="summary-item rejection-reason-section" *ngIf="selectedRequest.rejectionReason">
+              <span class="summary-label">Rejection Reason:</span>
+              <span class="summary-value rejection-text">{{ selectedRequest.rejectionReason }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="modal-button" (click)="closeRejectionModal()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

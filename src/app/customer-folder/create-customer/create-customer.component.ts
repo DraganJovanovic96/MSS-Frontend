@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { environment } from '../../../environments/environment';
 
 const BASIC_URL = environment.apiUrl;
@@ -13,7 +12,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-create-customer',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './create-customer.component.html',
   styleUrl: './create-customer.component.scss'
 })

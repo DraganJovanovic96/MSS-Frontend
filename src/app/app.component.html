@@ -1,7 +1,12 @@
 <app-header></app-header>
 
 <div class="wrapper">
-  <router-outlet></router-outlet>
+  @if (!isLoginPage) {
+    <app-sidebar></app-sidebar>
+  }
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 
 <app-footer></app-footer>

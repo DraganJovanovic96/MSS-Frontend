@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { environment } from '../../../environments/environment';
 
@@ -14,7 +13,7 @@ const BASIC_URL = environment.apiUrl;
 @Component({
   selector: 'app-create-vehicle',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, NgSelectModule],
+  imports: [FormsModule, CommonModule, RouterModule, NgSelectModule],
   templateUrl: './create-vehicle.component.html',
   styleUrls: ['./create-vehicle.component.scss']
 })

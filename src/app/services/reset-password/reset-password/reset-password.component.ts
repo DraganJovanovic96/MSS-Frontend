@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {  Router } from '@angular/router';
@@ -29,9 +29,45 @@ export class ResetPasswordComponent implements OnInit {
 
     this.loginForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      newPassword: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/)]],
       repeatNewPassword: ['', [Validators.required, Validators.minLength(6)]],
-    });
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const newPassword = control.get('newPassword');
+    const repeatPassword = control.get('repeatNewPassword');
+
+    if (newPassword && repeatPassword && newPassword.value !== repeatPassword.value) {
+      return { passwordMismatch: true };
+    }
+    return null;
+  }
+
+  getPasswordErrorMessage(): string {
+    const newPassword = this.loginForm.get('newPassword');
+    if (newPassword?.errors) {
+      if (newPassword.errors['minlength']) {
+        return 'Password must be at least 6 characters long';
+      }
+      if (newPassword.errors['pattern']) {
+        return 'Password must contain at least one letter and one number';
+      }
+    }
+    return '';
+  }
+
+  getRepeatPasswordErrorMessage(): string {
+    const repeatPassword = this.loginForm.get('repeatNewPassword');
+    if (repeatPassword?.errors) {
+      if (repeatPassword.errors['minlength']) {
+        return 'Password must be at least 6 characters long';
+      }
+    }
+    if (this.loginForm.errors?.['passwordMismatch']) {
+      return 'Passwords do not match';
+    }
+    return '';
   }
 
   ngOnInit(): void {
@@ -64,19 +100,24 @@ export class ResetPasswordComponent implements OnInit {
 
       this.http.put(`${BASIC_URL}users/change-password`, body, { responseType: 'text' }).subscribe({
         next: (response) => {
-          this.snackBar.open(response, 'Close', {
+          this.snackBar.open('Password changed successfully!', 'Close', {
             duration: 3000,
             verticalPosition: 'bottom',
           });
           this.router.navigate(['/update-user']);
         },
         error: (error) => {
-          console.error('Error response from backend:', error);
-          this.snackBar.open('Error changing password. Please try again.', 'Close', {
+          const errorMessage = error.error?.message || error.message || 'Error changing password. Please try again.';
+          this.snackBar.open(errorMessage, 'Close', {
             duration: 3000,
             verticalPosition: 'bottom',
           });
         },
+      });
+    } else {
+      this.snackBar.open('Please fill in all fields correctly.', 'Close', {
+        duration: 3000,
+        verticalPosition: 'bottom',
       });
     }
   }

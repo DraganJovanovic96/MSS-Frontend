@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth/auth.service';
-import { TokenStateService } from '../../../services/auth/token.state.service';
-import { UserStorageService } from '../../../services/storage/user-storage.service';
 import { catchError, map, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
@@ -12,9 +10,7 @@ const BASIC_URL = environment.apiUrl;
 
 
 interface AuthResponse {
-  body: any;
-  access_token: string;
-  refresh_token: string;
+  message?: string;
 }
 
 @Component({
@@ -33,9 +29,7 @@ export class EmailVerificationComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private snackBar: MatSnackBar,
-    private authService: AuthService,
-    private userStorageService: UserStorageService,
-    private tokenStateService: TokenStateService
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +44,6 @@ export class EmailVerificationComponent implements OnInit {
       }
 
       if (!this.email) {
-        console.log('Email is missing in the query parameters.');
         this.errorMessage = 'Email is required to verify user.';
       }
     });
@@ -77,18 +70,14 @@ export class EmailVerificationComponent implements OnInit {
       .post<AuthResponse>(url, {}, { headers, observe: 'response' })
       .pipe(
         map((res) => {
-          const token = res.body?.access_token;
-          const refresh_token = res.body?.refresh_token;
-          if (token) {
-            this.userStorageService.saveToken(token);
-            this.tokenStateService.reset();
-            this.authService.fetchUser(token).subscribe();
-          }
-          if (refresh_token) {
-            this.userStorageService.saveRefreshToken(refresh_token);
-            this.tokenStateService.reset();
-            this.router.navigate(['/dashboard']);
-          }
+          this.authService.fetchUser().subscribe({
+            next: () => {
+              this.router.navigate(['/dashboard']);
+            },
+            error: () => {
+              this.router.navigate(['/login']);
+            }
+          });
           return true;
         }),
         catchError((err) => {

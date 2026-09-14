@@ -6,33 +6,41 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { environment } from '../../../environments/environment';
+import { SharedDataService } from '../../services/SharedDataService';
+import { CustomerReportService, CustomerReportStatus } from '../../services/customer-report/customer-report.service';
 
 const BASIC_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-create-service',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, SidebarComponent, NgSelectModule],
+  imports: [FormsModule, CommonModule, RouterModule, NgSelectModule, MatSlideToggleModule],
   templateUrl: './create-service.component.html',
   styleUrl: './create-service.component.scss'
 })
 export class CreateServiceComponent implements OnInit {
 
   isDeleted: boolean = false;
+  isServiceCompleted: boolean = false;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sharedDataService: SharedDataService,
+    private customerReportService: CustomerReportService
   ) { }
 
   services: any[] = [];
   vehicles: any[] = [];
   users: any[] = [];
+  customerReportId: number | null = null;
+  issueDescription: string = '';
+  shouldUpdateReportStatus: boolean = false;
 
   service: any = {
     id: null,
@@ -73,9 +81,24 @@ export class CreateServiceComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const vehicleId = params.get('vehicleId');
       if (vehicleId) {
-        this.service.vehicleId = +vehicleId; 
+        this.service.vehicleId = +vehicleId;
       }
     });
+
+    const customerReportData = this.sharedDataService.getCustomerReportData();
+    if (customerReportData) {
+      if (customerReportData.startDate) {
+        this.service.startDate = customerReportData.startDate;
+      }
+      if (customerReportData.vehicleId) {
+        this.service.vehicleId = customerReportData.vehicleId;
+      }
+      this.customerReportId = customerReportData.customerReportId;
+      this.issueDescription = customerReportData.issueDescription;
+      this.shouldUpdateReportStatus = true;
+
+      this.sharedDataService.clearCustomerReportData();
+    }
 
     this.loadVehicles();
     this.loadUsers();
@@ -92,14 +115,40 @@ export class CreateServiceComponent implements OnInit {
   }
 
   createService(): void {
+    if (this.isServiceCompleted && !this.service.endDate) {
+      this.service.endDate = new Date().toISOString().split('T')[0];
+    }
+
+    if (!this.isServiceCompleted) {
+      this.service.endDate = null;
+    }
+
     const createdService = {
       ...this.service,
       deleted: this.isDeleted,
       vehicleId: this.service.vehicleId
     };
 
+    if (this.customerReportId) {
+      createdService.customerReportId = this.customerReportId;
+    }
+
     this.http.post<any>(`${BASIC_URL}services`, createdService).subscribe({
       next: (response) => {
+        if (this.shouldUpdateReportStatus && this.customerReportId) {
+          this.customerReportService.updateReport(this.customerReportId, {
+            status: CustomerReportStatus.ASSIGNED,
+            userId: this.service.userId,
+            serviceId: response.id
+          }).subscribe({
+            next: () => {
+            },
+            error: (error) => {
+              console.error('Error updating customer report status:', error);
+            }
+          });
+        }
+
         this.snackBar.open('Service created successfully!', 'Close', {
           duration: 3000,
           verticalPosition: 'bottom'

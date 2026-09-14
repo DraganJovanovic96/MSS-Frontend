@@ -5,15 +5,12 @@ import { AuthService } from '../../auth/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserStorageService } from '../../storage/user-storage.service';
-import { TokenStateService } from '../../auth/token.state.service';
 import { catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 const BASIC_URL = environment.apiUrl;
 
 interface AuthResponse {
-  access_token: string;
-  refresh_token: string;
+  message?: string;
 }
 
 @Component({
@@ -36,8 +33,6 @@ export class ForgottenPasswordComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private snackBar: MatSnackBar,
-    private userStorageService: UserStorageService,
-    private tokenStateService: TokenStateService,
     private authService: AuthService,
     private route: ActivatedRoute
   ) {
@@ -111,18 +106,14 @@ export class ForgottenPasswordComponent implements OnInit {
         .post<AuthResponse>(url, body, { headers, observe: 'response' })
         .pipe(
           map((res) => {
-            const token = res.body?.access_token;
-            const refresh_token = res.body?.refresh_token;
-            if (token) {
-              this.userStorageService.saveToken(token);
-              this.tokenStateService.reset();
-              this.authService.fetchUser(token).subscribe();
-            }
-            if (refresh_token) {
-              this.userStorageService.saveRefreshToken(refresh_token);
-              this.tokenStateService.reset();
-              this.router.navigate(['/dashboard']);
-            }
+            this.authService.fetchUser().subscribe({
+              next: () => {
+                this.router.navigate(['/dashboard']);
+              },
+              error: () => {
+                this.router.navigate(['/login']);
+              }
+            });
             return true;
           }),
           catchError((err) => {

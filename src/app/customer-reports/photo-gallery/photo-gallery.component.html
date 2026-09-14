@@ -1,0 +1,32 @@
+<div class="photo-gallery">
+  <div *ngIf="!hasPhotos()" class="empty-state">
+    <p>No photos available</p>
+  </div>
+
+  <div class="photo-grid" *ngIf="hasPhotos()">
+    <div
+      *ngFor="let url of photoUrls; let i = index"
+      class="photo-item"
+      (click)="openLightbox(i)"
+    >
+      <img [src]="url" [alt]="'Damage report photo ' + (i + 1)" />
+      <div class="photo-overlay">
+        <button
+          class="action-button download"
+          (click)="$event.stopPropagation(); downloadPhoto(url, i)"
+          title="Download"
+        >
+          ⬇
+        </button>
+        <button
+          *ngIf="!readonly"
+          class="action-button remove"
+          (click)="$event.stopPropagation(); removePhoto(i)"
+          title="Remove"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
