@@ -24,6 +24,6 @@ export class AppComponent {
 
   checkRoute(): void {
     const currentUrl = this.router.url;
-    this.isLoginPage = currentUrl === '/login' || currentUrl === '/email-verification' || currentUrl === '/send-password-reset';
+    this.isLoginPage = currentUrl === '/login' || currentUrl === '/email-verification' || currentUrl === '/send-password-reset' || currentUrl === '/first-time-setup';
   }
 }

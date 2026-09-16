@@ -53,11 +53,13 @@
                     </div>
                 </div>
                 <div class="column-in-row">
-                    <div *ngIf="customer.isDeleted" class="deleted-checkbox">
-                      <label class="checkbox-label">
+                    <div *ngIf="customer.isDeleted" class="deleted-toggle">
+                      <label class="toggle-label">
                         <input type="checkbox" [(ngModel)]="customer.isDeleted" name="isDeleted"
-                               class="large-checkbox" />
-                        <span class="checkbox-text">{{ customer.isDeleted ? 'Deleted' : 'Active' }}</span>
+                               class="hidden-checkbox" />
+                        <span class="toggle-slider">
+                          <span class="toggle-status">{{ customer.isDeleted ? 'Deleted' : 'Active' }}</span>
+                        </span>
                       </label>
                     </div>
                     <div class="form-group" style="flex: none;">
