@@ -92,11 +92,13 @@
                </div>
             </div>
             <div class="column-in-row">
-               <div *ngIf="user.isDeleted" class="deleted-checkbox">
-                  <label class="checkbox-label">
+               <div *ngIf="user.isDeleted" class="deleted-toggle">
+                  <label class="toggle-label">
                       <input type="checkbox" [(ngModel)]="user.isDeleted" name="isDeleted"
-                          class="large-checkbox" />
-                      <span class="checkbox-text">{{ user.isDeleted ? 'Deleted' : 'Active' }}</span>
+                          class="hidden-checkbox" />
+                      <span class="toggle-slider">
+                          <span class="toggle-status">{{ user.isDeleted ? 'Deleted' : 'Active' }}</span>
+                      </span>
                   </label>
               </div>
               <div class="button-row">
