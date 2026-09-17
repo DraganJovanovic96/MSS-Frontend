@@ -6,6 +6,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle(): void {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = `${environment.oauthUrl}/oauth2/authorization/google`;
   }
 
   handleOAuth2Callback(): void {
