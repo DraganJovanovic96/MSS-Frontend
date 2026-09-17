@@ -1,4 +1,5 @@
 export const environment = {
-    production: true,
-      apiUrl: 'https://mssystems.onrender.com/api/v1/'
-  };
+  production: true,
+  apiUrl: 'https://mss-deployment-latest.onrender.com/api/v1/',
+  oauthUrl: 'https://mss-deployment-latest.onrender.com'
+};
